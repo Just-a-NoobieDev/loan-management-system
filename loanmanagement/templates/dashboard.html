@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block title %}Credit and Collection System{% endblock %}
+
+{% block content %}
+   <div>
+       <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
+            <h2 class="text-xl md:text-2xl font-semibold">Dashboard</h2>
+           <div class="flex gap-2 md:gap-5 justify-center items-center">
+               {% load static %}
+               <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
+               <p class="hidden md:block">Noah Mark S. Dela Pena</p>
+           </div>
+       </div>
+
+       <div class="mx-2 md:mx-10 flex flex-col justify-center items-center mt-6 md:mt-10">
+        <div class="flex flex-wrap mx-auto gap-4 md:gap-5 justify-center max-w-full">
+            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4 border-[#6861ff]/40 border-[1px]">
+                <canvas id="lineGraph1"></canvas>
+            </div>
+
+            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4 border-[#6861ff]/40 border-[1px]">
+                <canvas id="lineGraph2"></canvas>
+            </div>
+
+            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4">
+                   <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+       </div>
+   </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Dummy data for the line graphs
+        var data1 = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{
+                label: '1 Week Collection',
+                data: [10000, 12000, 8000, 9500, 11000],
+                backgroundColor: '#6861ff',
+                borderWidth: 3,
+                fill: false
+            }]
+        };
+
+        var data2 = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{
+                label: '1 Week Receipt Used',
+                data: [20, 50, 25, 30, 40],
+                backgroundColor: '#6861ff',
+                borderWidth: 3,
+                fill: false
+            }]
+        };
+
+        var dataPie = {
+            labels: ['Manila', 'Cebu', 'Davao', 'Quezon City', 'Baguio'],
+            datasets: [{
+                data: [30, 20, 15, 25, 10],
+                backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var options2 = {
+             plugins: {
+                title: {
+                    display: true,
+                    text: 'Client Locations',
+                    font: {
+                        size: 16
+                    }
+                }
+            }
+        };
+
+        var line = {
+            fill: false,
+            tension: 0.4
+        };
+
+        // Create Line Graph 1
+        var ctxLine1 = document.getElementById('lineGraph1').getContext('2d');
+        new Chart(ctxLine1, {
+            type: 'line',
+            data: data1,
+            options: options
+        });
+
+        // Create Line Graph 2
+        var ctxLine2 = document.getElementById('lineGraph2').getContext('2d');
+        new Chart(ctxLine2, {
+            type: 'line',
+            data: data2,
+            options: options
+        });
+
+        var ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: dataPie,
+            options: options2
+        });
+    </script>
+{% endblock %}
