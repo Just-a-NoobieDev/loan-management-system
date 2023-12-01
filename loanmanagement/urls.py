@@ -1,0 +1,10 @@
+from django.urls import path
+from . import views
+
+urlpatterns =[
+    path("", views.home, name="home"),
+    path("addClient", views.addClient, name="addClient"),
+    path("loanPortal", views.loanPortal, name="loanPortal"),
+    path("payments", views.payments, name="payments"),
+    path("reports", views.reports, name="reports")
+]
