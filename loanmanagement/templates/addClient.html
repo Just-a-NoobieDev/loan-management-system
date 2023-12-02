@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load widget_tweaks %}
 
 {% block title %}Credit and Collection System{% endblock %}
 
@@ -20,26 +21,34 @@
                     <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
                 </div>
 
-                <form id="clientForm" method="post" action="/addClient">
+                <form id="clientForm" method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="flex flex-col mb-5 space-y-2">
-                        <label for="name" class="text-[15px] font-semibold">Name:</label>
-                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+{#                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2">
-                        <label for="address" class="text-[15px] font-semibold">Address:</label>
-                        <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="address" class="text-[15px] font-semibold">Address:</label>#}
+{#                        <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2">
-                        <label for="picture" class="text-[15px] font-semibold">Picture:</label>
-                        <input type="file" name="picture" id="picture" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        {{ form.picture|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
+{#                        <input type="file" name="picture" id="picture" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2">
-                        <label for="documents" class="text-[15px] font-semibold">Documents:</label>
-                        <input type="file" name="documents" id="documents" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="documents" class="text-[15px] font-semibold">Documents:</label>#}
+{#                        <input type="file" name="documents" id="documents" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                     </div>
 
                     <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>
@@ -79,15 +88,15 @@
                             {% endif %}
                         </td>
                         <td class="py-2 px-4 border-b">
-                            {% if person.documents %}
-                                <a href="{{ person.documents.url }}" target="_blank" class="text-blue-500 underline">View Document</a>
+                            {% if person.document %}
+                                <a href="{{ person.document.url }}" target="_blank" class="text-blue-500 underline">View Document</a>
                             {% else %}
                                 No Documents
                             {% endif %}
                         </td>
                         <td>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII="/>
+                            <img class="cursor-pointer" onclick="edit()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII=" alt="edit"/>
+                            <img data-id="{{ person.id }}" class="cursor-pointer" onclick="deleteBtn(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII=" alt="delete"/>
                         </td>
                     </tr>
                 {% endfor %}
@@ -168,6 +177,9 @@
                     setTimeout(() => {
                         addClientModal.classList.add('hidden');
                     }, 300);
+
+                    location.reload()
+
                 } else {
                     Swal.fire({
                         title: 'Error!',
@@ -180,6 +192,15 @@
             }
         }
     });
+
+    function edit() {
+        alert("edit")
+    }
+
+    function deleteBtn(btn) {
+        alert(btn.dataset.id)
+
+    }
 </script>
 
 
