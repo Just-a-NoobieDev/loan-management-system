@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-200 font-family-Poppins flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded shadow-md w-96">
+    <h2 class="text-3xl font-semibold mb-6 text-center">Client Login</h2>
+    <div id="reader" class="mb-4"></div>
+    <button id="startButton" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Start Scanning</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const html5QrCode = new Html5Qrcode('reader');
+
+        document.getElementById('startButton').addEventListener('click', function () {
+            html5QrCode.start(
+                { facingMode: "environment" },
+                {
+                    fps: 10,
+                    qrbox: 250
+                },
+                (code) => {
+                    console.log('Scanned:', code);
+                    showSuccessAlert(code);
+                    html5QrCode.stop().then(ignore => {
+                        console.log('QR Code scanning stopped.');
+                    }).catch(err => {
+                        console.error('Error stopping QR Code scanning:', err);
+                    });
+                },
+                (error) => {
+                    console.error('Error scanning QR code:', error);
+                }
+            );
+        });
+
+        function showSuccessAlert(code) {
+            console.log('QR Code Info:', code);
+            Swal.fire({
+                icon: 'success',
+                title: 'QR Code Scanned!',
+                text: `Successfully scanned the QR code. Info: ${code}`,
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
