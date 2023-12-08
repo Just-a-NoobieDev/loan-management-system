@@ -57,9 +57,11 @@ def payments(request):
 def reports(request):
     return render(request, "reports.html")
 
+def register(request):
+    return render(request, "register.html")
+
 def adminLogin(request):
     return render(request, "adminLogin.html")
 
 def clientLogin(request):
     return render(request, "clientLogin.html")
-
