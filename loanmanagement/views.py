@@ -59,3 +59,9 @@ def reports(request):
 
 def register(request):
     return render(request, "register.html")
+
+def adminLogin(request):
+    return render(request, "adminLogin.html")
+
+def clientLogin(request):
+    return render(request, "clientLogin.html")

@@ -10,4 +10,6 @@ urlpatterns =[
     path("payments", views.payments, name="payments"),
     path("reports", views.reports, name="reports"),
     path("register", views.register, name="register"),
+    path("adminLogin", views.adminLogin, name="adminLogin"),
+    path("clientLogin", views.clientLogin, name="clientLogin"),
 ]
