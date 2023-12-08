@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-200 font-Poppins flex items-center justify-center h-screen">
+
+  <div class="bg-white rounded shadow-md w-full max-w-md p-8">
+    <h2 class="text-3xl font-bold text-center mb-6">Registration</h2>
+    <form id="register-form">
+      <div class="mb-6">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter your full name" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+      <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500">Register</button>
+      <button class="w-full mt-4 bg-gray-500 text-white font-bold py-2 px-4 rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-gray-400"><a href="">Go to Login</a></button>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#register-form').submit(function(event) {
+        event.preventDefault();
+
+        var name = $('#name').val();
+
+        if (!name) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please enter your name.',
+          });
+          return;
+        }
+
+        // Submit the form data (e.g., using AJAX)
+        // ...
+
+        // Show success notification
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'You have successfully registered.',
+        });
+
+        // Reset the form
+        $('#name').val('');
+      });
+    });
+  </script>
+
+</body>
+</html>

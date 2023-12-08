@@ -56,3 +56,6 @@ def payments(request):
 
 def reports(request):
     return render(request, "reports.html")
+
+def register(request):
+    return render(request, "register.html")

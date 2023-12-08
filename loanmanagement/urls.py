@@ -8,5 +8,6 @@ urlpatterns =[
     path("generate/<int:id>", views.generateQR, name="generateQR"),
     path("loanPortal", views.loanPortal, name="loanPortal"),
     path("payments", views.payments, name="payments"),
-    path("reports", views.reports, name="reports")
+    path("reports", views.reports, name="reports"),
+    path("register", views.register, name="register"),
 ]
