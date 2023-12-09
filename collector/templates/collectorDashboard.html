@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+         #sidebar {
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+    <title>Collector Dashboard</title>
+</head>
+<body>
+<div>
+    <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
+        <h2 class="text-xl md:text-2xl font-semibold">Payments</h2>
+        <div class="flex gap-2 md:gap-5 justify-center items-center">
+            {% load static %}
+            <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
+            <p class="hidden md:block">Noah Mark S. Dela Pena</p>
+        </div>
+    </div>
+
+    <div id="addClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <div class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-[27px] font-semibold leading-none tracking-tight">Add Payment</h2>
+            <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
+        </div>
+
+        <form id="clientForm" method="post" action="{% url 'add_payment' %}">
+            {% csrf_token %}
+            <div class="flex flex-col mb-5 space-y-2">
+                <label for="name" class="text-[15px] font-semibold">Client Name:</label>
+                <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+            </div>
+
+            <div class="flex flex-col mb-5 space-y-2">
+                <label for="balance" class="text-[15px] font-semibold">Balance:</label>
+                <input type="text" name="balance" id="balance" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+            </div>
+
+            <div class="flex flex-col mb-5 space-y-2">
+                <label for="amount" class="text-[15px] font-semibold">Amount:</label>
+                <input type="text" name="amount" id="amount" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+            </div>
+
+            <div class="flex flex-col mb-5 space-y-2">
+                <label for="or_number" class="text-[15px] font-semibold">OR Number:</label>
+                <input type="text" name="or_number" id="or_number" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+            </div>
+
+            <div class="flex flex-col mb-5 space-y-2">
+                <label for="new_balance" class="text-[15px] font-semibold">New Balance:</label>
+                <input type="text" name="new_balance" id="new_balance" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+            </div>
+
+            <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>
+                Add Payment
+            </button>
+        </form>
+    </div>
+</div>
+
+
+    <div class="mx-3 md:mx-auto max-w-[1240px] mt-8">
+        <div class="flex justify-between items-center mb-3">
+            <h1 class="md:text-2xl text-xl font-bold mb-4">Payment List</h1>
+            <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>Add Payment
+            </button>
+        </div>
+
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b border-r">ID</th>
+                    <th class="py-2 px-4 border-b border-r">Client Name</th>
+                    <th class="py-2 px-4 border-b border-r">Balance</th>
+                    <th class="py-2 px-4 border-b border-r">Amount</th>
+                    <th class="py-2 px-4 border-b border-r">OR Number</th>
+                    <th class="py-2 px-4 border-b border-r">New Balance</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for payment in payments %}
+                    <tr>
+                        <td class="py-2 px-4 border-b border-r text-center">{{ payment.id }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ payment.name }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ payment.balance }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ payment.amount }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ payment.or_number }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ payment.new_balance }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    const openModalBtn = document.getElementById('openModalBtn');
+    const addClientModal = document.getElementById('addClientModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const submitBtn = document.getElementById('submitBtn');
+
+    openModalBtn.addEventListener('click', () => {
+        addClientModal.classList.remove('hidden', 'opacity-0', 'scale-95');
+        addClientModal.classList.add('scale-100');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        addClientModal.classList.add('opacity-0', 'scale-95');
+        addClientModal.classList.remove('opacity-100', 'scale-100');
+        setTimeout(() => {
+            addClientModal.classList.add('hidden');
+        }, 300);
+    });
+
+    submitBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const { isConfirmed } = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to add this client?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, add it!',
+        cancelButtonText: 'No, cancel',
+    });
+
+    if (isConfirmed) {
+        const form = document.getElementById('clientForm');
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.getAttribute('action'), {
+                method: form.getAttribute('method'),
+                body: formData,
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                if (responseData.status === 'success') {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'The client has been added successfully.',
+                        icon: 'success',
+                    }).then(() => {
+                        window.location.href = responseData.redirect;
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while processing the request.',
+                        icon: 'error',
+                    });
+                }
+            } else {
+                console.error('Error during form submission. HTTP status:', response.status);
+            }
+        } catch (error) {
+            console.error('Error during form submission:', error);
+        }
+    }
+});
+
+</script>
+
+
+</body>
+</html>
