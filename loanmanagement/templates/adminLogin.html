@@ -16,17 +16,19 @@
 <body class="bg-gray-200 h-screen flex justify-center items-center">
 <div class="bg-white shadow-md rounded-lg px-8 py-6 max-w-md w-full">
     <h2 class="text-2xl font-bold mb-6 text-center">Login to Your Account</h2>
-    <form method="POST" id="loginForm">
+    <form id="loginForm">
+        {% csrf_token %}
       <div class="mb-4">
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Email Address</label>
-        <input type="email" name="email" id="email" placeholder="Enter your email address" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        <label for="user" class="block mb-2 text-sm font-medium text-gray-700">Username</label>
+        <input type="text" name="user" id="user" placeholder="Enter your username" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
       </div>
       <div class="mb-6">
         <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
         <input type="password" name="password" id="password" placeholder="Enter your password" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
       </div>
-    
       <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Login</button>
+        <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+
     </form>
   </div>
 
@@ -34,13 +36,22 @@
 <script>
     $(document).ready(function () {
         $('#loginForm').submit(function (e) {
-            e.preventDefault(); 
+            e.preventDefault();
+            var _this = $(this)
             $.ajax({
-                url: '/your-login-endpoint',
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                url: '{% url 'login-controller' %}',
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
                 type: 'POST',
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
+                dataType: 'json',
+                success: function (resp) {
+                    if (typeof resp == 'object' && resp.status === 'success') {
                         showSuccessAlert();
                     } else {
                         showFailedAlert();
@@ -58,7 +69,10 @@
                 title: 'Login Successful!',
                 text: 'Welcome back!',
                 confirmButtonText: 'OK'
-            });
+            }).then(() => {
+                window.location = '{% url 'dashboard' %}'
+            })
+
         }
 
         function showFailedAlert() {

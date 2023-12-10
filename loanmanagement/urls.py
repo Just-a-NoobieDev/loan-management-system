@@ -1,8 +1,10 @@
+from django.conf import settings
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from . import views
 
 urlpatterns =[
-    path("home", views.home, name="home"),
+    path("", views.home, name="dashboard"),
     path("addClient", views.addClient, name="addClient"),
     path("delete/<int:id>", views.deleteClient, name="deleteClient"),
     path("generate/<int:id>", views.generateQR, name="generateQR"),
@@ -11,4 +13,6 @@ urlpatterns =[
     path("reports", views.reports, name="reports"),
     path("register", views.register, name="register"),
     path("adminLogin", views.adminLogin, name="adminLogin"),
+    path('login-controller/', views.loginController, name='login-controller'),
+    path('logout', LogoutView.as_view(next_page=settings.LOGOUT_REDIRECT_URL), name='logout')
 ]

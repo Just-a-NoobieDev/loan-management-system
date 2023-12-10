@@ -25,35 +25,42 @@
                 <img id="toggleSidebar" class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAFFJREFUSEvtlEkKADAIA83/H52eu1APZQShnquTBaqAR/D9+IA04fqIbDuVdXkgaRK9OcABL+pPu/Ud4A7wDnAAHlF/AN4BDujfwXewJoD/pgNrVBgZX2h0sgAAAABJRU5ErkJggg=="/> Logo</div>
             <div class="flex flex-col w-full">
                 <ul class="flex-col items-center space-y-8 ml-2">
-                    <li id="dashboard" class="rounded-l-[50px] py-1">
+                    <li id="dashboard" class="rounded-l-[50px]">
                         <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIlJREFUSEvtVUEKgDAMaz4mevDXgvqyyAQPopvpxgbCdm1YlrTpYJUPKt9vbQlIrmY2RlRtAKZQI7mb2fCFC/WbApJMWQbgxKu4ThB187KyxKLUMCwA5os9q8me7DQnkKRn50CVnp2D6gSOVSElvmRMO8F7u3+xTdWgSbjHFKk58ODa/smel6nYAx0ViBnvtdTDAAAAAElFTkSuQmCC"/>  Dashboard
                         </a>
                     </li>
-                    <li id="addClient" class="rounded-l-[50px] py-1">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/addClient">
+                    <li id="addClient" class="rounded-l-[50px]">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'addClient' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client
                         </a>
                     </li>
-                    <li id="loanPortal" class="rounded-l-[50px] py-1">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/loanPortal">
+                    <li id="addClient" class="rounded-l-[50px]">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/addClient">
+                            <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Collector
+                        </a>
+                    </li>
+                    <li id="loanPortal" class="rounded-l-[50px]">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'loanPortal' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Loan Portal
                         </a>
                     </li>
-                    <li id="payments" class="rounded-l-[50px] py-1">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/payments">
+                    <li id="payments" class="rounded-l-[50px]">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'payments' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>Payment
                         </a>
                     </li>
-                    <li id="reports" class="rounded-l-[50px] py-1">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/reports">
+                    <li id="reports" class="rounded-l-[50px]">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'reports' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>Reports
                         </a>
                     </li>
                     <li id="logout" class="rounded-l-[50px] py-1 ">
-                        <p class="flex items-center py-2 px-4 text-white gap-6 truncate mt-[40px] md:mt-[130px]">
-                            <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAbhJREFUSEvV1D2ozmEYBvDfZcBCKEI2g3xEkY+BogwWq2SxHBnORGyykEHJdEQZpCwGq44yyIRSvsJCFkXoYBS3Hr2Hwzmv8x7OKZ7pP9zPff2vj+eKKT6Z4v3+DYCqWoMd2IjNHdY3cQtXkzzopsRvGVTVdJzAAUzrsuQLTuJokk+/znQFqKrFuIaVeIvTuIO7nSXrsAEHMQf3sDvJk5Eg4zE4jhXoS/JuLAZVtQDnsROvsSnJ8+HZSTO5qi5gLwaTNL++nTEBOtoPJNnXa4yragaeoUm7etj4UQBVtQhXOlQnxLCqDncMP5Xk0CgGVbWps7yBSDJRgObXI9xP0qL9Q6Kq6sMAWjR7PiN/oqpm4QOGksydCoDZeI+PSdr3zyZPgkTrcbvJlGTVmCn6S5OP4BjOJOmf7JjORHtgC7E9yfWuAD07PGKwqi5hD24k2drTS66qVhXz0J+kulRFi/I5tEf5CmuTvBwXoKqWdIptPh7jLC4mGWqXq6oBt2rYj2V4g21JHk6k7JZ2iuw75S7yDTagJC96ruuRg1XV4rcLW7Acn/G06Y3LSYYrfBT+hKrgT8z//wG+ApMqmxl1hZ3cAAAAAElFTkSuQmCC"/>Logout
-                        </p>
+                        <a href="{% url 'logout' %}">
+                            <p class="flex items-center py-2 px-4 text-white gap-6 truncate mt-[40px] md:mt-[130px]">
+                                <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAbhJREFUSEvV1D2ozmEYBvDfZcBCKEI2g3xEkY+BogwWq2SxHBnORGyykEHJdEQZpCwGq44yyIRSvsJCFkXoYBS3Hr2Hwzmv8x7OKZ7pP9zPff2vj+eKKT6Z4v3+DYCqWoMd2IjNHdY3cQtXkzzopsRvGVTVdJzAAUzrsuQLTuJokk+/znQFqKrFuIaVeIvTuIO7nSXrsAEHMQf3sDvJk5Eg4zE4jhXoS/JuLAZVtQDnsROvsSnJ8+HZSTO5qi5gLwaTNL++nTEBOtoPJNnXa4yragaeoUm7etj4UQBVtQhXOlQnxLCqDncMP5Xk0CgGVbWps7yBSDJRgObXI9xP0qL9Q6Kq6sMAWjR7PiN/oqpm4QOGksydCoDZeI+PSdr3zyZPgkTrcbvJlGTVmCn6S5OP4BjOJOmf7JjORHtgC7E9yfWuAD07PGKwqi5hD24k2drTS66qVhXz0J+kulRFi/I5tEf5CmuTvBwXoKqWdIptPh7jLC4mGWqXq6oBt2rYj2V4g21JHk6k7JZ2iuw75S7yDTagJC96ruuRg1XV4rcLW7Acn/G06Y3LSYYrfBT+hKrgT8z//wG+ApMqmxl1hZ3cAAAAAElFTkSuQmCC"/>Logout
+                            </p>
+                        </a>
                     </li>
                 </ul>
 

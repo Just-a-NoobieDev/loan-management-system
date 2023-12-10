@@ -13,6 +13,13 @@ class Person(models.Model):
         return self.name
 
 
+class Collector(models.Model):
+    name = models.CharField(max_length=250, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
 class Loan(models.Model):
     client_name = models.ForeignKey(Person, on_delete=models.CASCADE)
     loan_date = models.DateField()
