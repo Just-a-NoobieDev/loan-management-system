@@ -63,5 +63,3 @@ def register(request):
 def adminLogin(request):
     return render(request, "adminLogin.html")
 
-def clientLogin(request):
-    return render(request, "clientLogin.html")

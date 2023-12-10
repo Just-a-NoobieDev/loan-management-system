@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'loanmanagement',
+    'client',
+    'collector',
     'widget_tweaks',
 
 ]
