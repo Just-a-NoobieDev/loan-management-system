@@ -68,20 +68,20 @@
                  <form id="findClientForm" class="flex flex-col items-center justify-center w-[350px] hidden">
                     {% csrf_token %}
                      <div class="h-[250px] w-[250px] border rounded-full">
-                         <img class="w-full h-full" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAJFBMVEX////d3d3c3Nzx8fH8/Pz4+Pjg4ODq6uru7u7l5eX09PTZ2dkx2nHeAAAEy0lEQVRogcVb2ZasIAxs2Zf//98LqO3SYCoIc+tp+oxSZiEkAT4fPpQO0lnrC6x1MmjVMQyXNTi/iAoW78JEfu1Mpl2qyP8wTk/htabFeuY3djC7ciaSvBt7NG6c5pWl5b3KbseQa48KfBbdv9e76iDeyN9JzlX1hfyV2uXSTVzIF9krsn9FXMj7tK77dX3iFoHPbON74oxomcQDlL2DqXT9zr9u3AtjjocRZj5x4wYPQ4kLOcgdBjnYGRHinsGMcc9hRrjH23kHZW89jTlxP84xZWZSL0+xZVwMq3L7NrOb5GI7omsaejJz4m6YW80mzqib20419ApRXULnzegLd212m79gXhZT8W5mli/Wqq9dhLXe/PFyxRhAxMW6VNiqj1JaupSpc9jF3dNgH6vVVJqTrt89DRVaiEZFIw0cFG5ig0I/lVIOjf9XsRX0yUQ1oVCjxbPY0EvCUFmtxLgvYrNfaAkOJtHHG0hS1F51LtyQwU/JErBMY8wg97FwAzML0fbODYj9nV90DH3KL+5A0rtvNKV19BP8ngCsBmJbROgUQfC6A4i5V1kk5d8cdRdZ6AkTV2FI/35OoCugI9QmDfgYR2xS6jWqaJKa330DAkUelAq8fKGRCVY8lzLMb0YDgIwrJUZRyok9rS/S0YoukWfYAAqZ9BSlb27fqwAIU7RHMCPZDtrYmiw6WhUaATpOBXJudXkZ4meSpu5ippevRE09I/qoyQwxhYv/SE0Gs1nUlqSeZmuAepaH09Q9OwgfZF5b2s16Fi4gJUY8vG/5oBdsR7siWeTVQBd+KaSQjaOuIE5nSMmHSNX0rJpA9ZNWLrrg6tA4UGjngoZ8KvJXbKDkE9BjlS7bM5DGYx4U8Aiu2IjQec4ibUKetZGWSolUgHZ4YQXqwZX4jBRIrECO7WIURbI6EDSwXYzVdaGmGezlWO9si1PQ3pYAuck+wTbcGp2hng/QK8RlPiIk5hfC0OsI2iX9ThlwB1VQWQN+yuDbLsQ0nt94PHYQ8FMGh/HgrxXtFVQztkNPIYqxrZfIayYP+CbAcs0+OBtNQpjrWT4lPXPb5zxR0TnxZV+Mt05K6awvP3mvX1ZC3rsr/X6gkY+LrXgbbO9wn6N/SX1zUbISYIAY6ScwPTi5EFH41a1I5FO14nGn8XcdaiYrQnjuyVTtfJO8lnXUQ5roPBWqGpt91VyrliiJRXYfTVT1k4nV8X7iytujqJXzmK28+qZy1hG1Ou5H5tqp7eW52FVY3+Evy0q7J3RewdDtPArnBPWpXj4CS18f482Yu7nHMR/cVA2zco9k3rnJ6qnsxPa139vIiSqQTKscOccyZ10+HzY7uLuaRk9DGoh53fUfepdAEwfsztym64BzC0Fw1OjJSgOHY/pOWu4H+ZqPXK91cYjBk5n5EVmntOj19LYpVerqcybBX3lbWLrNFnJ06c9Schzp/vScZnRmKi9e3ZBK154RCjHQhXiGzNk/78aOLpVn73WTC7mJjJtS5f5VNCOIM/LlpsxOyq4z75BrTQeUzWOKxYbmqDrYbJuhN8n2ofMNulzUGyu1VmojSH9oLa0p1/rG35/7ssvSQxAx5i/YseTfOdn3chLvTl+7LpmvSs6lPZCUHNaqNuje+6H/ABEJMCZy2l1CAAAAAElFTkSuQmCC" alt="">
+                         <img class="w-full h-full rounded-full" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAJFBMVEX////d3d3c3Nzx8fH8/Pz4+Pjg4ODq6uru7u7l5eX09PTZ2dkx2nHeAAAEy0lEQVRogcVb2ZasIAxs2Zf//98LqO3SYCoIc+tp+oxSZiEkAT4fPpQO0lnrC6x1MmjVMQyXNTi/iAoW78JEfu1Mpl2qyP8wTk/htabFeuY3djC7ciaSvBt7NG6c5pWl5b3KbseQa48KfBbdv9e76iDeyN9JzlX1hfyV2uXSTVzIF9krsn9FXMj7tK77dX3iFoHPbON74oxomcQDlL2DqXT9zr9u3AtjjocRZj5x4wYPQ4kLOcgdBjnYGRHinsGMcc9hRrjH23kHZW89jTlxP84xZWZSL0+xZVwMq3L7NrOb5GI7omsaejJz4m6YW80mzqib20419ApRXULnzegLd212m79gXhZT8W5mli/Wqq9dhLXe/PFyxRhAxMW6VNiqj1JaupSpc9jF3dNgH6vVVJqTrt89DRVaiEZFIw0cFG5ig0I/lVIOjf9XsRX0yUQ1oVCjxbPY0EvCUFmtxLgvYrNfaAkOJtHHG0hS1F51LtyQwU/JErBMY8wg97FwAzML0fbODYj9nV90DH3KL+5A0rtvNKV19BP8ngCsBmJbROgUQfC6A4i5V1kk5d8cdRdZ6AkTV2FI/35OoCugI9QmDfgYR2xS6jWqaJKa330DAkUelAq8fKGRCVY8lzLMb0YDgIwrJUZRyok9rS/S0YoukWfYAAqZ9BSlb27fqwAIU7RHMCPZDtrYmiw6WhUaATpOBXJudXkZ4meSpu5ippevRE09I/qoyQwxhYv/SE0Gs1nUlqSeZmuAepaH09Q9OwgfZF5b2s16Fi4gJUY8vG/5oBdsR7siWeTVQBd+KaSQjaOuIE5nSMmHSNX0rJpA9ZNWLrrg6tA4UGjngoZ8KvJXbKDkE9BjlS7bM5DGYx4U8Aiu2IjQec4ibUKetZGWSolUgHZ4YQXqwZX4jBRIrECO7WIURbI6EDSwXYzVdaGmGezlWO9si1PQ3pYAuck+wTbcGp2hng/QK8RlPiIk5hfC0OsI2iX9ThlwB1VQWQN+yuDbLsQ0nt94PHYQ8FMGh/HgrxXtFVQztkNPIYqxrZfIayYP+CbAcs0+OBtNQpjrWT4lPXPb5zxR0TnxZV+Mt05K6awvP3mvX1ZC3rsr/X6gkY+LrXgbbO9wn6N/SX1zUbISYIAY6ScwPTi5EFH41a1I5FO14nGn8XcdaiYrQnjuyVTtfJO8lnXUQ5roPBWqGpt91VyrliiJRXYfTVT1k4nV8X7iytujqJXzmK28+qZy1hG1Ou5H5tqp7eW52FVY3+Evy0q7J3RewdDtPArnBPWpXj4CS18f482Yu7nHMR/cVA2zco9k3rnJ6qnsxPa139vIiSqQTKscOccyZ10+HzY7uLuaRk9DGoh53fUfepdAEwfsztym64BzC0Fw1OjJSgOHY/pOWu4H+ZqPXK91cYjBk5n5EVmntOj19LYpVerqcybBX3lbWLrNFnJ06c9Schzp/vScZnRmKi9e3ZBK154RCjHQhXiGzNk/78aOLpVn73WTC7mJjJtS5f5VNCOIM/LlpsxOyq4z75BrTQeUzWOKxYbmqDrYbJuhN8n2ofMNulzUGyu1VmojSH9oLa0p1/rG35/7ssvSQxAx5i/YseTfOdn3chLvTl+7LpmvSs6lPZCUHNaqNuje+6H/ABEJMCZy2l1CAAAAAElFTkSuQmCC" id="picture" alt="">
                      </div>
                     <div class="flex flex-col mb-5 space-y-2 w-full">
 {#                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="name" class="text-[15px] font-semibold">Name:</label>
-                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                        <input disabled type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2 w-full">
 {#                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="address" class="text-[15px] font-semibold">Address:</label>
-                        <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                        <input disabled type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
                     </div>
 
 {#                    <div class="flex flex-col mb-5 space-y-2">#}
@@ -95,9 +95,16 @@
 {#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="documents" class="text-[15px] font-semibold">Documents:</label>
-                        <a href="" download>
-                            <input disabled type="text" name="documents" id="documents" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        <a href="" id="document" class="text-center text-blue-500 underline" target="_blank">
+                            View Document
                         </a>
+                    </div>
+
+                     <div class="flex justify-center items-center w-full gap-5 space-y-2 w-full">
+{#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
+{#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                         <a href="{% url 'payments' %}" class="bg-[#A7C7E7] py-2 px-4">Add payment</a>
+                         <a href="{% url 'loanPortal' %}" style="margin-top: 0 !important;" class="bg-[#77DD77] py-2 px-4">Loan</a>
                     </div>
 
 {#                    <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>#}
@@ -177,6 +184,7 @@
 
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
     const openModalBtn = document.getElementById('openModalBtn');
@@ -212,6 +220,25 @@
         if(result) {
             html5QrcodeScanner.clear()
             document.getElementById("findClientForm").classList.remove("hidden")
+            console.log(result)
+            $.ajax({
+                 headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                url: '{% url 'client' %}',
+                data: {
+                    id: parseInt(result)
+                },
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                success: function (resp) {
+                    $('#name').val(resp.name)
+                    $('#address').val(resp.address)
+                    $('#picture').attr('src', resp.image)
+                    $('#document').attr('href', resp.document)
+                }
+            })
         }
     }
 
@@ -236,6 +263,7 @@
         findClientModal.classList.remove('opacity-100', 'scale-100');
         setTimeout(() => {
             findClientModal.classList.add('hidden');
+            document.getElementById('findClientForm').classList.add('hidden')
         }, 300);
 
         html5QrcodeScanner.clear()

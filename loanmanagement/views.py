@@ -6,12 +6,15 @@ from io import BytesIO
 import mimetypes
 from wsgiref.util import FileWrapper
 
+from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL
 from django.contrib import auth
 from django.contrib.auth import logout, authenticate, login
 from django.http import FileResponse
 from django.shortcuts import render, HttpResponse, redirect
 
 from django.conf import settings
+
+from elective5.settings import BASE_DIR
 from .forms import PersonForm, UserRegistration
 from .models import Person
 from qrcode import *
@@ -48,26 +51,24 @@ def deleteClient(request, id):
     return redirect('/adminUser/addClient')
 
 
+def qrFunc(val, name):
+    img = make(val)
+    img_url = 'qr-' + str(name) + '.png'
+    # buffer = io.BytesIO()
+    img.save(settings.MEDIA_ROOT + '/qr/' + img_url)
+    return img_url
+
+
 def generateQR(request, id):
     person = Person.objects.get(id=id)
-    img = QRCode(
-        version=1,
-        error_correction=constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4
-    )
-    img.make(person.id)
-    qr = img.make_image(fill_color="black", back_color="white").convert("RGB")
-
-    img_url = 'qr-' + str(person.name) + '.png'
-    # buffer = io.BytesIO()
-    qr.save(img_url)
-    # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    wrapper = FileWrapper(open(settings.MEDIA_ROOT + "/qr/" + img_url, 'rb'))
-    content_type = mimetypes.guess_type(img_url)[0]
-    response = HttpResponse(wrapper, content_type=content_type)
-    response['Content-Disposition'] = "attachment; filename=%s" % img_url
-    return response
+    img = qrFunc(person.id, person.name)
+    # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    if img:
+        wrapper = FileWrapper(open(settings.MEDIA_ROOT + "/qr/" + img, 'rb'))
+        content_type = mimetypes.guess_type(img)[0]
+        response = HttpResponse(wrapper, content_type=content_type)
+        response['Content-Disposition'] = "attachment; filename=%s" % img
+        return response
 
 
 def loanPortal(request):
@@ -130,3 +131,15 @@ def loginController(request):
 def logout_page(request):
     auth.logout(request)
     return redirect('/adminUser/adminLogin/')
+
+
+def client(request):
+    id = request.POST.get('id')
+    client_data = Person.objects.get(id=id)
+    client_json = {
+        'name': client_data.name,
+        'address': client_data.address,
+        'image': '/media/' + client_data.picture.name,
+        'document': '/media/' + client_data.document.name
+    }
+    return HttpResponse(json.dumps(client_json), content_type="application/json")
