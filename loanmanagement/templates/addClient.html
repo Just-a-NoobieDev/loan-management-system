@@ -154,8 +154,8 @@
                      <div class="flex justify-center items-center w-full gap-5 space-y-2 w-full">
 {#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                         <a href="{% url 'payments' %}" class="bg-[#A7C7E7] py-2 px-4">Add payment</a>
-                         <a href="{% url 'loanPortal' %}" style="margin-top: 0 !important;" class="bg-[#77DD77] py-2 px-4">Loan</a>
+                         <a href="{% url 'paymentList' %}" class="bg-[#A7C7E7] py-2 px-4">Add payment</a>
+                         <a href="loanList" style="margin-top: 0 !important;" class="bg-[#77DD77] py-2 px-4">Loan</a>
                     </div>
 
 {#                    <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>#}
@@ -166,14 +166,14 @@
        <div class="mx-3 md:mx-auto max-w-[1240px] mt-8">
            <div class="flex justify-between items-center mb-3">
                 <h1 class="md:text-2xl text-xl font-bold mb-4">Client List</h1>
-                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>
-               <button type="submit" id="openFindModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+               <button type="submit" id="openFindModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAftJREFUSEu1lUurTQEUgL8vMtBFUR4TIWHgFSUDV3GLUKYexYAUhQFl4AeQCd0uYUAhKT9ARgohE6RElBIZkEvk/Vha2VfnPvbZu+45a3jOPuvb6/GtI20O25yfUkBETAU2AWuBBcWL3AeuAJfUV3VebhAgIsYCF4D1TRIEcBnYpn5pBuoHiIjRwF1gLvAdOA10q88zSUTMAPYBO4BRxbOd6s8yyEDAeWAL8BJYrT4e6ocRMR+4CkwBjqr7KwERMQ94CPwClqjZ79KIiOXAdeAHMF19PdTD/yuIiB5gN3Bc3VNngBFxEdgMHFQPVwGeATOz/+qjmoAVwDXgppoVDYrGCj4DOeQR6p+agPHAO6BXnVAF+AiMATrUhFVGRHQAn4C36sQqwINCqMXqvcrs/9Z2KXAn26R2VQGOAAeAU+qumoBzwFagR91bBZgFPAF+11zTTuBGkbS06oGinUn9gRfAKvVpiWgLC9Empe3qzkrRilPQeCq+ASeBY2qanT3PKvNUbAdGFklzBml9Drt8Tfu+iYhxQAq0rskcPgCHgI3AIiCtX6nm5/2i2bmeVli6Bsjb8xXI7boNnFDfR0R6kKLlOc8t7FJ7GwnD/sMpILeAOUBeg2Xqmz7IsAHFbFKy3KjZOR/1bEsBBWQysEHtbmmLqoRsSYuaQdoO+AvzmbYZWyFxxwAAAABJRU5ErkJggg=="/>
                    Find Client</button>
             </div>
            <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr>
+                <tr class="bg-black/80 text-white">
                     <th class="py-2 px-4 border-b border-r">ID</th>
                     <th class="py-2 px-4 border-b border-r">Name</th>
                     <th class="py-2 px-4 border-b border-r">Address</th>
@@ -186,17 +186,17 @@
             <tbody>
                 {% for person in persons %}
                     <tr class="text-center">
-                        <td class="py-2 px-4 border-b">{{ person.id }}</td>
-                        <td class="py-2 px-4 border-b">{{ person.name }}</td>
-                        <td class="py-2 px-4 border-b">{{ person.address }}</td>
-                        <td class="py-2 px-4 border-b">
+                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.id }}</td>
+                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.name }}</td>
+                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.address }}</td>
+                        <td class="py-2 px-4 border-b py-3 border-r">
                             {% if person.picture %}
                                 <img src="{{ person.picture.url }}" alt="{{ person.name }}" class="w-10 h-10 object-cover rounded-full">
                             {% else %}
                                 No Picture
                             {% endif %}
                         </td>
-                        <td class="py-2 px-4 border-b">
+                        <td class="py-2 px-4 border-b py-3 border-r">
                             {% if person.document %}
                                 <a href="{{ person.document.url }}" target="_blank" class="text-blue-500 underline">View Document</a>
                             {% else %}

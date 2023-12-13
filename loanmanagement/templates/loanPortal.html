@@ -3,6 +3,7 @@
 {% block title %}Credit and Collection System{% endblock %}
 
 {% block content %}
+
    <div>
        <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
             <h2 class="text-xl md:text-2xl font-semibold">Loan Portal</h2>
@@ -20,63 +21,66 @@
                     <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
                 </div>
 
-                <form id="clientForm" method="post" action="/addClient">
+                <form id="clientForm" method="post" action="{% url 'add_loan' %}">
                     {% csrf_token %}
-                    <div class="flex flex-col mb-3 space-y-2">
-                        <label for="name" class="text-[15px] font-semibold">Client Name:</label>
-                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    {% load widget_tweaks %}
+                    <div class="form-group flex flex-col mb-3 space-y-2">
+                        <label for="{{ form.client_id.id_for_label }}" class="text-[15px] font-semibold">Client Name:</label>
+                        {% render_field form.client_id class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
                     </div>
 
-                    <div class="flex flex-col mb-3 space-y-2">
-                        <label for="loanDate" class="text-[15px] font-semibold">Loan Date:</label>
-                        <input type="date" name="address" id="loanDate" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    <div class="form-group flex flex-col mb-3 space-y-2">
+                        <label for="{{ form.loan_date.id_for_label }}" class="text-[15px] font-semibold">Loan Date:</label>
+                        {% render_field form.loan_date class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
                     </div>
 
-                    <div class="w-full flex gap-4"><div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="duration" class="text-[15px] font-semibold">Duration Period:</label>
-                        <input type="date" name="address" id="duration" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
+                    <div class="form-group flex gap-4">
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.duration_period.id_for_label }}" class="text-[15px] font-semibold">Duration Period:</label>
+                            {% render_field form.duration_period class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
 
-                    <div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="maturity" class="text-[15px] font-semibold">Loaned Maturity:</label>
-                        <input type="date" name="address" id="maturity" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div></div>
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.loan_maturity.id_for_label }}" class="text-[15px] font-semibold">Loaned Maturity:</label>
+                            {% render_field form.loan_maturity class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
+                    </div>
+                     <div class="form-group flex gap-4">
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.guarantor.id_for_label }}" class="text-[15px] font-semibold">Guarantor:</label>
+                            {% render_field form.guarantor class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
 
-                    <div class="flex flex-col mb-3 space-y-2">
-                        <label for="guarantor" class="text-[15px] font-semibold">Guarantor Name:</label>
-                        <input type="text" name="address" id="guarantor" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.interest_rateid_for_label }}" class="text-[15px] font-semibold">Interest Rate:</label>
+                            {% render_field form.interest_rate class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
                     </div>
+                     <div class="form-group flex gap-4">
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.processing_fee.id_for_label }}" class="text-[15px] font-semibold">Processing Fee:</label>
+                            {% render_field form.processing_fee class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
 
-                    <div class="w-full flex gap-4">
-                        <div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="loanAmount" class="text-[15px] font-semibold">Loan Amount:</label>
-                        <input type="text" name="address" id="loanAmount" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                        <div class="flex flex-col mb-3 space-y-2 w-full">
+                            <label for="{{ form.net.id_for_label }}" class="text-[15px] font-semibold">Net:</label>
+                            {% render_field form.net class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                        </div>
                     </div>
+                    <div class="form-group flex flex-col mb-3 space-y-2">
+                        <label for="{{ form.loan_amount.id_for_label }}" class="text-[15px] font-semibold">Loan Amount:</label>
+                        {% render_field form.loan_amount class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                    </div>
+                    <div class="form-group flex flex-col mb-3 space-y-2">
+                        <label for="{{ form.loan_balance.id_for_label }}" class="text-[15px] font-semibold">Loan Balance:</label>
+                        {% render_field form.loan_balance class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                    </div>
+                    <div class="form-group flex flex-col mb-3 space-y-2">
+                        <label for="{{ form.checking_no.id_for_label }}" class="text-[15px] font-semibold">Check Number:</label>
+                        {% render_field form.checking_no class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                     </div>
 
-                    <div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="interest" class="text-[15px] font-semibold">Interest:</label>
-                        <input type="text" name="address" id="interest" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-                    </div>
-
-                    <div class="w-full flex gap-4">
-                        <div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="fee" class="text-[15px] font-semibold">Processing Fee:</label>
-                        <input type="text" name="address" id="fee" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-
-                    <div class="w-full flex flex-col mb-3 space-y-2">
-                        <label for="net" class="text-[15px] font-semibold">Net:</label>
-                        <input type="text" name="address" id="net" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-                    </div>
-
-                    <div class="flex flex-col mb-3 space-y-2">
-                        <label for="check" class="text-[15px] font-semibold"> Check Number:</label>
-                        <input type="text" name="address" id="check" disabled class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-
-                    <button type="submit" class="mt-10 ml-72 text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                    <button type="submit" id="submitBtn" class="mt-10 ml-72 text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Add Loan</button>
                 </form>
             </div>
@@ -85,14 +89,15 @@
        <div class="mx-3 md:mx-auto max-w-[1340px] mt-8">
            <div class="flex justify-between items-center mb-3">
                 <h1 class="md:text-2xl text-xl font-bold mb-4">Loan List</h1>
-                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Add Loan</button>
             </div>
            <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr>
+                <tr class="bg-black/80 text-white">
                     <th class="py-2 px-1 border-b border-r">ID</th>
-                    <th class="py-2 px-1 border-b border-r">Client Name</th>
+                    <th class="py-2 px-1 border-b border-r">Client Id</th>
+                    <th class="py-2 px-1 border-b border-r">Loan Balance</th>
                     <th class="py-2 px-1 border-b border-r">Loan Date</th>
                     <th class="py-2 px-1 border-b border-r">Interest</th>
                     <th class="py-2 px-1 border-b border-r">Duration Period</th>
@@ -108,19 +113,20 @@
 
             <tbody>
                 {% for loan in loans %}
-                    <tr>
-                        <td class="py-2 px-1 border-b">{{ loan.id }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.name }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.loan_date }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.interest }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.duration_period }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.loaned_maturity }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.guarantor_name }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.loan_amount }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.processing_fee }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.net }}</td>
-                        <td class="py-2 px-1 border-b">{{ loan.check_no }}</td>
-                        <td>
+                    <tr class="text-center">
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.id }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.client_id }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5 font-black bg-black/80 text-white">₱ {{ loan.loan_balance }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_date }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.interest_rate }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.duration_period }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_maturity }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.guarantor }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">₱ {{ loan.loan_amount }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">₱ {{ loan.processing_fee }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.net }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5"># {{ loan.checking_no }}</td>
+                        <td class="flex justify-center items-center gap-3 px-4 border-b py-6">
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII="/>
                         </td>
@@ -128,6 +134,27 @@
                 {% endfor %}
             </tbody>
         </table>
+         <div class="flex justify-center mt-4">
+        <ul class="pagination flex justify-center items-center gap-5">
+            {% if loans.has_previous %}
+                <li><a href="?page=1">&laquo;&laquo;</a></li>
+                <li><a href="?page={{ loans.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            
+            {% for num in loans.paginator.page_range %}
+                {% if loans.number == num %}
+                    <li class="active font-black"><span>{{ num }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if loans.has_next %}
+                <li><a href="?page={{ loans.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ loans.paginator.num_pages }}">&raquo;&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
        </div>
    </div>
 
@@ -151,6 +178,7 @@
         }, 300);
     });
 
+
     submitBtn.addEventListener('click', async (event) => {
         event.preventDefault();
 
@@ -166,7 +194,7 @@
         if (isConfirmed) {
             const form = document.getElementById('clientForm');
             const formData = new FormData(form);
-
+            console.log(formData)
             try {
                 const response = await fetch(form.action, {
                     method: form.method,
@@ -174,29 +202,30 @@
                 });
 
                 if (response.ok) {
+                    const responseData = await response.json();
+                if (responseData.status === 'success') {
                     Swal.fire({
                         title: 'Success!',
-                        text: 'The client has been added successfully.',
+                        text: 'The payment has been transfered successfully.',
                         icon: 'success',
+                    }).then(() => {
+                        window.location.reload();
                     });
-
-                    addClientModal.classList.add('opacity-0', 'scale-95');
-                    addClientModal.classList.remove('opacity-100', 'scale-100');
-                    setTimeout(() => {
-                        addClientModal.classList.add('hidden');
-                    }, 300);
                 } else {
                     Swal.fire({
                         title: 'Error!',
                         text: 'An error occurred while processing the request.',
                         icon: 'error',
                     });
+                    console.log(responseData)
                 }
+            }
             } catch (error) {
                 console.error('Error during form submission:', error);
             }
         }
     });
+
 </script>
 
 

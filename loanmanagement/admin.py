@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Person, Loan, Collector
+from .models import Person, Loan, Collector, Payment
 
 
 # Register your models here.
@@ -14,3 +14,4 @@ class CollectorAdmin(admin.ModelAdmin):
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Loan)
 admin.site.register(Collector, CollectorAdmin)
+admin.site.register(Payment)

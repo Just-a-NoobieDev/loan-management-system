@@ -4,13 +4,20 @@ import os
 from wsgiref.util import FileWrapper
 
 from django.conf import settings
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
+from django.conf import settings
+
+from elective5.settings import BASE_DIR
+from .forms import PersonForm, UserRegistration, LoanForm, PaymentForm
+from .models import Person, Loan, Payment
 from qrcode import *
 
 from .forms import PersonForm, UserRegistration, CollectorForm
 from .models import Person, Collector
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -63,14 +70,70 @@ def generateQR(request, id):
         response['Content-Disposition'] = "attachment; filename=%s" % img
         return response
 
+def loan_list(request):
+    loans = Loan.objects.all()
+    paginated = Paginator(loans, 15)
+    page_number = request.GET.get('page')
+    page = paginated.get_page(page_number)
+    form = LoanForm(request.POST)
+    
+    return render(request, 'loanPortal.html', {'loans': page, 'form': form, 'paginator': paginated})
 
-def loanPortal(request):
-    return render(request, "loanPortal.html")
+def add_loan(request):
+    if request.method == 'POST':
+        form = LoanForm(request.POST)
+        if form.is_valid():
+            loan = form.save(commit=False)
+            loan.loan_balance += loan.loan_balance
+            loan.save()
+            messages.success(request, 'Loan added successfully.')
+            return JsonResponse({'status': 'success', 'redirect': 'loanList/'})
+    else:
+        form = LoanForm()
+
+    return render(request, 'loanPortal.html', {'form': form})
 
 
-def payments(request):
-    return render(request, "payments.html")
+def collectorLogin(request):
+    return render(request, "collectorLogin.html")
 
+# def loanPortal(request):
+#     return render(request, "loanPortal.html")
+
+
+def paymentList(request):
+    payments = Payment.objects.all()
+    paginated = Paginator(payments, 5)
+    page_number = request.GET.get('page')
+    page = paginated.get_page(page_number)
+    form = PaymentForm(request.POST)
+    
+    return render(request, 'payments.html', {'payments': page, 'form': form, 'paginator': paginated})
+
+
+def addPayment(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            loan = payment.loan_id
+            loan.loan_balance -= payment.amount
+            loan.save()
+            payment.save()
+            messages.success(request, 'Payment added successfully.')
+            return JsonResponse({'status': 'success', 'redirect': 'paymentList/'})
+    else:
+        form = PaymentForm()
+
+    return render(request, 'payments.html', {'form': form})
+
+# def payments(request):
+#     posts = Payment.objects.all()
+#     paginated = Paginator(posts, 3)
+#     page_number = request.GET.get('page') #Get the requested page number from the URL
+    
+#     page = paginated.get_page(page_number)
+#     return render(request, 'adminUser/paymentList', {'page':page})
 
 def reports(request):
     return render(request, "reports.html")
