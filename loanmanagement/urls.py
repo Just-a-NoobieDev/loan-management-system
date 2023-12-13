@@ -21,5 +21,9 @@ urlpatterns =[
     path('generate/collector/<int:id>', views.generateCollector, name='generateCollector'),
     path("deleteCollector/<int:id>", views.deleteCollector, name="deleteCollector"),
     path('editClient', views.editClient, name='editClient'),
+    path('loanList/', views.loan_list, name='loan_list'),
+    path('addLoan/', views.add_loan, name='add_loan'),
+    path('paymentList/', views.paymentList, name='paymentList'),
+    path('addPayment/', views.addPayment, name='addPayment'),
     path('editCollector', views.editCollector, name='editCollector')
 ]
