@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Person, Loan, Payment
+from .models import Person, Collector, Loan, Payment
 
 
 class PersonForm(forms.ModelForm):
@@ -16,8 +16,14 @@ class UserRegistration(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
-        
+        fields = ['username', 'email', 'password1', 'password2']        
+
+
+class CollectorForm(forms.ModelForm):
+    class Meta:
+        model = Collector
+        fields = ('name',)
+
 class LoanForm(forms.ModelForm):
     class Meta:
         model = Loan

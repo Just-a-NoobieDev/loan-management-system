@@ -68,7 +68,9 @@
                 icon: 'success',
                 title: 'Login Successful!',
                 text: 'Welcome back!',
-                confirmButtonText: 'OK'
+                showConfirmButton:false,
+                showCancelButton:false,
+                timer: 2000,
             }).then(() => {
                 window.location = '{% url 'dashboard' %}'
             })

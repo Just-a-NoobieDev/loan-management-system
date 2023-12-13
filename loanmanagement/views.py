@@ -1,15 +1,11 @@
-import base64
-import io
 import json
-import os
-from io import BytesIO
 import mimetypes
+import os
 from wsgiref.util import FileWrapper
 
-from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL
+from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth import logout, authenticate, login
-from django.http import FileResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.conf import settings
@@ -18,6 +14,9 @@ from elective5.settings import BASE_DIR
 from .forms import PersonForm, UserRegistration, LoanForm, PaymentForm
 from .models import Person, Loan, Payment
 from qrcode import *
+
+from .forms import PersonForm, UserRegistration, CollectorForm
+from .models import Person, Collector
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -151,6 +150,7 @@ def register(request):
             user = form.save()
             login(request, user)
         # else:
+        #     return render(request, 'register.html', {'form': form})
         #     raise Exception(form.errors.get_text())
     else:
         form = UserRegistration()
@@ -200,3 +200,68 @@ def client(request):
         'document': '/media/' + client_data.document.name
     }
     return HttpResponse(json.dumps(client_json), content_type="application/json")
+
+
+def addCollector(request):
+    if request.method == "POST":
+        colForm = CollectorForm(request.POST)
+        if colForm.is_valid():
+            colForm.save()
+        else:
+            context = {'form': colForm}
+            return render(request, "addClient.html", context)
+
+    collector = Collector.objects.all()
+    colForm = CollectorForm(request.POST)
+    return render(request, "addCollector.html", {'persons': collector, 'form': colForm})
+
+
+def generateCollector(request,id):
+    col = Collector.objects.get(id=id)
+    img = qrFunc(col.id, col.name)
+    # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    if img:
+        wrapper = FileWrapper(open(settings.MEDIA_ROOT + "/qr/" + img, 'rb'))
+        content_type = mimetypes.guess_type(img)[0]
+        response = HttpResponse(wrapper, content_type=content_type)
+        response['Content-Disposition'] = "attachment; filename=%s" % img
+        return response
+
+
+def deleteCollector(request, id):
+    itemCol = Collector.objects.get(id=id)
+    itemCol.delete()
+    return redirect('/adminUser/addCollector')
+
+
+def singleCollector(request):
+    collectorId = request.POST.get('id')
+    collector_data = Collector.objects.get(id=collectorId)
+    collector_json = {
+        'name': collector_data.name,
+    }
+    return HttpResponse(json.dumps(collector_json), content_type="application/json")
+
+
+def editClient(request):
+    cId = request.POST.get('id')
+    name = request.POST.get('name')
+    address = request.POST.get('address')
+
+    c = Person.objects.get(id=cId)
+    c.name = name
+    c.address = address
+    c.save()
+    return redirect('/adminUser/addClient')
+
+
+def editCollector(request):
+    colId = request.POST.get('id')
+    name = request.POST.get('name')
+    address = request.POST.get('address')
+
+    col = Collector.objects.get(id=colId)
+    col.name = name
+    col.address = address
+    col.save()
+    return redirect('/adminUser/addCollector')
