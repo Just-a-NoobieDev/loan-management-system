@@ -21,13 +21,27 @@ class Collector(models.Model):
 
 
 class Loan(models.Model):
-    client_name = models.ForeignKey(Person, on_delete=models.CASCADE)
+    client_id = models.ForeignKey(Person, on_delete=models.CASCADE)
     loan_date = models.DateField()
     duration_period = models.DateField()
-    interest_rate = models.DecimalField(max_digits=10, decimal_places=3)
-    loan_amount = models.DecimalField(max_digits=100, decimal_places=3)
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2)
+    loan_amount = models.DecimalField(max_digits=100, decimal_places=2)
     loan_maturity = models.DateField()
     guarantor = models.CharField(max_length=250)
-    processing_fee = models.DecimalField(max_digits=10, decimal_places=3)
-    net = models.DecimalField(max_digits=10, decimal_places=3)
-    checking_no = models.DecimalField(max_digits=10, decimal_places=3)
+    processing_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    loan_balance = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    net = models.DecimalField(max_digits=10, decimal_places=2)
+    checking_no = models.DecimalField(max_digits=10, decimal_places=0)
+    
+    def __str__(self):
+        return f"{self.client_id.name}"
+    
+class Payment(models.Model):
+    loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(null=True)
+    or_number = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.loan_id}"
+

@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +20,8 @@
 </head>
 
 <body class="font-Poppins bg-[#f8f8fd] overflow-hidden">
-    <div class="flex h-screen bg-[#6861ff]">
-        <nav id="sidebar" class="w-[75px] bg-[#6861ff] border-r overflow-y-auto flex flex-col overflow-hidden">
+    <div class="flex h-screen bg-black/80">
+        <nav id="sidebar" class="w-[75px] bg-black/80 border-r overflow-y-auto flex flex-col overflow-hidden">
             <div class="flex items-center py-2 text-white gap-6 truncate mb-[60px] mt-[35px] ml-6">
                 <img id="toggleSidebar" class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAFFJREFUSEvtlEkKADAIA83/H52eu1APZQShnquTBaqAR/D9+IA04fqIbDuVdXkgaRK9OcABL+pPu/Ud4A7wDnAAHlF/AN4BDujfwXewJoD/pgNrVBgZX2h0sgAAAABJRU5ErkJggg=="/> Logo</div>
             <div class="flex flex-col w-full">
@@ -35,18 +36,13 @@
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client
                         </a>
                     </li>
-                    <li id="addClient" class="rounded-l-[50px]">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="/addClient">
-                            <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Collector
-                        </a>
-                    </li>
                     <li id="loanPortal" class="rounded-l-[50px]">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'loanPortal' %}">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'loan_list' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Loan Portal
                         </a>
                     </li>
                     <li id="payments" class="rounded-l-[50px]">
-                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'payments' %}">
+                        <a class="flex items-center py-2 px-4 text-white gap-6 truncate" href="{% url 'paymentList' %}">
                             <img class="w-[28px] h-[28px]" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>Payment
                         </a>
                     </li>

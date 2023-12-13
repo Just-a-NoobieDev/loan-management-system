@@ -21,12 +21,14 @@
 </head>
 <body>
 <div>
+{% load widget_tweaks %}
+ <div>
     <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
         <h2 class="text-xl md:text-2xl font-semibold">Payments</h2>
         <div class="flex gap-2 md:gap-5 justify-center items-center">
             {% load static %}
             <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
-            <p class="hidden md:block">Noah Mark S. Dela Pena</p>
+            <p class="hidden md:block">{{ user.username }}</p>
         </div>
     </div>
 
@@ -37,34 +39,29 @@
             <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
         </div>
 
-        <form id="clientForm" method="post" action="{% url 'add_payment' %}">
+        <form id="clientForm" method="post" action="{% url 'addPayment' %}">
             {% csrf_token %}
-            <div class="flex flex-col mb-5 space-y-2">
-                <label for="name" class="text-[15px] font-semibold">Client Name:</label>
-                <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-            </div>
+             <div class="form-group flex flex-col mb-3 space-y-2 ">
+                    <label for="{{ form.loan_id.id_for_label }}" class="text-[15px] font-semibold">Select Loans:</label>
+                    {% render_field form.loan_id class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                </div>
 
-            <div class="flex flex-col mb-5 space-y-2">
-                <label for="balance" class="text-[15px] font-semibold">Balance:</label>
-                <input type="text" name="balance" id="balance" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-            </div>
+                <div class="form-group flex flex-col mb-3 space-y-2">
+                    <label for="{{ form.amount.id_for_label }}" class="text-[15px] font-semibold">Amount:</label>
+                    {% render_field form.amount class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                </div>
 
-            <div class="flex flex-col mb-5 space-y-2">
-                <label for="amount" class="text-[15px] font-semibold">Amount:</label>
-                <input type="text" name="amount" id="amount" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-            </div>
+                <div class="form-group flex flex-col mb-3 space-y-2">
+                    <label for="{{ form.or_number.id_for_label }}" class="text-[15px] font-semibold">OR Number:</label>
+                    {% render_field form.or_number class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                </div>
 
-            <div class="flex flex-col mb-5 space-y-2">
-                <label for="or_number" class="text-[15px] font-semibold">OR Number:</label>
-                <input type="text" name="or_number" id="or_number" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-            </div>
+                <div class="form-group flex flex-col mb-3 space-y-2">
+                    <label for="{{ form.payment_date.id_for_label }}" class="text-[15px] font-semibold">Payment Date:</label>
+                    {% render_field form.payment_date class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                </div>
 
-            <div class="flex flex-col mb-5 space-y-2">
-                <label for="new_balance" class="text-[15px] font-semibold">New Balance:</label>
-                <input type="text" name="new_balance" id="new_balance" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-            </div>
-
-            <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]">
+            <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-black/80 text-white py-2 px-4 rounded-[50px]">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>
                 Add Payment
             </button>
@@ -75,37 +72,62 @@
 
     <div class="mx-3 md:mx-auto max-w-[1240px] mt-8">
         <div class="flex justify-between items-center mb-3">
-            <h1 class="md:text-2xl text-xl font-bold mb-4">Payment List</h1>
-            <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+            <h1 class="md:text-2xl text-xl font-bold mb-4">Loan List</h1>
+            <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAiJJREFUSEu1lU2Ij1EUxn9PFoYki8FEYamIBWEzZaN8pP5RSBYWU0ghShaYwcZGmkjNjJRkIYUppZSFlFLERr5loSiNmpXG16MzvX+9c+e+4x01d3nu85zn3vOce66Y4KUJzs+YArYnA5uBtcBSYAFg4APwDLgD3JD0o+qglQK21wEXiqRjXfQtsFvSvRwoK2C7C+gcR/l+A4clnUk5owRsnwCOjyN5GXpAUnc5MELA9gbgdmU9pWG87fAht+Im7ZIeNjf/CtieBrwC5iTMX8Cl8ENSGBsCq4CLwKKMyktgSdP4ssCewtSUc1DS2TRouw14B0zNiDQk9Ue8LBCliRKlq1XSgO0rwA4gWnKlpKe2bwKNDKdX0q5U4CMwNwNukTRk+xGwoqb5TyQtTwW+AS2ZBNskXSvHbc8EjgD7gUkZzoCk1lRgEJieAX8HTgPdkr4mQnuB8xnOoKQZqcALYGHNEvRLatieDXzOcJ5LWpwKXAW2Z8CzJH2xHa90a+HTZUk7i076lOEM76cC0SHRKenqlHQydzPbfUBHZm+LpOupwBQgHsm8DCFO3yPpTezZXlbMqo0Z7OvioQ2NECiIa4C7VT6o3qhYLelBM0du2B0FTtU0O4Xtk3SuHKwa18eAmKp1f7yYV4fSSTqqREmPx9joqXjdZWh8OB2S7udu/a8vM172JmB9GAfML77M98Djwq9bkn5W+vafta5Nq1vj2glT4B9GKb4ZaS97VQAAAABJRU5ErkJggg=="/>Add Payment
             </button>
         </div>
 
         <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b border-r">ID</th>
-                    <th class="py-2 px-4 border-b border-r">Client Name</th>
-                    <th class="py-2 px-4 border-b border-r">Balance</th>
-                    <th class="py-2 px-4 border-b border-r">Amount</th>
-                    <th class="py-2 px-4 border-b border-r">OR Number</th>
-                    <th class="py-2 px-4 border-b border-r">New Balance</th>
+                <tr class="bg-black/80 text-white">
+                    <th class="py-2 px-1 border-b border-r">ID</th>
+                    <th class="py-2 px-1 border-b border-r">Client Id</th>
+                    <th class="py-2 px-1 border-b border-r">Loan Balance</th>
+                    <th class="py-2 px-1 border-b border-r">Loan Date</th>
+                    <th class="py-2 px-1 border-b border-r">Duration Period</th>
+                    <th class="py-2 px-1 border-b border-r">Loaned Maturity</th>
+                    <th class="py-2 px-1 border-b border-r">Guarantor Name</th>
+                    <th class="py-2 px-1 border-b border-r">Loan Amount</th>
                 </tr>
             </thead>
 
             <tbody>
-                {% for payment in payments %}
-                    <tr>
-                        <td class="py-2 px-4 border-b border-r text-center">{{ payment.id }}</td>
-                        <td class="py-2 px-4 border-b border-r">{{ payment.name }}</td>
-                        <td class="py-2 px-4 border-b border-r">{{ payment.balance }}</td>
-                        <td class="py-2 px-4 border-b border-r">{{ payment.amount }}</td>
-                        <td class="py-2 px-4 border-b border-r">{{ payment.or_number }}</td>
-                        <td class="py-2 px-4 border-b border-r">{{ payment.new_balance }}</td>
+                {% for loan in loans %}
+                    <tr class="text-center">
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.id }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.client_id }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5 font-black bg-black/80 text-white">₱ {{ loan.loan_balance }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_date }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.duration_period }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_maturity }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.guarantor }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5">₱ {{ loan.loan_amount }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+         <div class="flex justify-center mt-4">
+        <ul class="pagination flex justify-center items-center gap-5">
+            {% if loans.has_previous %}
+                <li><a href="?page=1">&laquo;&laquo;</a></li>
+                <li><a href="?page={{ loans.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            
+            {% for num in loans.paginator.page_range %}
+                {% if loans.number == num %}
+                    <li class="active font-black"><span>{{ num }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if loans.has_next %}
+                <li><a href="?page={{ loans.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ loans.paginator.num_pages }}">&raquo;&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
     </div>
 </div>
 
@@ -131,36 +153,36 @@
     });
 
     submitBtn.addEventListener('click', async (event) => {
-    event.preventDefault();
+        event.preventDefault();
 
-    const { isConfirmed } = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to add this client?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, add it!',
-        cancelButtonText: 'No, cancel',
-    });
+        const { isConfirmed } = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to add this client?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, add it!',
+            cancelButtonText: 'No, cancel',
+        });
 
-    if (isConfirmed) {
-        const form = document.getElementById('clientForm');
-        const formData = new FormData(form);
+        if (isConfirmed) {
+            const form = document.getElementById('clientForm');
+            const formData = new FormData(form);
 
-        try {
-            const response = await fetch(form.getAttribute('action'), {
-                method: form.getAttribute('method'),
-                body: formData,
-            });
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                });
 
-            if (response.ok) {
-                const responseData = await response.json();
+                if (response.ok) {
+                    const responseData = await response.json();
                 if (responseData.status === 'success') {
                     Swal.fire({
                         title: 'Success!',
-                        text: 'The client has been added successfully.',
+                        text: 'The payment has been transfered successfully.',
                         icon: 'success',
                     }).then(() => {
-                        window.location.href = responseData.redirect;
+                        window.location.reload();
                     });
                 } else {
                     Swal.fire({
@@ -168,18 +190,14 @@
                         text: 'An error occurred while processing the request.',
                         icon: 'error',
                     });
+                    console.log(responseData)
                 }
-            } else {
-                console.error('Error during form submission. HTTP status:', response.status);
             }
-        } catch (error) {
-            console.error('Error during form submission:', error);
+            } catch (error) {
+                console.error('Error during form submission:', error);
+            }
         }
-    }
-});
-
+    });
 </script>
-
-
 </body>
 </html>
