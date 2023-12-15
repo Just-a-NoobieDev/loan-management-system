@@ -27,7 +27,7 @@ class CollectorForm(forms.ModelForm):
 class LoanForm(forms.ModelForm):
     class Meta:
         model = Loan
-        fields = ['client_id', 'loan_date', 'duration_period', 'interest_rate', 'loan_amount', 'loan_maturity', 'guarantor', 'processing_fee', 'loan_balance', 'net', 'checking_no']
+        fields = ['client_id', 'loan_date', 'duration_period', 'interest_rate', 'loan_amount', 'loan_maturity', 'guarantor', 'processing_fee', 'loan_balance', 'net', 'checking_no', 'has_active_loan']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,6 +36,7 @@ class LoanForm(forms.ModelForm):
         self.fields['loan_date'].widget = forms.DateInput(attrs={'type': 'date'})
         self.fields['duration_period'].widget = forms.DateInput(attrs={'type': 'date'})
         self.fields['loan_maturity'].widget = forms.DateInput(attrs={'type': 'date'})
+        self.fields['has_active_loan'].widget = forms.CheckboxInput(attrs={'type': 'checkbox'})
         
 class PaymentForm(forms.ModelForm):
     class Meta:
@@ -46,4 +47,5 @@ class PaymentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['loan_id'].widget = forms.Select()
         self.fields['loan_id'].queryset = Loan.objects.all()
-        self.fields['payment_date'].widget = forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        self.fields['payment_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        self.fields['loan_id'].queryset = self.fields['loan_id'].queryset.filter(has_active_loan=True)

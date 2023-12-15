@@ -31,10 +31,19 @@ class Loan(models.Model):
     processing_fee = models.DecimalField(max_digits=10, decimal_places=2)
     loan_balance = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     net = models.DecimalField(max_digits=10, decimal_places=2)
-    checking_no = models.DecimalField(max_digits=10, decimal_places=0)
+    checking_no = models.CharField(max_length=250, null=False, blank=False)
+    has_active_loan = models.BooleanField(default=True)
+    
+    def save(self, *args, **kwargs):
+        # Automatically set has_active_loan to False if loan_balance is zero
+        if self.loan_balance == 0:
+            self.has_active_loan = False
+
+        super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"{self.client_id.name}"
+        status = "Active" if self.has_active_loan else "Inactive"
+        return f"{self.client_id.name} (ID: {self.id}, Status: {status})"
     
 class Payment(models.Model):
     loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
@@ -44,4 +53,5 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.loan_id}"
+    
 
