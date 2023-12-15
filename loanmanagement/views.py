@@ -72,26 +72,54 @@ def generateQR(request, id):
 
 def loan_list(request):
     loans = Loan.objects.all()
-    paginated = Paginator(loans, 15)
+    paginated = Paginator(loans, 10)
     page_number = request.GET.get('page')
     page = paginated.get_page(page_number)
-    form = LoanForm(request.POST)
-    
+
+    if request.method == 'POST':
+        form = LoanForm(request.POST)
+        if form.is_valid():
+            loan = form.save(commit=False)
+
+            if loan.loan_balance == 0:
+                loan.has_active_loan = False
+            loan.save()
+    else:
+        form = LoanForm()
     return render(request, 'loanPortal.html', {'loans': page, 'form': form, 'paginator': paginated})
+
 
 def add_loan(request):
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():
             loan = form.save(commit=False)
-            loan.loan_balance += loan.loan_balance
-            loan.save()
-            messages.success(request, 'Loan added successfully.')
-            return JsonResponse({'status': 'success', 'redirect': 'loanList/'})
+
+            existing_active_loan = Loan.objects.filter(
+                client_id=loan.client_id,
+                has_active_loan=True
+            ).exists()
+
+            if existing_active_loan:
+                messages.error(request, 'Client already has an active loan.')
+                return JsonResponse({'status': 'error', 'redirect': 'loanList/'})
+            else:
+                loan.save()
+                messages.success(request, 'Loan added successfully.')
+                return JsonResponse({'status': 'success', 'redirect': 'loanList/'})
+        else:
+            messages.error(request, 'Error in the form submission. Please check the form.')
+            return JsonResponse({'status': 'error', 'redirect': 'loanList/'})
     else:
         form = LoanForm()
 
     return render(request, 'loanPortal.html', {'form': form})
+
+# def delete_loan(request, id):
+#     itemCol = Loan.objects.get(id=id)
+#     itemCol.delete()
+#     messages.success(request, 'Loan deleted successfully.')
+#     return redirect('/adminUser/loanList/')
 
 
 def collectorLogin(request):
@@ -103,7 +131,7 @@ def collectorLogin(request):
 
 def paymentList(request):
     payments = Payment.objects.all()
-    paginated = Paginator(payments, 5)
+    paginated = Paginator(payments, 15)
     page_number = request.GET.get('page')
     page = paginated.get_page(page_number)
     form = PaymentForm(request.POST)
@@ -122,10 +150,49 @@ def addPayment(request):
             payment.save()
             messages.success(request, 'Payment added successfully.')
             return JsonResponse({'status': 'success', 'redirect': 'paymentList/'})
+        else:
+            messages.error(request, 'Error in the form submission. Please check the form.')
+            return JsonResponse({'status': 'error', 'redirect': 'paymentList/'})
     else:
         form = PaymentForm()
 
     return render(request, 'payments.html', {'form': form})
+
+def edit_payment(request, id):
+    # Assuming Payment is your model
+    payment_instance = get_object_or_404(Payment, id=id)
+    
+    # Set the amount to 200
+    payment_instance.amount = 200
+    
+    # Save the changes
+    payment_instance.save()
+
+    messages.success(request, 'Payment edited successfully.')
+    return redirect('/adminUser/paymentList/')
+
+def delete_payment(request, id):
+    itemCol = Payment.objects.get(id=id)
+    itemCol.delete()
+    messages.success(request, 'Payment deleted successfully.')
+    return redirect('/adminUser/paymentList/')
+
+def editPayment(request):
+    cId = request.POST.get('id')
+    amount = request.POST.get('amount')
+
+    c = Payment.objects.get(id=cId)
+    c.amount = amount
+    c.save()
+    return redirect('/adminUser/addPayment/')
+
+def payment(request):
+    id = request.POST.get('id')
+    payment_data = Payment.objects.get(id=id)
+    payment_json = {
+        'amount': payment_data.amount,
+    }
+    return HttpResponse(json.dumps(payment_json), content_type="application/json")
 
 # def payments(request):
 #     posts = Payment.objects.all()
