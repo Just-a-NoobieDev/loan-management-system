@@ -1,3 +1,4 @@
+import datetime
 import json
 import mimetypes
 import os
@@ -6,18 +7,16 @@ from wsgiref.util import FileWrapper
 from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth import logout, authenticate, login
-from django.shortcuts import render, HttpResponse, redirect
+from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.conf import settings
-
-from elective5.settings import BASE_DIR
-from .forms import PersonForm, UserRegistration, LoanForm, PaymentForm
-from .models import Person, Loan, Payment
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from openpyxl.workbook import Workbook
 from qrcode import *
 
+from .forms import LoanForm, PaymentForm
 from .forms import PersonForm, UserRegistration, CollectorForm
+from .models import Loan, Payment, Reports
 from .models import Person, Collector
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -70,6 +69,7 @@ def generateQR(request, id):
         response['Content-Disposition'] = "attachment; filename=%s" % img
         return response
 
+
 def loan_list(request):
     loans = Loan.objects.all()
     paginated = Paginator(loans, 10)
@@ -115,6 +115,7 @@ def add_loan(request):
 
     return render(request, 'loanPortal.html', {'form': form})
 
+
 # def delete_loan(request, id):
 #     itemCol = Loan.objects.get(id=id)
 #     itemCol.delete()
@@ -124,6 +125,7 @@ def add_loan(request):
 
 def collectorLogin(request):
     return render(request, "collectorLogin.html")
+
 
 # def loanPortal(request):
 #     return render(request, "loanPortal.html")
@@ -135,7 +137,7 @@ def paymentList(request):
     page_number = request.GET.get('page')
     page = paginated.get_page(page_number)
     form = PaymentForm(request.POST)
-    
+
     return render(request, 'payments.html', {'payments': page, 'form': form, 'paginator': paginated})
 
 
@@ -158,24 +160,27 @@ def addPayment(request):
 
     return render(request, 'payments.html', {'form': form})
 
+
 def edit_payment(request, id):
     # Assuming Payment is your model
     payment_instance = get_object_or_404(Payment, id=id)
-    
+
     # Set the amount to 200
     payment_instance.amount = 200
-    
+
     # Save the changes
     payment_instance.save()
 
     messages.success(request, 'Payment edited successfully.')
     return redirect('/adminUser/paymentList/')
 
+
 def delete_payment(request, id):
     itemCol = Payment.objects.get(id=id)
     itemCol.delete()
     messages.success(request, 'Payment deleted successfully.')
     return redirect('/adminUser/paymentList/')
+
 
 def editPayment(request):
     cId = request.POST.get('id')
@@ -186,6 +191,7 @@ def editPayment(request):
     c.save()
     return redirect('/adminUser/addPayment/')
 
+
 def payment(request):
     id = request.POST.get('id')
     payment_data = Payment.objects.get(id=id)
@@ -194,16 +200,18 @@ def payment(request):
     }
     return HttpResponse(json.dumps(payment_json), content_type="application/json")
 
+
 # def payments(request):
 #     posts = Payment.objects.all()
 #     paginated = Paginator(posts, 3)
 #     page_number = request.GET.get('page') #Get the requested page number from the URL
-    
+
 #     page = paginated.get_page(page_number)
 #     return render(request, 'adminUser/paymentList', {'page':page})
 
 def reports(request):
-    return render(request, "reports.html")
+    report = Reports.objects.all()
+    return render(request, "reports.html", {'reports': report})
 
 
 def register(request):
@@ -283,7 +291,7 @@ def addCollector(request):
     return render(request, "addCollector.html", {'persons': collector, 'form': colForm})
 
 
-def generateCollector(request,id):
+def generateCollector(request, id):
     col = Collector.objects.get(id=id)
     img = qrFunc(col.id, col.name)
     # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -332,3 +340,129 @@ def editCollector(request):
     col.address = address
     col.save()
     return redirect('/adminUser/addCollector')
+
+
+def exportTodayPayments(request):
+    ptfilename = f"Payments Today - {datetime.date.today()}.xlsx"
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{ptfilename}"'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Today Payments"
+
+    # Add headers
+    headers = ["ID", "Borrower Name", "Amount", "Payment Date", "OR Number"]
+    ws.append(headers)
+
+    # Add data from the model
+    payments = Payment.objects.filter(payment_date__exact=datetime.date.today())
+    for payment in payments:
+        ws.append(
+            [payment.id, payment.loan_id.client_id.name, payment.amount, payment.payment_date.strftime("%m/%d/%Y"),
+             payment.or_number])
+
+    # Save the workbook to the HttpResponse
+    path = settings.MEDIA_ROOT + '/reports/payments/' + ptfilename
+    wb.save(response)
+    wb.save(path)
+
+    todayReport = Reports(type='Payments', filename=ptfilename, filepath=path)
+    todayReport.save()
+
+    return response
+
+
+def exportTodayLoans(request):
+    ltfilename = f"Loans Today - {datetime.date.today()}.xlsx"
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{ltfilename}"'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Today Loans"
+
+    # Add headers
+    headers = ["ID", "Borrower Name", "Loan Date", "Duration Period", "Interest Rate", "Loan Amount", "Loan Maturity",
+               "Guarantor", "Processing Fee", "Net", "Checking Number"]
+    ws.append(headers)
+
+    # Add data from the model
+    loans = Loan.objects.filter(loan_date__exact=datetime.date.today())
+    for loan in loans:
+        ws.append([loan.id, loan.client_id.name, loan.loan_date.strftime("%m/%d/%Y"), loan.duration_period,
+                   loan.interest_rate, loan.loan_amount, loan.loan_maturity, loan.guarantor, loan.processing_fee,
+                   loan.net, loan.checking_no])
+
+    # Save the workbook to the HttpResponse
+    path = settings.MEDIA_ROOT + '/reports/loans/' + ltfilename
+    wb.save(response)
+    wb.save(path)
+
+    todayLReport = Reports(type='Loans', filename=ltfilename, filepath=path)
+    todayLReport.save()
+
+    return response
+
+
+def exportLoans(request, dateFrom, dateTo):
+    lfilename = f"Loans - {dateFrom} - {dateTo}.xlsx"
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{lfilename}"'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = f"Loans {dateFrom} - {dateTo}"
+
+    # Add headers
+    headers = ["ID", "Borrower Name", "Loan Date", "Duration Period", "Interest Rate", "Loan Amount", "Loan Maturity",
+               "Guarantor", "Processing Fee", "Net", "Checking Number"]
+    ws.append(headers)
+
+    # Add data from the model
+    loans = Loan.objects.filter(loan_date__range=[dateFrom, dateTo])
+    for loan in loans:
+        ws.append([loan.id, loan.client_id.name, loan.loan_date.strftime("%m/%d/%Y"), loan.duration_period,
+                   loan.interest_rate, loan.loan_amount, loan.loan_maturity, loan.guarantor, loan.processing_fee,
+                   loan.net, loan.checking_no])
+
+    # Save the workbook to the HttpResponse
+    path = settings.MEDIA_ROOT + '/reports/loans/' + lfilename
+    wb.save(response)
+    wb.save(path)
+
+    todayLReport = Reports(type='Loans', filename=lfilename, filepath=path)
+    todayLReport.save()
+
+    return response
+
+
+def exportPayment(request, dateFrom, dateTo):
+    pfilename = f"Payments - {dateFrom} - {dateTo}.xlsx"
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{pfilename}"'
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = f"Payments {dateFrom} - {dateTo}"
+
+    # Add headers
+    headers = ["ID", "Borrower Name", "Amount", "Payment Date", "OR Number"]
+    ws.append(headers)
+
+    # Add data from the model
+    payments = Payment.objects.filter(payment_date__range=[dateFrom, dateTo])
+    for payment in payments:
+        ws.append(
+            [payment.id, payment.loan_id.client_id.name, payment.amount, payment.payment_date.strftime("%m/%d/%Y"),
+             payment.or_number])
+
+    # Save the workbook to the HttpResponse
+    path = settings.MEDIA_ROOT + '/reports/payments/' + pfilename
+    wb.save(response)
+    wb.save(path)
+
+    todayReport = Reports(type='Payments', filename=pfilename, filepath=path)
+    todayReport.save()
+
+    return response

@@ -33,18 +33,19 @@ class Loan(models.Model):
     net = models.DecimalField(max_digits=10, decimal_places=2)
     checking_no = models.CharField(max_length=250, null=False, blank=False)
     has_active_loan = models.BooleanField(default=True)
-    
+
     def save(self, *args, **kwargs):
         # Automatically set has_active_loan to False if loan_balance is zero
         if self.loan_balance == 0:
             self.has_active_loan = False
 
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
         status = "Active" if self.has_active_loan else "Inactive"
         return f"{self.client_id.name} (ID: {self.id}, Status: {status})"
-    
+
+
 class Payment(models.Model):
     loan_id = models.ForeignKey(Loan, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -53,5 +54,10 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.loan_id}"
-    
 
+
+class Reports(models.Model):
+    type = models.CharField(max_length=50)
+    filename = models.CharField(max_length=250)
+    filepath = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True)
