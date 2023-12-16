@@ -2,6 +2,7 @@ import datetime
 import json
 import mimetypes
 import os
+from decimal import Decimal
 from wsgiref.util import FileWrapper
 
 from django.conf import settings
@@ -183,13 +184,25 @@ def delete_payment(request, id):
 
 
 def editPayment(request):
+    loan_id = request.POST.get('loan_id')
     cId = request.POST.get('id')
-    amount = request.POST.get('amount')
+    camount = Decimal(request.POST.get('camount'))
+    namount = Decimal(request.POST.get('namount'))
+
+    l = Loan.objects.get(id=loan_id)
+    l.loan_balance = l.loan_balance + camount
 
     c = Payment.objects.get(id=cId)
-    c.amount = amount
+    c.amount = namount
     c.save()
-    return redirect('/adminUser/addPayment/')
+
+    l.loan_balance = l.loan_balance - namount
+    if l.loan_balance > 0:
+        l.has_active_loan = True
+
+    l.save()
+
+    return redirect('/adminUser/paymentList/')
 
 
 def payment(request):
