@@ -64,6 +64,10 @@
                 <form id="editClientForm" method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="flex flex-col mb-5 space-y-2">
+                        <label for="pid" class="text-[15px] font-semibold">Payment Id:</label>
+                        <input disabled type="text" name="pid" id="pid" class="flex bg-gray-200 h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    </div>
+                    <div class="flex flex-col mb-5 space-y-2">
                         <label for="name" class="text-[15px] font-semibold">Borrower Id:</label>
                         <input disabled type="text" name="name" id="name" class="flex bg-gray-200 h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                     </div>
@@ -109,7 +113,7 @@
                         <td class="py-2 px-4 border-b border-r"># {{ payment.or_number }}</td>
                         <td class="py-2 px-4 border-b border-r">{{ payment.payment_date }}</td>
                          <td class="flex justify-center items-center gap-3 py-2 px-4 border-b">
-                            <img data-id="{{ payment.id }}" data-amount="{{ payment.amount }}" data-borrower="{{ payment.loan_id.id }}" id="edit" class="cursor-pointer" onclick="edit(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>
+                            <img data-id="{{ payment.id }}" data-amount="{{ payment.amount }}" data-borrower="{{ payment.loan_id.id }}" id="editp" class="cursor-pointer" onclick="edit(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>
                             <img data-id="{{ payment.id }}" class="cursor-pointer" onclick="deleteBtn(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII=" alt="delete"/>
                         </td>
                     </tr>
@@ -226,6 +230,8 @@ function edit(btn) {
         editClientModal.classList.add('scale-100');
         $('#amount').val(btn.dataset['amount'])
         $('#name').val(btn.dataset['borrower'])
+        $('#pid').val(btn.dataset['id'])
+
 
         {#$.ajax({#}
         {#         headers: {#}
@@ -247,7 +253,7 @@ function edit(btn) {
 
     $('#submitEdit').on('click', async (e) => {
         e.preventDefault()
-        
+
         const { isConfirmed } = await Swal.fire({
             title: 'Are you sure?',
             text: 'Do you want to edit this client?',
@@ -264,7 +270,7 @@ function edit(btn) {
                 url: '{% url 'editPayment' %}',
                 data: {
                     loan_id: $('#name').val(),
-                    id: document.getElementById('edit').dataset.id,
+                    id: $('#pid').val(),
                     camount: parseFloat($('#amount').val()),
                     namount: parseFloat($('#namount').val())
                 },

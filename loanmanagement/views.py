@@ -185,16 +185,16 @@ def delete_payment(request, id):
 
 def editPayment(request):
     loan_id = request.POST.get('loan_id')
-    cId = request.POST.get('id')
+    ciId = int(request.POST.get('id'))
     camount = Decimal(request.POST.get('camount'))
     namount = Decimal(request.POST.get('namount'))
 
-    l = Loan.objects.get(id=loan_id)
-    l.loan_balance = l.loan_balance + camount
-
-    c = Payment.objects.get(id=cId)
+    c = Payment.objects.get(id=ciId)
     c.amount = namount
     c.save()
+
+    l = Loan.objects.get(id=loan_id)
+    l.loan_balance = l.loan_balance + camount
 
     l.loan_balance = l.loan_balance - namount
     if l.loan_balance > 0:
