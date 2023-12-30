@@ -1,5 +1,7 @@
-from django.shortcuts import redirect, render,get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+
+from collector.forms import LoginForm
 from loanmanagement.models import Payment, Loan
 from loanmanagement.forms import PaymentForm, LoanForm
 from django.http import JsonResponse
@@ -14,7 +16,7 @@ def payment_list(request):
     page_number = request.GET.get('page')
     page = paginated.get_page(page_number)
     form = PaymentForm(request.POST)
-    
+
     return render(request, 'collectorDashboard.html', {'loans': page, 'form': form, 'paginator': paginated})
 
 
@@ -34,5 +36,7 @@ def add_payment(request):
 
     return render(request, 'collectorDashboard.html', {'form': form})
 
+
 def collectorLogin(request):
-    return render(request, "collectorLogin.html")
+    login_form = LoginForm(request.POST)
+    return render(request, "collectorLogin.html", {"form": login_form})

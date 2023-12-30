@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +15,28 @@
         }
     </style>
 </head>
-<body class="bg-gray-200 font-family-Poppins flex items-center justify-center h-screen">
+<body class="bg-gray-200 font-family-Poppins flex items-center justify-center h-screen flex-col gap-4">
 
 <div class="bg-white p-8 rounded shadow-md w-96">
-    <h2 class="text-3xl font-semibold mb-6 text-center">Client Login</h2>
+    <h2 class="text-3xl font-semibold mb-6 text-center">Login via QR</h2>
     <div id="reader" class="mb-4"></div>
     <button id="startButton" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Start Scanning</button>
+</div>
+
+<h2>OR</h2>
+
+<div class="bg-white p-8 rounded shadow-md w-96">
+    <h2 class="text-3xl font-semibold mb-6 text-center">Login Manually</h2>
+    <div class="mb-4">
+        {{ form.email|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+        {% render_field form.email|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+    </div>
+    <div class="mb-4">
+        {{ form.password|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+        {% render_field form.password|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+    </div>
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Login</button>
+
 </div>
 
 <script>

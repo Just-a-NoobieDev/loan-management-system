@@ -29,6 +29,9 @@ def home(request):
 
 
 def addClient(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('adminLogin')
     if request.method == "POST":
         form = PersonForm(request.POST, request.FILES)
         if form.is_valid():
@@ -72,6 +75,9 @@ def generateQR(request, id):
 
 
 def loan_list(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('adminLogin')
     loans = Loan.objects.all()
     paginated = Paginator(loans, 10)
     page_number = request.GET.get('page')
@@ -133,6 +139,9 @@ def collectorLogin(request):
 
 
 def paymentList(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('adminLogin')
     payments = Payment.objects.all()
     paginated = Paginator(payments, 15)
     page_number = request.GET.get('page')
@@ -223,6 +232,9 @@ def payment(request):
 #     return render(request, 'adminUser/paymentList', {'page':page})
 
 def reports(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('adminLogin')
     report = Reports.objects.all()
     return render(request, "reports.html", {'reports': report})
 
@@ -284,13 +296,20 @@ def client(request):
     client_json = {
         'name': client_data.name,
         'address': client_data.address,
+        'email': client_data.email,
+        'password': client_data.password,
         'image': '/media/' + client_data.picture.name,
         'document': '/media/' + client_data.document.name
     }
+
+    print(client_json)
     return HttpResponse(json.dumps(client_json), content_type="application/json")
 
 
 def addCollector(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('adminLogin')
     if request.method == "POST":
         colForm = CollectorForm(request.POST)
         if colForm.is_valid():
@@ -335,10 +354,14 @@ def editClient(request):
     cId = request.POST.get('id')
     name = request.POST.get('name')
     address = request.POST.get('address')
+    email = request.POST.get('email')
+    password = request.POST.get('password')
 
     c = Person.objects.get(id=cId)
     c.name = name
     c.address = address
+    c.email = email
+    c.password = password
     c.save()
     return redirect('/adminUser/addClient')
 

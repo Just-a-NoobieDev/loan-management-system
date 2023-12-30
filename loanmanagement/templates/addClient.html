@@ -31,6 +31,20 @@
 {#                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                     </div>
 
+                     <div class="flex flex-col mb-5 space-y-2">
+                        {{ form.email|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+{#                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                    </div>
+
+                    <div class="flex flex-col mb-5 space-y-2">
+                        {{ form.password|add_label_class:"text-[15px] font-semibold" }}
+                        {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+{#                        <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+{#                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                    </div>
+
                     <div class="flex flex-col mb-5 space-y-2">
                         {{ form.address|add_label_class:"text-[15px] font-semibold" }}
                         {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
@@ -74,6 +88,8 @@
 
                 <form id="editClientForm" method="POST" action="" enctype="multipart/form-data">
                     {% csrf_token %}
+
+                    <input type="text" class="hidden" id="cid"></input>
                     <div class="flex flex-col mb-5 space-y-2">
 {#                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
@@ -86,6 +102,20 @@
 {#                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="address" class="text-[15px] font-semibold">Address:</label>
                         <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    </div>
+
+                    <div class="flex flex-col mb-5 space-y-2">
+{#                        {{ form.email|add_label_class:"text-[15px] font-semibold" }}#}
+{#                        {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                        <label for="email" class="text-[15px] font-semibold">Name:</label>
+                        <input type="text" name="email" id="eemail" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    </div>
+
+                    <div class="flex flex-col mb-5 space-y-2">
+{#                        {{ form.password|add_label_class:"text-[15px] font-semibold" }}#}
+{#                        {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                        <label for="password" class="text-[15px] font-semibold">Name:</label>
+                        <input type="password" name="password" id="epassword" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                     </div>
 
 {#                    <div class="flex flex-col mb-5 space-y-2">#}
@@ -125,14 +155,28 @@
 {#                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="name" class="text-[15px] font-semibold">Name:</label>
-                        <input disabled type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                        <input disabled type="text" name="name" id="fname" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2 w-full">
 {#                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
                         <label for="address" class="text-[15px] font-semibold">Address:</label>
-                        <input disabled type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                        <input disabled type="text" name="address" id="faddress" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                    </div>
+
+                    <div class="flex flex-col mb-5 space-y-2 w-full">
+{#                        {{ form.email|add_label_class:"text-[15px] font-semibold" }}#}
+{#                        {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                        <label for="email" class="text-[15px] font-semibold">Email:</label>
+                        <input disabled type="text" name="email" id="femail" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                    </div>
+
+                    <div class="flex flex-col mb-5 space-y-2 w-full">
+{#                        {{ form.password|add_label_class:"text-[15px] font-semibold" }}#}
+{#                        {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                        <label for="password" class="text-[15px] font-semibold">Password:</label>
+                        <input disabled type="password" name="password" id="fpassword" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                     </div>
 
 {#                    <div class="flex flex-col mb-5 space-y-2">#}
@@ -286,8 +330,11 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function (resp) {
-                    $('#name').val(resp.name)
-                    $('#address').val(resp.address)
+                    console.log(resp.name)
+                    $('#fname').val(resp.name)
+                    $('#faddress').val(resp.address)
+                    $('#femail').val(resp.email)
+                    $('#fpassword').val(resp.password)
                     $('#picture').attr('src', resp.image)
                     $('#document').attr('href', resp.document)
                 }
@@ -400,14 +447,18 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function (resp) {
+                    $('#cid').val(btn.dataset.id)
                     $('#name').val(resp.name)
                     $('#address').val(resp.address)
+                    $('#eemail').val(resp.email)
+                    $('#epassword').val(resp.password)
                 }
             })
     }
 
     $('#submitEditBtn').on('click', async (e) => {
         e.preventDefault()
+
 
         const { isConfirmed } = await Swal.fire({
             title: 'Are you sure?',
@@ -425,9 +476,11 @@
                 },
                 url: '{% url 'editClient' %}',
                 data: {
-                    id: document.getElementById('edit').dataset.id,
+                    id: $('#cid').val(),
                     name: $('#name').val(),
-                    address: $('#address').val()
+                    address: $('#address').val(),
+                    email: $('#eemail').val(),
+                    password: $('#epassword').val()
                 },
                 method: 'POST',
                 type: 'POST',

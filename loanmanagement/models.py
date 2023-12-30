@@ -8,6 +8,8 @@ class Person(models.Model):
     picture = models.ImageField(upload_to='images/', null=True, blank=True)
     document = models.FileField(upload_to='documents/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(max_length=254, null=True, blank=True)
+    password = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -15,6 +17,8 @@ class Person(models.Model):
 
 class Collector(models.Model):
     name = models.CharField(max_length=250, null=False, blank=False)
+    email = models.EmailField(max_length=254, null=True, blank=True)
+    password = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
         return self.name
