@@ -8,7 +8,7 @@ from .models import Person, Collector, Loan, Payment
 class PersonForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ('name', 'address', 'picture', 'document')
+        fields = '__all__'
 
 
 class UserRegistration(UserCreationForm):

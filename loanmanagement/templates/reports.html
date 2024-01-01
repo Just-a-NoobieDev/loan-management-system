@@ -17,35 +17,53 @@
         <div class="flex justify-between items-center mb-3">
             <h1 class="md:text-2xl text-xl font-bold mb-4">Collections List</h1>
 
+            <div class="flex gap-2">
+                <button type="button" id="reload" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                    Reload List
+                </button>
             <div class="relative">
                 <button type="button" id="downloadReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>
-                    Download Report
+                    Download Payments Report
                 </button>
                 <div id="reportDropdown" class="absolute hidden bg-white border border-gray-300 mt-2 py-2 px-4 rounded-md shadow-lg flex flex-col">
-                    <a href="#" id="collectionsForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Collections this day</a>
+                    <a href="{% url 'exportTodayPayments' %}" id="paymentsForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Payments this day</a>
                     <a href="#" id="dateRange" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Date Range</a>
                 </div>
             </div>
+            <div class="relative">
+                <button type="button" id="downloadLoanReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>
+                    Download Loans Report
+                </button>
+                <div id="reportLoanDropdown" class="absolute hidden bg-white border border-gray-300 mt-2 py-2 px-4 rounded-md shadow-lg flex flex-col">
+                    <a href="{% url 'exportTodayLoans' %}" id="loansForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Loans this day</a>
+                    <a href="#" id="dateRangeL" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Date Range</a>
+                </div>
+            </div>
+                </div>
         </div>
 
         <table class="min-w-full bg-white border border-gray-300">
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b border-r">ID</th>
+                    <th class="py-2 px-4 border-b border-r">Report Type</th>
                     <th class="py-2 px-4 border-b border-r">Report Name</th>
+                    <th class="py-2 px-4 border-b border-r">Created At</th>
                     <th class="py-2  border-b">Actions</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for report in reports %}
-                    <tr>
+                    <tr class="text-center">
                         <td class="py-2 px-4 border-b">{{ report.id }}</td>
-                        <td class="py-2 px-4 border-b">{{ report.name }}</td>
+                        <td class="py-2 px-4 border-b">{{ report.type }}</td>
+                        <td class="py-2 px-4 border-b">{{ report.filename }}</td>
+                        <td class="py-2 px-4 border-b">{{ report.created_at }}</td>
                          <td>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII="/>
+                             <a href="/media/reports/payments/{{ report.filename }}" download>Download</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -66,49 +84,114 @@
                 </button>
             </div>
         </div>
+
+        <div id="dateRangeLModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden">
+            <div class="w-96 bg-white mx-auto mt-20 p-6 rounded-md">
+                <div class="flex justify-end items-center mb-8">
+                    <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
+                </div>
+                <div class="flex flex-col mb-5 space-y-2">
+                    <input type="text" id="dateRangeLPicker" placeholder="Select Date Range" class="date-input border-gray-500 border-[1px] rounded-[5px] p-2">
+                </div>
+                <button type="button" id="submitDateRangeL" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px] ml-32 mt-8">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>
+                    Download Report
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var downloadReportBtn = document.getElementById('downloadReportBtn');
+        var downloadLoanReportBtn = document.getElementById('downloadLoanReportBtn');
         var reportDropdown = document.getElementById('reportDropdown');
-        var collectionsForDay = document.getElementById('collectionsForDay');
+        var reportLoanDropdown = document.getElementById('reportLoanDropdown');
+        var paymentsForDay = document.getElementById('paymentsForDay');
+        var loansForDay = document.getElementById('loansForDay');
         var dateRangeModal = document.getElementById('dateRangeModal');
+        var dateRangeLModal = document.getElementById('dateRangeLModal');
         var dateRangePicker = document.getElementById('dateRangePicker');
+        var dateRangeLPicker = document.getElementById('dateRangeLPicker');
         var submitDateRange = document.getElementById('submitDateRange');
+        var submitDateRangeL = document.getElementById('submitDateRangeL');
         var closeModalBtn = document.getElementById('closeModalBtn');
 
         downloadReportBtn.addEventListener('click', function () {
             reportDropdown.classList.toggle('hidden');
         });
 
-        collectionsForDay.addEventListener('click', function () {
-            console.log('Collections for the day clicked');
+        downloadLoanReportBtn.addEventListener('click', function () {
+            reportLoanDropdown.classList.toggle('hidden');
+        });
+
+        paymentsForDay.addEventListener('click', function () {
             reportDropdown.classList.add('hidden');
+        });
+
+        loansForDay.addEventListener('click', function () {
+            reportLoanDropdown.classList.add('hidden');
         });
 
         dateRange.addEventListener('click', function () {
             dateRangeModal.classList.remove('hidden');
         });
 
+        dateRangeL.addEventListener('click', function () {
+            dateRangeLModal.classList.remove('hidden');
+        });
+
         flatpickr("#dateRangePicker", {
             mode: "range",
-            dateFormat: "m/d/Y",
+            dateFormat: "Y/m/d",
+            // Add more options as needed
+        });
+
+        flatpickr("#dateRangeLPicker", {
+            mode: "range",
+            dateFormat: "Y/m/d",
             // Add more options as needed
         });
 
         submitDateRange.addEventListener('click', function () {
-            var selectedDates = dateRangePicker.value;
+            var selectedDates = dateRangePicker.value.split(" ");
             console.log('Selected Date Range:', selectedDates);
+            var from = selectedDates[0].split("/").join('-')
+            var to = selectedDates[2].split("/").join('-')
+
+            if(selectedDates.length !== 0) {
+                location.href = `exportPayment/${from}/${to}/`
+            }
 
             dateRangeModal.classList.add('hidden');
+            reportDropdown.classList.toggle('hidden');
+        });
+
+        submitDateRangeL.addEventListener('click', function () {
+            var selectedDates = dateRangeLPicker.value.split(" ");
+            console.log('Selected Date Range:', selectedDates);
+            var from = selectedDates[0].split("/").join('-')
+            var to = selectedDates[2].split("/").join('-')
+
+            if(selectedDates.length !== 0) {
+                location.href = `exportLoan/${from}/${to}/`
+            }
+
+            dateRangeLModal.classList.add('hidden');
+            reportLoanDropdown.classList.toggle('hidden');
         });
 
         closeModalBtn.addEventListener('click', function () {
             dateRangeModal.classList.add('hidden');
         });
+
+        document.getElementById('reload').addEventListener('click', () => {
+            location.reload()
+        })
     });
 </script>
 

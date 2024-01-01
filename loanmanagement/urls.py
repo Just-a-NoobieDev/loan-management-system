@@ -31,4 +31,8 @@ urlpatterns =[
     path('delete_payment/<int:id>/', views.delete_payment, name='delete_payment'),
     # path('edit_payment/<int:id>/', views.edit_payment, name='edit_payment'),
     #  path('delete_loan/<int:id>/', views.delete_loan, name='delete_loan'),
+    path('exportTodayPayment', views.exportTodayPayments, name='exportTodayPayments'),
+    path('exportTodayLoan', views.exportTodayLoans, name='exportTodayLoans'),
+    path('exportLoan/<str:dateFrom>/<str:dateTo>/', views.exportLoans, name='exportLoans'),
+    path('exportPayment/<str:dateFrom>/<str:dateTo>/', views.exportPayment, name='exportPayment'),
 ]
