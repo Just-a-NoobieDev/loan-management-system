@@ -4,176 +4,225 @@
 {% block title %}Credit and Collection System{% endblock %}
 
 {% block content %}
-   <div>
-       <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
-            <h2 class="text-xl md:text-2xl font-semibold">Add Client</h2>
-           <div class="flex gap-2 md:gap-5 justify-center items-center">
-               {% load static %}
-               <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
-               <p class="hidden md:block">{{ user.username }}</p>
-           </div>
-       </div>
+<div>
+    <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
+        <h2 class="text-xl md:text-2xl font-semibold">Add Client</h2>
+        <div class="flex gap-2 md:gap-5 justify-center items-center">
+            {% load static %}
+            <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
+            <p class="hidden md:block">{{ user.username }}</p>
+        </div>
+    </div>
 
-         <div id="addClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-            <div class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-[27px] font-semibold leading-none tracking-tight">Add Client</h2>
-                    <img id="closeModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
+    <div id="addClientModal" class="fixed inset-0 bg-[#3E8EDE] bg-opacity-50 hidden flex justify-center items-center">
+        <div
+            class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-[27px] font-semibold leading-none tracking-tight">Add Client</h2>
+                <img id="closeModalBtn"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII=" />
+            </div>
+
+
+            <form id="clientForm" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.name|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+                    {# <input type="text" name="name" id="name"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                 </div>
 
-
-                <form id="clientForm" method="POST" action="" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="flex flex-col mb-5 space-y-2">
-                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}
-                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
-{#                        <label for="name" class="text-[15px] font-semibold">Name:</label>#}
-{#                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-                    </div>
-
-                    <div class="flex flex-col mb-5 space-y-2">
-                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}
-                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
-{#                        <label for="address" class="text-[15px] font-semibold">Address:</label>#}
-{#                        <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-                    </div>
-
-                    <div class="flex flex-col mb-5 space-y-2">
-                        {{ form.picture|add_label_class:"text-[15px] font-semibold" }}
-                        {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
-{#                        <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
-{#                        <input type="file" name="picture" id="picture" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-                    </div>
-
-                    <div class="flex flex-col mb-5 space-y-2">
-                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}
-                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
-{#                        <label for="documents" class="text-[15px] font-semibold">Documents:</label>#}
-{#                        <input type="file" name="documents" id="documents" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-                    </div>
-
-                    {% if form.errors %}
-                      <ul class="my-2 bg-red-500 text-white py-3 px-2 text-center">
-                        {% for key,value in form.errors.items %}
-                          <li>{{ value|escape }}</li>
-                        {% endfor %}
-                      </ul>
-                    {% endif %}
-
-                    <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>
-                </form>
-            </div>
-         </div>
-         <div id="editClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-            <div class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-[27px] font-semibold leading-none tracking-tight">Edit Client</h2>
-                    <img id="closeEditModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.address|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="address" class="text-[15px] font-semibold">Address:</label>#}
+                    {# <input type="text" name="address" id="address"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                 </div>
 
-
-                <form id="editClientForm" method="POST" action="" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="flex flex-col mb-5 space-y-2">
-{#                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="name" class="text-[15px] font-semibold">Name:</label>
-                        <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-
-                    <div class="flex flex-col mb-5 space-y-2">
-{#                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="address" class="text-[15px] font-semibold">Address:</label>
-                        <input type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
-                    </div>
-
-{#                    <div class="flex flex-col mb-5 space-y-2">#}
-{#                        {{ form.picture|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-{#                        <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
-{#                        <input type="file" name="picture" id="picture" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-{#                    </div>#}
-{##}
-{#                    <div class="flex flex-col mb-5 space-y-2">#}
-{#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-{#                        <label for="documents" class="text-[15px] font-semibold">Documents:</label>#}
-{#                        <input type="file" name="documents" id="documents" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-{#                    </div>#}
-
-                    <button id="submitEditBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="/>Edit Client</button>
-                </form>
-            </div>
-         </div>
-
-        <div id="findClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-            <div class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-[27px] font-semibold leading-none tracking-tight">Find Client</h2>
-                    <img id="closeFindModalBtn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII="/>
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.picture|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
+                    {# <input type="file" name="picture" id="picture"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                 </div>
-{#                <video id="preview"></video>#}
-                <div id="reader" width="600px"></div>
 
-                 <form id="findClientForm" class="flex flex-col items-center justify-center w-[350px] hidden">
-                    {% csrf_token %}
-                     <div class="h-[250px] w-[250px] border rounded-full">
-                         <img class="w-full h-full rounded-full" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAJFBMVEX////d3d3c3Nzx8fH8/Pz4+Pjg4ODq6uru7u7l5eX09PTZ2dkx2nHeAAAEy0lEQVRogcVb2ZasIAxs2Zf//98LqO3SYCoIc+tp+oxSZiEkAT4fPpQO0lnrC6x1MmjVMQyXNTi/iAoW78JEfu1Mpl2qyP8wTk/htabFeuY3djC7ciaSvBt7NG6c5pWl5b3KbseQa48KfBbdv9e76iDeyN9JzlX1hfyV2uXSTVzIF9krsn9FXMj7tK77dX3iFoHPbON74oxomcQDlL2DqXT9zr9u3AtjjocRZj5x4wYPQ4kLOcgdBjnYGRHinsGMcc9hRrjH23kHZW89jTlxP84xZWZSL0+xZVwMq3L7NrOb5GI7omsaejJz4m6YW80mzqib20419ApRXULnzegLd212m79gXhZT8W5mli/Wqq9dhLXe/PFyxRhAxMW6VNiqj1JaupSpc9jF3dNgH6vVVJqTrt89DRVaiEZFIw0cFG5ig0I/lVIOjf9XsRX0yUQ1oVCjxbPY0EvCUFmtxLgvYrNfaAkOJtHHG0hS1F51LtyQwU/JErBMY8wg97FwAzML0fbODYj9nV90DH3KL+5A0rtvNKV19BP8ngCsBmJbROgUQfC6A4i5V1kk5d8cdRdZ6AkTV2FI/35OoCugI9QmDfgYR2xS6jWqaJKa330DAkUelAq8fKGRCVY8lzLMb0YDgIwrJUZRyok9rS/S0YoukWfYAAqZ9BSlb27fqwAIU7RHMCPZDtrYmiw6WhUaATpOBXJudXkZ4meSpu5ippevRE09I/qoyQwxhYv/SE0Gs1nUlqSeZmuAepaH09Q9OwgfZF5b2s16Fi4gJUY8vG/5oBdsR7siWeTVQBd+KaSQjaOuIE5nSMmHSNX0rJpA9ZNWLrrg6tA4UGjngoZ8KvJXbKDkE9BjlS7bM5DGYx4U8Aiu2IjQec4ibUKetZGWSolUgHZ4YQXqwZX4jBRIrECO7WIURbI6EDSwXYzVdaGmGezlWO9si1PQ3pYAuck+wTbcGp2hng/QK8RlPiIk5hfC0OsI2iX9ThlwB1VQWQN+yuDbLsQ0nt94PHYQ8FMGh/HgrxXtFVQztkNPIYqxrZfIayYP+CbAcs0+OBtNQpjrWT4lPXPb5zxR0TnxZV+Mt05K6awvP3mvX1ZC3rsr/X6gkY+LrXgbbO9wn6N/SX1zUbISYIAY6ScwPTi5EFH41a1I5FO14nGn8XcdaiYrQnjuyVTtfJO8lnXUQ5roPBWqGpt91VyrliiJRXYfTVT1k4nV8X7iytujqJXzmK28+qZy1hG1Ou5H5tqp7eW52FVY3+Evy0q7J3RewdDtPArnBPWpXj4CS18f482Yu7nHMR/cVA2zco9k3rnJ6qnsxPa139vIiSqQTKscOccyZ10+HzY7uLuaRk9DGoh53fUfepdAEwfsztym64BzC0Fw1OjJSgOHY/pOWu4H+ZqPXK91cYjBk5n5EVmntOj19LYpVerqcybBX3lbWLrNFnJ06c9Schzp/vScZnRmKi9e3ZBK154RCjHQhXiGzNk/78aOLpVn73WTC7mJjJtS5f5VNCOIM/LlpsxOyq4z75BrTQeUzWOKxYbmqDrYbJuhN8n2ofMNulzUGyu1VmojSH9oLa0p1/rG35/7ssvSQxAx5i/YseTfOdn3chLvTl+7LpmvSs6lPZCUHNaqNuje+6H/ABEJMCZy2l1CAAAAAElFTkSuQmCC" id="picture" alt="">
-                     </div>
-                    <div class="flex flex-col mb-5 space-y-2 w-full">
-{#                        {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="name" class="text-[15px] font-semibold">Name:</label>
-                        <input disabled type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
-                    </div>
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.document|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="documents" class="text-[15px] font-semibold">Documents:</label>#}
+                    {# <input type="file" name="documents" id="documents"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                </div>
 
-                    <div class="flex flex-col mb-5 space-y-2 w-full">
-{#                        {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="address" class="text-[15px] font-semibold">Address:</label>
-                        <input disabled type="text" name="address" id="address" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
-                    </div>
+                {% if form.errors %}
+                <ul class="my-2 bg-red-500 text-white py-3 px-2 text-center">
+                    {% for key,value in form.errors.items %}
+                    <li>{{ value|escape }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
 
-{#                    <div class="flex flex-col mb-5 space-y-2">#}
-{#                        {{ form.picture|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-{#                        <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
-{#                        <input type="file" name="picture" id="picture" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
-{#                    </div>#}
-
-                    <div class="flex flex-col mb-5 space-y-2 w-full">
-{#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="documents" class="text-[15px] font-semibold">Documents:</label>
-                        <a href="" id="document" class="text-center text-blue-500 underline" target="_blank">
-                            View Document
-                        </a>
-                    </div>
-
-                     <div class="flex justify-center items-center w-full gap-5 space-y-2 w-full">
-{#                        {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
-{#                        {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                         <a href="{% url 'paymentList' %}" class="bg-[#A7C7E7] py-2 px-4">Add payment</a>
-                         <a href="loanList" style="margin-top: 0 !important;" class="bg-[#77DD77] py-2 px-4">Loan</a>
-                    </div>
-
-{#                    <button type="submit" id="submitBtn" class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>#}
-                </form>
+                <button type="submit" id="submitBtn"
+                    class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII=" />Add
+                    Client</button>
+            </form>
+        </div>
+    </div>
+    <div id="editClientModal" class="fixed inset-0 bg-[#3E8EDE] bg-opacity-50 hidden flex justify-center items-center">
+        <div
+            class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-[27px] font-semibold leading-none tracking-tight">Edit Client</h2>
+                <img id="closeEditModalBtn"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII=" />
             </div>
-         </div>
 
-       <div class="mx-3 md:mx-auto max-w-[1240px] mt-8">
-           <div class="flex justify-between items-center mb-3">
-                <h1 class="md:text-2xl text-xl font-bold mb-4">Client List</h1>
-                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII="/>Add Client</button>
-               <button type="submit" id="openFindModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAftJREFUSEu1lUurTQEUgL8vMtBFUR4TIWHgFSUDV3GLUKYexYAUhQFl4AeQCd0uYUAhKT9ARgohE6RElBIZkEvk/Vha2VfnPvbZu+45a3jOPuvb6/GtI20O25yfUkBETAU2AWuBBcWL3AeuAJfUV3VebhAgIsYCF4D1TRIEcBnYpn5pBuoHiIjRwF1gLvAdOA10q88zSUTMAPYBO4BRxbOd6s8yyEDAeWAL8BJYrT4e6ocRMR+4CkwBjqr7KwERMQ94CPwClqjZ79KIiOXAdeAHMF19PdTD/yuIiB5gN3Bc3VNngBFxEdgMHFQPVwGeATOz/+qjmoAVwDXgppoVDYrGCj4DOeQR6p+agPHAO6BXnVAF+AiMATrUhFVGRHQAn4C36sQqwINCqMXqvcrs/9Z2KXAn26R2VQGOAAeAU+qumoBzwFagR91bBZgFPAF+11zTTuBGkbS06oGinUn9gRfAKvVpiWgLC9Empe3qzkrRilPQeCq+ASeBY2qanT3PKvNUbAdGFklzBml9Drt8Tfu+iYhxQAq0rskcPgCHgI3AIiCtX6nm5/2i2bmeVli6Bsjb8xXI7boNnFDfR0R6kKLlOc8t7FJ7GwnD/sMpILeAOUBeg2Xqmz7IsAHFbFKy3KjZOR/1bEsBBWQysEHtbmmLqoRsSYuaQdoO+AvzmbYZWyFxxwAAAABJRU5ErkJggg=="/>
-                   Find Client</button>
+
+            <form id="editClientForm" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex flex-col mb-5 space-y-2">
+                    {# {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <label for="name" class="text-[15px] font-semibold">Name:</label>
+                    <input type="text" name="name" id="name"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                </div>
+
+                <div class="flex flex-col mb-5 space-y-2">
+                    {# {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <label for="address" class="text-[15px] font-semibold">Address:</label>
+                    <input type="text" name="address" id="address"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                </div>
+
+                {# <div class="flex flex-col mb-5 space-y-2">#}
+                    {# {{ form.picture|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    {# <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
+                    {# <input type="file" name="picture" id="picture"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                    {# </div>#}
+                {##}
+                {# <div class="flex flex-col mb-5 space-y-2">#}
+                    {# {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    {# <label for="documents" class="text-[15px] font-semibold">Documents:</label>#}
+                    {# <input type="file" name="documents" id="documents"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                    {# </div>#}
+
+                <button id="submitEditBtn"
+                    class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII=" />Edit
+                    Client</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="findClientModal" class="fixed inset-0 bg-[#3E8EDE] bg-opacity-50 hidden flex justify-center items-center">
+        <div
+            class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-[27px] font-semibold leading-none tracking-tight">Find Client</h2>
+                <img id="closeFindModalBtn"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXhJREFUSEvtlM1KAzEUhU9m0o0g3Sit4EJKQZ9B1BZnMmkF8TXEreCbiBtXgi8gYqHTQrHiSsWtP7jWpS5NJ1dSWpAy06RCcdOsb853z8m9YZjyYVPWxwxgTfh/IxJCHOWUOrvqdN7TWq3VaqtJkmzGcXyaZSXTQRRFByA6BvDCldoahUgpy0TUBVGRgL04ji/SIJmAnWq12MvlugDKAF65UptDSBiGJY+xWwAFAI8+55VGo/E1EcAUp0G+OZ9zFTca1keWUi6R1td9J0RP8Ly8iQXAvSYKWq3W57hRsgLM5Xq9vpz0eiaulYHY2Fh+A50AQRAUfM8zmZf6l4keNLBt694pooH4jYmIAc8E5AePe6eJQhtkrIORzt8Srdc55/PD8XRxkglIE2+32x/Gdn8HtDaRLdogmQApxD4BJyYWX6nK6KJFUbTGiLoELICx3WazeTnxHkghDn2lzrO+CgMhoo0/fRXWb9KxwGlMHbVSy2YAa3pTj+gHEY2zGcC9cpAAAAAASUVORK5CYII=" />
             </div>
-           <table class="min-w-full bg-white border border-gray-300">
+            {# <video id="preview"></video>#}
+            <div id="reader" width="600px"></div>
+
+            <form id="findClientForm" class="flex flex-col items-center justify-center w-[350px] hidden">
+                {% csrf_token %}
+                <div class="h-[250px] w-[250px] border rounded-full">
+                    <img class="w-full h-full rounded-full"
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAJFBMVEX////d3d3c3Nzx8fH8/Pz4+Pjg4ODq6uru7u7l5eX09PTZ2dkx2nHeAAAEy0lEQVRogcVb2ZasIAxs2Zf//98LqO3SYCoIc+tp+oxSZiEkAT4fPpQO0lnrC6x1MmjVMQyXNTi/iAoW78JEfu1Mpl2qyP8wTk/htabFeuY3djC7ciaSvBt7NG6c5pWl5b3KbseQa48KfBbdv9e76iDeyN9JzlX1hfyV2uXSTVzIF9krsn9FXMj7tK77dX3iFoHPbON74oxomcQDlL2DqXT9zr9u3AtjjocRZj5x4wYPQ4kLOcgdBjnYGRHinsGMcc9hRrjH23kHZW89jTlxP84xZWZSL0+xZVwMq3L7NrOb5GI7omsaejJz4m6YW80mzqib20419ApRXULnzegLd212m79gXhZT8W5mli/Wqq9dhLXe/PFyxRhAxMW6VNiqj1JaupSpc9jF3dNgH6vVVJqTrt89DRVaiEZFIw0cFG5ig0I/lVIOjf9XsRX0yUQ1oVCjxbPY0EvCUFmtxLgvYrNfaAkOJtHHG0hS1F51LtyQwU/JErBMY8wg97FwAzML0fbODYj9nV90DH3KL+5A0rtvNKV19BP8ngCsBmJbROgUQfC6A4i5V1kk5d8cdRdZ6AkTV2FI/35OoCugI9QmDfgYR2xS6jWqaJKa330DAkUelAq8fKGRCVY8lzLMb0YDgIwrJUZRyok9rS/S0YoukWfYAAqZ9BSlb27fqwAIU7RHMCPZDtrYmiw6WhUaATpOBXJudXkZ4meSpu5ippevRE09I/qoyQwxhYv/SE0Gs1nUlqSeZmuAepaH09Q9OwgfZF5b2s16Fi4gJUY8vG/5oBdsR7siWeTVQBd+KaSQjaOuIE5nSMmHSNX0rJpA9ZNWLrrg6tA4UGjngoZ8KvJXbKDkE9BjlS7bM5DGYx4U8Aiu2IjQec4ibUKetZGWSolUgHZ4YQXqwZX4jBRIrECO7WIURbI6EDSwXYzVdaGmGezlWO9si1PQ3pYAuck+wTbcGp2hng/QK8RlPiIk5hfC0OsI2iX9ThlwB1VQWQN+yuDbLsQ0nt94PHYQ8FMGh/HgrxXtFVQztkNPIYqxrZfIayYP+CbAcs0+OBtNQpjrWT4lPXPb5zxR0TnxZV+Mt05K6awvP3mvX1ZC3rsr/X6gkY+LrXgbbO9wn6N/SX1zUbISYIAY6ScwPTi5EFH41a1I5FO14nGn8XcdaiYrQnjuyVTtfJO8lnXUQ5roPBWqGpt91VyrliiJRXYfTVT1k4nV8X7iytujqJXzmK28+qZy1hG1Ou5H5tqp7eW52FVY3+Evy0q7J3RewdDtPArnBPWpXj4CS18f482Yu7nHMR/cVA2zco9k3rnJ6qnsxPa139vIiSqQTKscOccyZ10+HzY7uLuaRk9DGoh53fUfepdAEwfsztym64BzC0Fw1OjJSgOHY/pOWu4H+ZqPXK91cYjBk5n5EVmntOj19LYpVerqcybBX3lbWLrNFnJ06c9Schzp/vScZnRmKi9e3ZBK154RCjHQhXiGzNk/78aOLpVn73WTC7mJjJtS5f5VNCOIM/LlpsxOyq4z75BrTQeUzWOKxYbmqDrYbJuhN8n2ofMNulzUGyu1VmojSH9oLa0p1/rG35/7ssvSQxAx5i/YseTfOdn3chLvTl+7LpmvSs6lPZCUHNaqNuje+6H/ABEJMCZy2l1CAAAAAElFTkSuQmCC"
+                        id="picture" alt="">
+                </div>
+                <div class="flex flex-col mb-5 space-y-2 w-full">
+                    {# {{ form.name|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <label for="name" class="text-[15px] font-semibold">Name:</label>
+                    <input disabled type="text" name="name" id="name"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm"
+                        disabled>
+                </div>
+
+                <div class="flex flex-col mb-5 space-y-2 w-full">
+                    {# {{ form.address|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.address class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <label for="address" class="text-[15px] font-semibold">Address:</label>
+                    <input disabled type="text" name="address" id="address"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm"
+                        disabled>
+                </div>
+
+                {# <div class="flex flex-col mb-5 space-y-2">#}
+                    {# {{ form.picture|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.picture class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    {# <label for="picture" class="text-[15px] font-semibold">Picture:</label>#}
+                    {# <input type="file" name="picture" id="picture"
+                        class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                    {# </div>#}
+
+                <div class="flex flex-col mb-5 space-y-2 w-full">
+                    {# {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <label for="documents" class="text-[15px] font-semibold">Documents:</label>
+                    <a href="" id="document" class="text-center text-blue-500 underline" target="_blank">
+                        View Document
+                    </a>
+                </div>
+
+                <div class="flex justify-center items-center w-full gap-5 space-y-2 w-full">
+                    {# {{ form.document|add_label_class:"text-[15px] font-semibold" }}#}
+                    {# {% render_field form.document class="flex h-10 flex-wrap break-normal break-all w-full border
+                    border-input bg-background px-3 py-2 text-sm" %}#}
+                    <a href="{% url 'paymentList' %}" class="bg-[#A7C7E7] py-2 px-4">Add payment</a>
+                    <a href="loanList" style="margin-top: 0 !important;" class="bg-[#77DD77] py-2 px-4">Loan</a>
+                </div>
+
+                {# <button type="submit" id="submitBtn"
+                    class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#6861ff] text-white py-2 px-4 rounded-[50px]"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII=" />Add
+                    Client</button>#}
+            </form>
+        </div>
+    </div>
+
+    <div class="mx-3 md:mx-auto max-w-[1240px] mt-8">
+        <div class="flex justify-between items-center mb-3">
+            <h1 class="md:text-2xl text-xl font-bold mb-4">Client List</h1>
+            <button type="submit" id="openModalBtn"
+                class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE]/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII=" />Add
+                Client</button>
+            <button type="submit" id="openFindModalBtn"
+                class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE]/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAftJREFUSEu1lUurTQEUgL8vMtBFUR4TIWHgFSUDV3GLUKYexYAUhQFl4AeQCd0uYUAhKT9ARgohE6RElBIZkEvk/Vha2VfnPvbZu+45a3jOPuvb6/GtI20O25yfUkBETAU2AWuBBcWL3AeuAJfUV3VebhAgIsYCF4D1TRIEcBnYpn5pBuoHiIjRwF1gLvAdOA10q88zSUTMAPYBO4BRxbOd6s8yyEDAeWAL8BJYrT4e6ocRMR+4CkwBjqr7KwERMQ94CPwClqjZ79KIiOXAdeAHMF19PdTD/yuIiB5gN3Bc3VNngBFxEdgMHFQPVwGeATOz/+qjmoAVwDXgppoVDYrGCj4DOeQR6p+agPHAO6BXnVAF+AiMATrUhFVGRHQAn4C36sQqwINCqMXqvcrs/9Z2KXAn26R2VQGOAAeAU+qumoBzwFagR91bBZgFPAF+11zTTuBGkbS06oGinUn9gRfAKvVpiWgLC9Empe3qzkrRilPQeCq+ASeBY2qanT3PKvNUbAdGFklzBml9Drt8Tfu+iYhxQAq0rskcPgCHgI3AIiCtX6nm5/2i2bmeVli6Bsjb8xXI7boNnFDfR0R6kKLlOc8t7FJ7GwnD/sMpILeAOUBeg2Xqmz7IsAHFbFKy3KjZOR/1bEsBBWQysEHtbmmLqoRsSYuaQdoO+AvzmbYZWyFxxwAAAABJRU5ErkJggg==" />
+                Find Client</button>
+        </div>
+        <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr class="bg-black/80 text-white">
+                <tr class="bg-[#3E8EDE]/80 text-white">
                     <th class="py-2 px-4 border-b border-r">ID</th>
                     <th class="py-2 px-4 border-b border-r">Name</th>
                     <th class="py-2 px-4 border-b border-r">Address</th>
@@ -185,53 +234,59 @@
 
             <tbody>
                 {% for person in persons %}
-                    <tr class="text-center">
-                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.id }}</td>
-                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.name }}</td>
-                        <td class="py-2 px-4 border-b py-3 border-r">{{ person.address }}</td>
-                        <td class="py-2 px-4 border-b py-3 border-r">
-                            {% if person.picture %}
-                                <img src="{{ person.picture.url }}" alt="{{ person.name }}" class="w-10 h-10 object-cover rounded-full">
-                            {% else %}
-                                No Picture
-                            {% endif %}
-                        </td>
-                        <td class="py-2 px-4 border-b py-3 border-r">
-                            {% if person.document %}
-                                <a href="{{ person.document.url }}" target="_blank" class="text-blue-500 underline">View Document</a>
-                            {% else %}
-                                No Documents
-                            {% endif %}
-                        </td>
-                        <td class="flex justify-center items-center gap-4">
-                            <img data-id="{{ person.id }}" id="edit" class="cursor-pointer" onclick="edit(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII=" alt="edit"/>
-                            <img data-id="{{ person.id }}" class="cursor-pointer" onclick="deleteBtn(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII=" alt="delete"/>
-                            <a href="/adminUser/generate/{{ person.id }}">Generate QR</a>
-                        </td>
-                    </tr>
+                <tr class="text-center">
+                    <td class="py-2 px-4 border-b py-3 border-r">{{ person.id }}</td>
+                    <td class="py-2 px-4 border-b py-3 border-r">{{ person.name }}</td>
+                    <td class="py-2 px-4 border-b py-3 border-r">{{ person.address }}</td>
+                    <td class="py-2 px-4 border-b py-3 border-r">
+                        {% if person.picture %}
+                        <img src="{{ person.picture.url }}" alt="{{ person.name }}"
+                            class="w-10 h-10 object-cover rounded-full">
+                        {% else %}
+                        No Picture
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4 border-b py-3 border-r">
+                        {% if person.document %}
+                        <a href="{{ person.document.url }}" target="_blank" class="text-blue-500 underline">View
+                            Document</a>
+                        {% else %}
+                        No Documents
+                        {% endif %}
+                    </td>
+                    <td class="flex justify-center items-center gap-4">
+                        <img data-id="{{ person.id }}" id="edit" class="cursor-pointer" onclick="edit(this)"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="
+                            alt="edit" />
+                        <img data-id="{{ person.id }}" class="cursor-pointer" onclick="deleteBtn(this)"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAArZJREFUSEvFlU1IVFEUx//nzZgJ04cURAR9LbIwLGglmT3w3TtjrqpFEIGLglxFELRKS1q3iKCoZeEmIVxIM+/eNzZ90CpDWoSKlEFBRJIgFI6+d+JN4zTvzRsbBenu3rnn/H/3nXPuPYQ1XrTG+lgW0NnZWe8tLJz2iFJEdAjMuwEwgGkAYyBKz8zMPBkdHV2odtCqACllJ5jvAvBFl1tTDPRorbNRTpEAKeUNMF9fQfo8Aq7aWt8Kx1QAhBD9BPStQLzkysBlrfXt8tgAIGlZXUw0vBrxYowHomNKqddLGiWAaZqJdXV1kwC2RwB+AGgM2aNsAPPEpsbGlsHBwbzvXwIkhehh4F5YnIE+Zh4wiF4A2FHc/+IxtxNRd2Q6iU4qpYYCACHEMAFdIcAv1/MOZ7PZScuy9hpEzwv7RO1KqY8dHR37YobxDkB9II75gXKciwGAFOJz2Qn/+hN9NQzDzGQyE1LKPfHFRe/pyMgny7IOGETPAGyrSCnzW+U4R8KAnwAaqvTyd4rF2nyIv59MJpvheTkGtlZpiFmldaFmpRpIIeYAJGoBpFKpJnbdV1UBzHPKcTYGAZY1DqKmCMA3EB1XSo2nUqnCrc5kMtPFFL0EsCWiMd5rrZuDACkHwHw25DxPhnHQtu0pX9xzXV8Qcddt8+sgpdwP5rGKIhM9VEp1h7voHAGPam3TuOsedWOx8wz0hmOI+YztOI8DgNbW1oYNicQ4gJ01XrRZAJsrxIFJIx5vSafT8wGA/yGlFGBWVTqjFrNHhmHatl1IZQWgCLkG5pu1qEX0/yXlOHfK7ZHPtRCil4D+8jb+B9Bl4Er4JY38gyWh4st6P/J2B2n+wLmgtf7zjITWsiPTNM319fH4KQZOgKgFwC5/ZBLwgYneAFD5fH4ol8stVvvD/zv0V1XoUNBvzA8FKNHNyGEAAAAASUVORK5CYII="
+                            alt="delete" />
+                        <a href="/adminUser/generate/{{ person.id }}">Generate QR</a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
-           <div class="mt-4">
+        <div class="mt-4">
             <span class="text-sm text-gray-500">
                 Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
             </span>
             <span class="ml-2">
                 {% if persons.has_previous %}
-                    <a href="?page=1" class="text-blue-500 underline">first</a>
-                    <a href="?page={{ persons.previous_page_number }}" class="text-blue-500 underline">previous</a>
+                <a href="?page=1" class="text-blue-500 underline">first</a>
+                <a href="?page={{ persons.previous_page_number }}" class="text-blue-500 underline">previous</a>
                 {% endif %}
 
                 <span class="font-bold">{{ persons.number }}</span>
 
                 {% if persons.has_next %}
-                    <a href="?page={{ persons.next_page_number }}" class="text-blue-500 underline">next</a>
-                    <a href="?page={{ persons.paginator.num_pages }}" class="text-blue-500 underline">last</a>
+                <a href="?page={{ persons.next_page_number }}" class="text-blue-500 underline">next</a>
+                <a href="?page={{ persons.paginator.num_pages }}" class="text-blue-500 underline">last</a>
                 {% endif %}
             </span>
         </div>
-       </div>
-   </div>
+    </div>
+</div>
 
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -254,11 +309,11 @@
     });
 
     let html5QrcodeScanner = new Html5QrcodeScanner(
-          "reader",
-          { fps: 10, qrbox: {width: 250, height: 250} },
+        "reader",
+        { fps: 10, qrbox: { width: 250, height: 250 } },
           /* verbose= */ false);
 
-     openFindModalBtn.addEventListener('click', () => {
+    openFindModalBtn.addEventListener('click', () => {
         findClientModal.classList.remove('hidden', 'opacity-0', 'scale-95');
         findClientModal.classList.add('scale-100');
 
@@ -266,16 +321,16 @@
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     });
 
-     function onScanSuccess(decodedText, decodedResult) {
-    // handle the scanned code as you like, for example:
+    function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
 
         var result = JSON.parse(JSON.stringify(decodedText))
-        if(result) {
+        if (result) {
             html5QrcodeScanner.clear()
             document.getElementById("findClientForm").classList.remove("hidden")
             console.log(result)
             $.ajax({
-                 headers: {
+                headers: {
                     "X-CSRFToken": '{{ csrf_token }}'
                 },
                 url: '{% url 'client' %}',
@@ -296,9 +351,9 @@
     }
 
     function onScanFailure(error) {
-      // handle scan failure, usually better to ignore and keep scanning.
-      // for example:
-      console.warn(`Code scan error = ${error}`);
+        // handle scan failure, usually better to ignore and keep scanning.
+        // for example:
+        console.warn(`Code scan error = ${error}`);
     }
 
 
@@ -311,7 +366,7 @@
         }, 300);
     });
 
-     closeEditModalBtn.addEventListener('click', () => {
+    closeEditModalBtn.addEventListener('click', () => {
         editClientModal.classList.add('opacity-0', 'scale-95');
         editClientModal.classList.remove('opacity-100', 'scale-100');
         setTimeout(() => {
@@ -352,35 +407,35 @@
                     body: formData,
                 });
 
-                {#if ({{ form.errors }}) {#}
-                {#    return#}
-                {# }#}
+                { #if({{ form.errors }}) {# }
+    {#    return# }
+    {# }#}
 
-                if (response.ok) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'The client has been added successfully.',
-                        icon: 'success',
-                    });
+    if (response.ok) {
+        Swal.fire({
+            title: 'Success!',
+            text: 'The client has been added successfully.',
+            icon: 'success',
+        });
 
-                    addClientModal.classList.add('opacity-0', 'scale-95');
-                    addClientModal.classList.remove('opacity-100', 'scale-100');
-                    setTimeout(() => {
-                        addClientModal.classList.add('hidden');
-                    }, 300);
+        addClientModal.classList.add('opacity-0', 'scale-95');
+        addClientModal.classList.remove('opacity-100', 'scale-100');
+        setTimeout(() => {
+            addClientModal.classList.add('hidden');
+        }, 300);
 
-                    location.reload()
-                    {#console.log("{{ valid }}")#}
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while processing the request.',
-                        icon: 'error',
-                    });
-                }
+        location.reload()
+        { #console.log("{{ valid }}")# }
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while processing the request.',
+            icon: 'error',
+        });
+    }
             } catch (error) {
-                console.error('Error during form submission:', error);
-            }
+        console.error('Error during form submission:', error);
+    }
         }
     });
 
@@ -389,21 +444,21 @@
         editClientModal.classList.add('scale-100');
 
         $.ajax({
-                 headers: {
-                    "X-CSRFToken": '{{ csrf_token }}'
-                },
-                url: '{% url 'client' %}',
-                data: {
-                    id: btn.dataset.id
-                },
-                method: 'POST',
-                type: 'POST',
-                dataType: 'json',
-                success: function (resp) {
-                    $('#name').val(resp.name)
-                    $('#address').val(resp.address)
-                }
-            })
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            },
+            url: '{% url 'client' %}',
+            data: {
+                id: btn.dataset.id
+            },
+            method: 'POST',
+            type: 'POST',
+            dataType: 'json',
+            success: function (resp) {
+                $('#name').val(resp.name)
+                $('#address').val(resp.address)
+            }
+        })
     }
 
     $('#submitEditBtn').on('click', async (e) => {
@@ -418,7 +473,7 @@
             cancelButtonText: 'No, cancel',
         });
 
-        if(isConfirmed) {
+        if (isConfirmed) {
             $.ajax({
                 headers: {
                     "X-CSRFToken": '{{ csrf_token }}'
@@ -456,8 +511,8 @@
             cancelButtonText: 'No, cancel',
         });
 
-        if(isConfirmed) {
-            location.href =`/adminUser/delete/${btn.dataset.id}`
+        if (isConfirmed) {
+            location.href = `/adminUser/delete/${btn.dataset.id}`
         }
     }
 </script>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Credit and Collection System{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex justify-around bg-white h-24 items-center py-auto border-b text-center">
+        <h1>Hello, <span class="underline text-[#3E8EDE] font-bold">{{ loan.client_id }}</span>! </h1>
+        <h2 class="text-[30px] font-bold">Welcome to your Dashboard!</h2>
+        <a href="{% url 'logoutClient' %}">
+            <p class="flex items-center py-2 px-4 gap-6 truncate">
+                <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARNJREFUSEvNlY0NgjAQhY9NdBJ1E51EnUSdRJ1EN1E+wiMnKS1FmtCkgaS9e/fe/bSywqsq7N8WA7Ays72ZbcxsW/+/3X6a2XVIiRQDOT4mpDzX56fQnRgAzl/OCCePdnPGho3AYXVozzuzFAOiQhYMcRBaAF2cdGt/KQWQU2T3FoR8EFCzYgBE1V0cgeQl3UmqEICnnMsQSclJl/S+A5IG1TEMQ6RkTzHA4kci6hxZcpcPUjJREE2y/aHo/QOA7cfnty8RESAR31QRhAKRCl0lDSVZILMnWVFpRATbP9Jw6vxomebmQPezGw1DjQAimn1U+ITj/FZi2I0d1z/zZ8qwo0PZ/QdHj82QfMt5MqdWVnkGXwHfPhlPTtPIAAAAAElFTkSuQmCC" />Logout
+            </p>
+        </a>
+    </div>
+    <div class="flex justify-center items-center gap-12">
+        <div class="flex flex-col">
+            <div class="mx-auto w-[600px] bg-[#3E8EDE] text-white p-3 my-10">
+                <div class="relative p-4 flex flex-col justify-center items-start w-full">
+                    <h2 class="text-[20px] font-semibold">Loan Balance:</h2>
+                    <p class="text-[70px] font-bold mt-4">₱ {{ loan_balance }}</p>
+                    <img class="absolute bottom-0 right-0"
+                        src="data:image/png;base64,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" />
+                </div>
+            </div>
+
+            <table class=" bg-white border border-gray-300">
+                <h1 class="text-2xl font-bold mb-4 flex gap-5">Your Loan <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAALRJREFUSEvtlNERQDAQRDed0Amd0AmVoBJK0QnWjExiSDLH/Rj3mUnu7W02MVAuo9wf3wIUADoA2cm2GcCwrTUSO12LRgCE3FUrgbiARaLQOcNJ603k5PZ5E8C+hOQxgDRZhwPe+asJvgGIJSqWB3sXVxYxCXwPTyoIYMxC7yEFTJE9N74d0wNu+2oAqJwT7KUB4EPjHagAPPUaE5Shv4jRrFIicrOH6SPAK+m3kKzjB0StWgFMMiQZgX76kAAAAABJRU5ErkJggg==" />
+                </h1>
+                <thead>
+                    <tr class="bg-[#3E8EDE] text-white">
+                        <th class="py-2 px-1">Loan Balance</th>
+                        <th class="py-2 px-1">Loan Date</th>
+                        <th class="py-2 px-1">Duration Period</th>
+                        <th class="py-2 px-1">Loaned Maturity</th>
+                        <th class="py-2 px-1">Guarantor Name</th>
+                        <th class="py-2 px-1">Loan Amount</th>
+                        <th class="py-2 px-1">Check No.</th>
+                        <th class="py-2 px-1">Loan Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="text-center">
+                        <td class="py-2 px-1 font-black bg-[#3E8EDE] text-white">₱ {{
+                            loan_balance
+                            }}
+                        </td>
+                        <td class="py-2 px-1">{{ loan.loan_date }}</td>
+                        <td class="py-2 px-1">{{ loan.duration_period }}</td>
+                        <td class="py-2 px-1">{{ loan.loan_maturity }}</td>
+                        <td class="py-2 px-1">{{ loan.guarantor }}</td>
+                        <td class="py-2 px-1">₱ {{ loan.loan_amount }}</td>
+                        <td class="py-2 px-1"># {{ loan.checking_no }}</td>
+                        <td class="py-2 px-1">
+                            {% if loan.has_active_loan %}
+                            Active
+                            {% else %}
+                            Inactive
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <table class=" bg-white border border-gray-300 overflow-auto h-2">
+            <thead>
+                <tr class="bg-[#3E8EDE] text-white text-center">
+                    <th class="py-2 px-4">Amount</th>
+                    <th class="py-2 px-4">OR Number</th>
+                    <th class="py-2 px-4">Payment Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for payment in payments %}
+                <tr class="text-center">
+                    <td class="py-2 px-4">₱ {{ payment.amount }}</td>
+                    <td class="py-2 px-4"># {{ payment.or_number }}</td>
+                    <td class="py-2 px-4">{{ payment.payment_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

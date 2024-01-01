@@ -1,63 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Credit and Collection System{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" />
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: "Poppins", sans-serif;
         }
     </style>
 </head>
-<body class="bg-gray-200 font-family-Poppins flex items-center justify-center h-screen">
 
-<div class="bg-white p-8 rounded shadow-md w-96">
-    <h2 class="text-3xl font-semibold mb-6 text-center">Client Login</h2>
-    <div id="reader" class="mb-4"></div>
-    <button id="startButton" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Start Scanning</button>
-</div>
+<body class="font-family-Poppins">
+    <div class="flex items-center justify-center">
+        <div class="bg-[#3E8EDE] h-[100vh] w-[50vw] flex justify-center items-end text-[20px] text-white pb-[40px]">
+            "Empowering
+            Dreams,
+            Enabling Futures:
+            Your Path to
+            Financial
+            Freedom Starts Here."</div>
+        <div class="flex justify-center items-center flex-col h-[100vh] w-[50vw]">
+            <div>
+                <div>
+                    <h2 class="text-[40px] font-semibold mb-2 border-l-[10px] border-[#3E8EDE] pl-4">
+                        Client Login
+                    </h2>
+                    <p class="mb-6 text-[16px] text-[#606060]">You can login through QR Scanner or manually.</p>
+                </div>
+                <div id="reader" class="mb-4"></div>
+                <button id="startButton"
+                    class="w-full bg-[#3E8EDE] hover:bg-[#3E8EDE]/90 text-white font-bold p-3 rounded-md flex gap-4 transition justify-center items-center">
+                    <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJlJREFUSEvNVVsOwCAIk/sfmsVkLAaFynzuzyAthcooLf5oMX76CJiZW2RE5BaB8vYToIpRS0WR4FQKcgDJ9uJ3EYhMXZV3NhWUvY0A5jx9v8RqWnBkBtoEZwiQFSPxfauiNeSqn+/aQCaYNmTLxt0ECMCzp5C4q+IPwZRVoWdTgt5BEPG5pybH9v9wLO9bqtDeOvOSR2agcx87D+AZInpOEgAAAABJRU5ErkJggg==" />Login
+                    using QR
+                </button>
+                <p class="my-6 text-center">or</p>
+                <form method="post" action="{% url 'client_login' %}" class="flex flex-col">
+                    {% csrf_token %}
+                    <div class="flex flex-col space-y-2 mb-6">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" required
+                            class="shadow-sm border border-gray-300 rounded-sm w-full py-2 px-3 text-gray-700 focus:outline-[#3E8EDE] focus:ring-[#3E8EDE] focus:border-[#3E8EDE]" />
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-[#3E8EDE] hover:bg-[#3E8EDE]/90 text-white font-bold p-3 rounded-md flex gap-4 transition justify-center items-center"><img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAUpJREFUSEvNVYltwkAQnK0kUElCJYRKEioBKgEqialk4rH2orPNPc7JEidZNvhuZ2d2dm1YednK8fEaACQ/AOh687uIdwDu/e+bmd1SShQZkLxGQVNxzgCOZibQ0UoCkNwAUHDdtY6edchW/+8dXM8KvpuCZBmQ/O5B3gEcnmUnVE/k5EAzkKJEtS4j+eNsJZUSG9YiADGKD8fgE0kl1SDlUgCmtHa5lPmXF3xg8R+AYNFZQd3OMoasuxsBsOdfq7fvU0EvU8lCHOtftALovNylHhiW10HF7sxs2yqRgo86OCtRjTxO/0/f6Rnvm6Yin8zs8CyZSB693obGXOSiHMtoZp3jJEqjQiNAc6Z6VITiFjs5MexUVDmkI/np4NI89Mas8EWJSIqFguXWSJZ4YxHA/R0+OJqskkyX/P9o/uDU2De3p4pBC8jqAL/wN58ZOekrKgAAAABJRU5ErkJggg==" />Login
+                        Manually</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const html5QrCode = new Html5Qrcode('reader');
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const html5QrCode = new Html5Qrcode("reader");
 
-        document.getElementById('startButton').addEventListener('click', function () {
-            html5QrCode.start(
-                { facingMode: "environment" },
-                {
-                    fps: 10,
-                    qrbox: 250
-                },
-                (code) => {
-                    console.log('Scanned:', code);
-                    showSuccessAlert(code);
-                    html5QrCode.stop().then(ignore => {
-                        console.log('QR Code scanning stopped.');
-                    }).catch(err => {
-                        console.error('Error stopping QR Code scanning:', err);
-                    });
-                },
-                (error) => {
-                    console.error('Error scanning QR code:', error);
-                }
-            );
+            document
+                .getElementById("startButton")
+                .addEventListener("click", function () {
+                    html5QrCode.start(
+                        { facingMode: "environment" },
+                        {
+                            fps: 10,
+                            qrbox: 250,
+                        },
+                        (code) => {
+                            console.log("Scanned:", code);
+                            showSuccessAlert(code);
+                            html5QrCode
+                                .stop()
+                                .then((ignore) => {
+                                    console.log("QR Code scanning stopped.");
+                                })
+                                .catch((err) => {
+                                    console.error("Error stopping QR Code scanning:", err);
+                                });
+                        },
+                        (error) => {
+                            console.error("Error scanning QR code:", error);
+                        }
+                    );
+                });
+
+            function showSuccessAlert(code) {
+                console.log("QR Code Info:", code);
+                Swal.fire({
+                    icon: "success",
+                    title: "QR Code Scanned!",
+                    text: `Successfully scanned the QR code. Info: ${code}`,
+                });
+            }
         });
-
-        function showSuccessAlert(code) {
-            console.log('QR Code Info:', code);
-            Swal.fire({
-                icon: 'success',
-                title: 'QR Code Scanned!',
-                text: `Successfully scanned the QR code. Info: ${code}`,
-            });
-        }
-    });
-</script>
-
+    </script>
 </body>
+
 </html>
