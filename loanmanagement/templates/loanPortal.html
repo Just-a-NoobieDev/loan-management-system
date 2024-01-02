@@ -85,7 +85,7 @@
                         {% render_field form.has_active_loan class="form-control flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
                      </div>
 
-                    <button type="submit" id="submitBtn" class="mt-10 ml-72 text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                    <button type="submit" id="submitBtn" class="mt-10 ml-72 text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Add Loan</button>
                 </form>
             </div>
@@ -94,12 +94,12 @@
        <div class="mx-3 md:mx-auto max-w-[1340px] mt-8">
            <div class="flex justify-between items-center mb-3">
                 <h1 class="md:text-2xl text-xl font-bold mb-4">Loan List</h1>
-                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-black/80 text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="submit" id="openModalBtn" class=" text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPNJREFUSEvdlCFOQ0EURc8JqyBIDKnD1rCACrAowh7QGAyue0CBqwGJxeJqGhSuC6gg8Mj89JNS/m/TmX5Rxs68e+bdd2ek42XH+vwjQEScArfA0ZJtX8CVOsyx88eiiHgHDlaIPACX6mwT0CIgNilsODued/q0uLdNQNJ9Uw9XAtSsZEVE5cBy/Z8Odh8A7AHPwEnB0Mdqr7KsFqk9BM6AUYH4r2E3AR6BQSHgWr1p6yClIStJ80t9AvvqtA1QeHnu1ItaZNsPLekeq69dAV7Ufpdfxbl63wZI0Uxfdu6aAD31oxGQq7quriSO67Sr/d0HfAOFFWIZvxey7wAAAABJRU5ErkJggg=="/>Add Loan</button>
             </div>
            <table class="min-w-full bg-white border border-gray-300">
             <thead>
-                <tr class="bg-black/80 text-white">
+                <tr class="bg-[#3E8EDE] text-white">
                     <th class="py-2 px-1 border-b border-r">Client Id</th>
                     <th class="py-2 px-1 border-b border-r">Loan Balance</th>
                     <th class="py-2 px-1 border-b border-r">Loan Date</th>
@@ -120,7 +120,7 @@
                 {% for loan in loans %}
                     <tr class="text-center">
                         <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.client_id }}</td>
-                        <td class="py-2 px-1 border-b border-r py-2.5 font-black bg-black/80 text-white">₱ {{ loan.loan_balance }}</td>
+                        <td class="py-2 px-1 border-b border-r py-2.5 font-black bg-[#3E8EDE] text-white">₱ {{ loan.loan_balance }}</td>
                         <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_date }}</td>
                         <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.duration_period }}</td>
                         <td class="py-2 px-1 border-b border-r py-2.5">{{ loan.loan_maturity }}</td>
