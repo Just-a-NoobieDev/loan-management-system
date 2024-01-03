@@ -4,7 +4,7 @@ from .models import Person, Loan, Collector, Payment, Reports
 
 # Register your models here.
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'picture', 'document')
+    list_display = ('id', 'name', 'address', 'picture', 'document')
 
 
 class CollectorAdmin(admin.ModelAdmin):

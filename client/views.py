@@ -16,9 +16,10 @@ def dashboard(request):
     return render(request, "clientDashboard.html")
 
 
-def get_loan_balance(request, client_id):
+def get_loan_balance(request, id):
+    loan = {}
     try:
-        loan = Loan.objects.get(client_id=client_id)
+        loan = Loan.objects.get(client_id=id)
         loan_balance = loan.loan_balance
         payments = Payment.objects.filter(loan_id=loan.id)
     except Loan.DoesNotExist:

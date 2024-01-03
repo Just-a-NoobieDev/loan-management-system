@@ -15,7 +15,7 @@ urlpatterns =[
     path("register", views.register, name="register"),
     path("adminLogin", views.adminLogin, name="adminLogin"),
     path('login-controller/', views.loginController, name='login-controller'),
-    path('logout', LogoutView.as_view(next_page=settings.LOGOUT_REDIRECT_URL), name='logout'),
+    path('logout', views.logoutNow, name='logout'),
     path('client', views.client, name='client'),
     path('payment', views.payment, name='payment'),
     path('singleCollector', views.singleCollector, name='singleCollector'),

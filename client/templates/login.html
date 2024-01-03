@@ -106,11 +106,7 @@
 
             function showSuccessAlert(code) {
                 console.log("QR Code Info:", code);
-                Swal.fire({
-                    icon: "success",
-                    title: "QR Code Scanned!",
-                    text: `Successfully scanned the QR code. Info: ${code}`,
-                });
+                location.href = "loan/" + code
             }
         });
     </script>
