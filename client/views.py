@@ -8,8 +8,8 @@ from client.forms import LoginForm
 
 # Create your views here.
 def login(request):
-<<<<<<< HEAD
-    return render(request, "login.html")
+    login_form = LoginForm(request.POST)
+    return render(request, "login.html", {'form': login_form})
 
 
 def dashboard(request):
@@ -35,11 +35,13 @@ def get_loan_balance(request, client_id):
 def client_login(request):
     if request.method == "POST":
         name = request.POST.get("name")
+        password = request.POST.get("pass")
         try:
-            person = Person.objects.get(name=name)
-            request.session["user_id"] = person.id
-            messages.success(request, "Login successful!")
-            return redirect(f"/loan/{person.id}/")
+            person = Person.objects.get(email=name)
+            if person.password == password:
+                request.session["user_id"] = person.id
+                messages.success(request, "Login successful!")
+                return redirect(f"/loan/{person.id}/")
         except Person.DoesNotExist:
             error_message = "Name not found. Please try again."
             return render(request, "login.html", {"error_message": error_message})
@@ -52,7 +54,3 @@ def logout_view(request):
     # For simplicity, we're just deleting the session variable here
     del request.session["user_id"]
     return redirect("/")
-=======
-    login_form = LoginForm(request.POST)
-    return render(request, "login.html", {'form': login_form})
->>>>>>> 4379df4e93b7c94cb55b0d3f175599ed73ffe201
