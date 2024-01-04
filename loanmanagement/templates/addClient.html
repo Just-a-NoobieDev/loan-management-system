@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div id="addClientModal" class="fixed inset-0 bg-[#3E8EDE] bg-opacity-50 hidden flex justify-center items-center">
+    <div id="addClientModal" class="fixed inset-0 bg-white/80 bg-opacity-50 hidden flex justify-center items-center">
         <div
             class="bg-white p-8 rounded shadow-lg transform scale-95 transition-opacity transition-transform duration-300 ease-in-out">
             <div class="flex justify-between items-center mb-8">
@@ -117,14 +117,14 @@
                     <div class="flex flex-col mb-5 space-y-2">
 {#                        {{ form.email|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="email" class="text-[15px] font-semibold">Name:</label>
+                        <label for="email" class="text-[15px] font-semibold">Email:</label>
                         <input type="text" name="email" id="eemail" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                     </div>
 
                     <div class="flex flex-col mb-5 space-y-2">
 {#                        {{ form.password|add_label_class:"text-[15px] font-semibold" }}#}
 {#                        {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
-                        <label for="password" class="text-[15px] font-semibold">Name:</label>
+                        <label for="password" class="text-[15px] font-semibold">Password:</label>
                         <input type="password" name="password" id="epassword" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                     </div>
 
@@ -354,7 +354,7 @@
                         No Documents
                         {% endif %}
                     </td>
-                    <td class="flex justify-center items-center gap-4">
+                    <td class="flex justify-center items-center gap-4 py-6 border-b">
                         <img data-id="{{ person.id }}" id="edit" class="cursor-pointer" onclick="edit(this)"
                             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZNJREFUSEvllb1KA0EUhc/dRqy0EkGwEEELfQELCWTmrp1v4BNYKmqVCOJf0ukr2GrrzsxCQPAFxE4EQQgWgnY27pUNiWTXjdlNTOV2uzNzvrnn3J0hjPihEevjzwDMXEMUvRjn6t2bTgB8pdaF6BjA4i+VRSDaMMZcdOZorc8I2Gy9i2x3QxIA1voZwEwRcWaegsgdgKnvdSJ7xrl4o0mLWGuJPxprc1lXKpUmG43Gm+/78yJyA5HpVhHAjrX2dCgAK7UFoq1IZMU596iUmvOIbknkIHDuvFNN2qJcFbBSuyA6aos0yfNWgyB4UEpNOOfee4acxyJm3oPIYSqn5mcULYdh+JrOr1AFbVtqP5qAqG6M2c5qjtyAvOJ+ubwWhOF1oQyYuQqRSr+dx+LieVfG2vHcAFaqAqJqP/F4nLX+ADDW3eZ9LeoEnwD08DyrSYoDRKrGuf2sQIcHpM6ZNGQgQJHj/H8AngDMFrElY+69sXYp8z9oXTjACYgWBoTceSLVa+cuMwEDiv66LNfFMgx45IAvtm7rGaRD/IcAAAAASUVORK5CYII="
                             alt="edit" />

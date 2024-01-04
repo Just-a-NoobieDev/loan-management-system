@@ -27,8 +27,13 @@
         <h2 class="text-xl md:text-2xl font-semibold">Payments</h2>
         <div class="flex gap-2 md:gap-5 justify-center items-center">
             {% load static %}
-            <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
-            <p class="hidden md:block">{{ user.username }}</p>
+            
+            <a href="{% url 'logoutCollector' %}">
+                <p class="flex items-center py-2 px-4 gap-6 truncate">
+                    <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARNJREFUSEvNlY0NgjAQhY9NdBJ1E51EnUSdRJ1EN1E+wiMnKS1FmtCkgaS9e/fe/bSywqsq7N8WA7Ays72ZbcxsW/+/3X6a2XVIiRQDOT4mpDzX56fQnRgAzl/OCCePdnPGho3AYXVozzuzFAOiQhYMcRBaAF2cdGt/KQWQU2T3FoR8EFCzYgBE1V0cgeQl3UmqEICnnMsQSclJl/S+A5IG1TEMQ6RkTzHA4kci6hxZcpcPUjJREE2y/aHo/QOA7cfnty8RESAR31QRhAKRCl0lDSVZILMnWVFpRATbP9Jw6vxomebmQPezGw1DjQAimn1U+ITj/FZi2I0d1z/zZ8qwo0PZ/QdHj82QfMt5MqdWVnkGXwHfPhlPTtPIAAAAAElFTkSuQmCC" />Logout
+                </p>
+            </a>
         </div>
     </div>
 

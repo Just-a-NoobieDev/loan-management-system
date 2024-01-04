@@ -3,112 +3,163 @@
 {% block title %}Credit and Collection System{% endblock %}
 
 {% block content %}
-   <div>
-       <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
-            <h2 class="text-xl md:text-2xl font-semibold">Dashboard</h2>
-           <div class="flex gap-2 md:gap-5 justify-center items-center">
-               {% load static %}
-               <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
-               <p class="hidden md:block">{{ user.username }}</p>
-           </div>
-       </div>
+<div>
+    <div class="flex justify-between bg-white h-24 items-center px-6 md:px-20 py-auto border-b">
+        <h2 class="text-xl md:text-2xl font-semibold">Dashboard</h2>
+        <div class="flex gap-2 md:gap-5 justify-center items-center">
+            {% load static %}
+            <img src="{% static 'images/svg/skeleton.svg' %}" class="w-6 h-6 md:w-8 h-8">
+            <p class="hidden md:block">{{ user.username }}</p>
+        </div>
+    </div>
 
-       <div class="mx-2 md:mx-10 flex flex-col justify-center items-center mt-6 md:mt-10">
-        <div class="flex flex-wrap mx-auto gap-4 md:gap-5 justify-center max-w-full">
-            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4 border-[#6861ff]/40 border-[1px]">
-                <canvas id="lineGraph1"></canvas>
+    <div class="px-[120px] py-[50px] mx-auto">
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-4 flex flex-col justify-center">
+                <div class="flex flex-row items-center justify-between space-y-0 pb-2 ">
+                    <h1 class="text-md font-medium leading-none tracking-tight text-[#09090b]">
+                        Total
+                        Clients
+                    </h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                        class="h-4 w-4 text-muted-foreground">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <div class="px-6 py-2">
+                    <p class="text-[#09090b] text-3xl font-bold">+ {{ p }}</p>
+                    <p class="text-xs text-muted-foreground">
+                        +180.1% from last month
+                    </p>
+                </div>
             </div>
-
-            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4 border-[#6861ff]/40 border-[1px]">
-                <canvas id="lineGraph2"></canvas>
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-4 flex flex-col justify-center">
+                <div class="flex flex-row items-center justify-between space-y-0 pb-2 ">
+                    <h1 class="text-md font-medium leading-none tracking-tight text-[#09090b]">
+                        Active
+                        Clients
+                    </h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                        class="h-4 w-4 text-muted-foreground">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                </div>
+                <div class="px-6 py-2">
+                    <p class="text-[#09090b] text-3xl font-bold">+ {{ active_clients_count }}</p>
+                    <p class="text-xs text-muted-foreground">
+                        +180.1% from last month
+                    </p>
+                </div>
             </div>
-
-            <div class="w-full md:w-1/2 lg:max-w-[600px] p-4">
-                   <canvas id="pieChart"></canvas>
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-4 flex flex-col justify-center">
+                <div class="flex flex-row items-center justify-between space-y-0 pb-2 ">
+                    <h1 class="text-md font-medium leading-none tracking-tight text-[#09090b]">
+                        Total Loans
+                    </h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                        class="h-4 w-4 text-muted-foreground">
+                        <rect width="20" height="14" x="2" y="5" rx="2" />
+                        <path d="M2 10h20" />
+                    </svg>
+                </div>
+                <div class="px-6 py-2">
+                    <p class="text-[#09090b] text-3xl font-bold">{{ total_loan_amount }}</p>
+                    <p class="text-xs text-muted-foreground">
+                        +180.1% from last month
+                    </p>
+                </div>
+            </div>
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-4 flex flex-col justify-center">
+                <div class="flex flex-row items-center justify-between space-y-0 pb-2 ">
+                    <h1 class="text-md font-medium leading-none tracking-tight text-[#09090b]">
+                        Total Payments
+                    </h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                        class="h-4 w-4 text-muted-foreground">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+                <div class="px-6 py-2">
+                    <p class="text-[#09090b] text-3xl font-bold">{{ payment_amount }}</p>
+                    <p class="text-xs text-muted-foreground">
+                        +180.1% from last month
+                    </p>
+                </div>
             </div>
         </div>
-       </div>
-   </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Dummy data for the line graphs
-        var data1 = {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-            datasets: [{
-                label: '1 Week Collection',
-                data: [10000, 12000, 8000, 9500, 11000],
-                backgroundColor: '#6861ff',
-                borderWidth: 3,
-                fill: false
-            }]
-        };
+        <div class="gap-7 flex justify-center items-center mt-16">
+            <div class="flex flex-col justify-center items-center">
+                <h1 class="text-2xl font-semibold">Total amount of Loans per Month</h1>
+                <img src="data:image/png;base64,{{ image_base64 }}" alt="Loan Chart">
+            </div>
 
-        var data2 = {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-            datasets: [{
-                label: '1 Week Receipt Used',
-                data: [20, 50, 25, 30, 40],
-                backgroundColor: '#6861ff',
-                borderWidth: 3,
-                fill: false
-            }]
-        };
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-7 flex flex-col">
+                <div class="leading-none tracking-tight mb-5">
+                    <div class="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <h2 class="text-2xl font-semibold text-gray-800">Recent Clients</h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                            class="h-4 w-4 text-muted-foreground">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <p class="text-sm text-muted-foreground">List of recent clients.</p>
+                </div>
 
-        var dataPie = {
-            labels: ['Manila', 'Cebu', 'Davao', 'Quezon City', 'Baguio'],
-            datasets: [{
-                data: [30, 20, 15, 25, 10],
-                backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-                borderWidth: 1
-            }]
-        };
+                {% for person in latest_persons %}
+                <div class="ml-4 space-y-1 mb-4 flex gap-5">
+                    {% if person.picture %}
+                    <img src="{{ person.picture.url }}" alt="{{ person.name }}"
+                        class="w-10 h-10 object-cover rounded-full">
+                    {% else %}
+                    No Picture
+                    {% endif %}
+                    <div>
+                        <p class="text-sm font-medium leading-none">{{ person.name }}</p>
+                        <p class="text-sm text-black/80">{{ person.created_at|date:"F d, Y" }}</p>
+                    </div>
+                </div>
+                {% endfor %}
 
-        var options = {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        };
-        var options2 = {
-             plugins: {
-                title: {
-                    display: true,
-                    text: 'Client Locations',
-                    font: {
-                        size: 16
-                    }
-                }
-            }
-        };
+            </div>
 
-        var line = {
-            fill: false,
-            tension: 0.4
-        };
+            <div class="rounded-lg border bg-white/50 text-card-foreground shadow-sm p-7 flex flex-col h-full">
+                <div class="leading-none tracking-tight mb-5">
+                    <div class="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <h2 class="text-2xl font-semibold text-gray-800">Recent Payments</h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                            class="h-4 w-4 text-muted-foreground">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        </svg>
+                    </div>
+                    <p class="text-sm text-muted-foreground">List of recent payments.</p>
+                </div>
 
-        // Create Line Graph 1
-        var ctxLine1 = document.getElementById('lineGraph1').getContext('2d');
-        new Chart(ctxLine1, {
-            type: 'line',
-            data: data1,
-            options: options
-        });
+                {% for payment in recent_payments %}
+                <div class="ml-4 space-y-1 mb-4 flex gap-5 justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium leading-5">{{ payment.loan_id }}</p>
+                        <p class="text-sm text-black/80">{{ payment.payment_date|date:"F d, Y" }}</p>
+                    </div>
+                    <p class="text-sm font-semibold leading-5 ml-8">₱ {{ payment.amount }}</p>
+                </div>
+                {% endfor %}
 
-        // Create Line Graph 2
-        var ctxLine2 = document.getElementById('lineGraph2').getContext('2d');
-        new Chart(ctxLine2, {
-            type: 'line',
-            data: data2,
-            options: options
-        });
+            </div>
+        </div>
+    </div>
 
-        var ctxPie = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctxPie, {
-            type: 'pie',
-            data: dataPie,
-            options: options2
-        });
-    </script>
+</div>
+
+
+
 {% endblock %}
