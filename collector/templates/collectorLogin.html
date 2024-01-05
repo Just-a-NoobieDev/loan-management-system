@@ -106,7 +106,7 @@
 
             function showSuccessAlert(code) {
                 console.log("QR Code Info:", code);
-                location.href = "loan/" + code
+                location.href = "{% url 'payment_list' %}"
             }
         });
     </script>

@@ -32,6 +32,18 @@
                     {# <label for="name" class="text-[15px] font-semibold">Name:</label>#}
 {#                     <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
                 </div>
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.email|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+{#                     <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                </div>
+                <div class="flex flex-col mb-5 space-y-2">
+                    {{ form.password|add_label_class:"text-[15px] font-semibold" }}
+                    {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}
+                    {# <label for="name" class="text-[15px] font-semibold">Name:</label>#}
+{#                     <input type="text" name="name" id="name" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">#}
+                </div>
 
                 <button type="submit" id="submitBtn"
                     class="ml-48 mt-10 flex items-center justify-end gap-3 bg-[#3E8EDE] text-white py-2 px-4 rounded-[50px]"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAARtJREFUSEvtkz1KBEEUhL9KRIz1BpqLkbHJYuaKiFcwFc01VRQTzyAbiD8YLXgGUfAYGquBJS0zy9Lbw7Q9bLYdztR73+t61WLKR1PuzwzQ6nDSIttLwAWwWXV4BA4kfbR2jAQTANsLwAuwHGnfgDVJ3/+BpAB7wHVDky1J910BR8BpQ5NDSefxP9sO3yRNDJy6wTZw0wDoS7rrCpgHXoGVqFHYy7qkz06AUFyl6LJK0Q/wAAR7RimqbWnaR21X8UsuBtjeAfaBjWi6J+BK0m2xRbbPghUtMTyWdDKuyUqR7V1gkJnxnqRhrc0FPAOrmYChpF6OdrRk21/AXE4R8C5pMUc7Dvh7jbkn9WpTtcUxzR4kV1iqm92g1blfpqRmGd6awGwAAAAASUVORK5CYII=" />Add
@@ -57,6 +69,19 @@
                     <label for="name" class="text-[15px] font-semibold">Name:</label>
                     <input type="text" name="name" id="name"
                         class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                </div>
+
+                <div class="flex flex-col mb-5 space-y-2">
+{#                    {{ form.email|add_label_class:"text-[15px] font-semibold" }}#}
+{#                    {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                     <label for="email" class="text-[15px] font-semibold">Email:</label>
+                     <input type="text" name="email" id="email" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                </div>
+                <div class="flex flex-col mb-5 space-y-2">
+{#                    {{ form.password|add_label_class:"text-[15px] font-semibold" }}#}
+{#                    {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                     <label for="pass" class="text-[15px] font-semibold">Password:</label>
+                     <input type="text" name="pass" id="pass" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                 </div>
 
                 {# <div class="flex flex-col mb-5 space-y-2">#}
@@ -110,6 +135,19 @@
 {#                     {% render_field form.name class="flex h-10 flex-wrap break-normal break-all w-full borderborder-input bg-background px-3 py-2 text-sm" %}#}
                     <label for="name" class="text-[15px] font-semibold">Name:</label>
                     <input disabled type="text" name="name" id="fname" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" disabled>
+                </div>
+
+                <div class="flex flex-col mb-5 space-y-2 w-full">
+{#                    {{ form.email|add_label_class:"text-[15px] font-semibold" }}#}
+{#                    {% render_field form.email class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                     <label for="email" class="text-[15px] font-semibold">Email:</label>
+                     <input disabled type="text" name="email" id="femail" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
+                </div>
+                <div class="flex flex-col mb-5 space-y-2 w-full">
+{#                    {{ form.password|add_label_class:"text-[15px] font-semibold" }}#}
+{#                    {% render_field form.password class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm" %}#}
+                     <label for="pass" class="text-[15px] font-semibold">Password:</label>
+                     <input disabled type="password" name="pass" id="fpass" class="flex h-10 flex-wrap break-normal break-all w-full border border-input bg-background px-3 py-2 text-sm">
                 </div>
 
                 {# <div class="flex flex-col mb-5 space-y-2 w-full">#}
@@ -266,6 +304,8 @@
                 dataType: 'json',
                 success: function (resp) {
                     $('#fname').val(resp.name)
+                    $('#femail').val(resp.email)
+                    $('#fpass').val(resp.pass)
                 }
             })
         }
@@ -373,6 +413,8 @@
             dataType: 'json',
             success: function (resp) {
                 $('#name').val(resp.name)
+                $('#email').val(resp.email)
+                $('#pass').val(resp.pass)
             }
         })
     }
@@ -398,6 +440,8 @@
                 data: {
                     id: document.getElementById('edit').dataset.id,
                     name: $('#name').val(),
+                    email: $('#email').val(),
+                    password: $('#pass').val()
                 },
                 method: 'POST',
                 type: 'POST',

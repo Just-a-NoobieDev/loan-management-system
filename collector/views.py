@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def payment_list(request):
-    loans = Loan.objects.all()
+    loans = Loan.objects.filter(has_active_loan=True)
     paginated = Paginator(loans, 10)
     page_number = request.GET.get("page")
     page = paginated.get_page(page_number)

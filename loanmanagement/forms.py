@@ -22,7 +22,7 @@ class UserRegistration(UserCreationForm):
 class CollectorForm(forms.ModelForm):
     class Meta:
         model = Collector
-        fields = ('name',)
+        fields = '__all__'
 
 class LoanForm(forms.ModelForm):
     class Meta:

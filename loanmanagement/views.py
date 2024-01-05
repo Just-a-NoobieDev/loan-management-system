@@ -456,6 +456,8 @@ def singleCollector(request):
     collector_data = Collector.objects.get(id=collectorId)
     collector_json = {
         "name": collector_data.name,
+        "email": collector_data.email,
+        "pass": collector_data.password
     }
     return HttpResponse(json.dumps(collector_json), content_type="application/json")
 
@@ -479,11 +481,13 @@ def editClient(request):
 def editCollector(request):
     colId = request.POST.get("id")
     name = request.POST.get("name")
-    address = request.POST.get("address")
+    email = request.POST.get("email")
+    password = request.POST.get("password")
 
     col = Collector.objects.get(id=colId)
     col.name = name
-    col.address = address
+    col.email = email
+    col.password = password
     col.save()
     return redirect("/adminUser/addCollector")
 
