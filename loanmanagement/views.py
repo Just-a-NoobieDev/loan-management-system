@@ -71,11 +71,13 @@ def home(request):
     )
 
     # Extract data for Matplotlib chart
-    months = [entry["month"].strftime("%b %Y") for entry in monthly_loan_amounts]
+    months = [entry["month"].strftime("%b %Y")
+              for entry in monthly_loan_amounts]
     total_amounts = [entry["total_amount"] for entry in monthly_loan_amounts]
 
     plt.figure(figsize=(8, 5))
-    plt.bar(months, total_amounts, color="#09090b", edgecolor="black", linewidth=0.8)
+    plt.bar(months, total_amounts, color="#09090b",
+            edgecolor="black", linewidth=0.8)
     # Inside the loop for adding annotations
 
     for i, count in enumerate(total_amounts):
@@ -97,7 +99,8 @@ def home(request):
     plt.gca().set_facecolor("#f8f8fd")
 
     image_stream = BytesIO()
-    plt.savefig(image_stream, format="png", bbox_inches="tight", facecolor="#f8f8fd")
+    plt.savefig(image_stream, format="png",
+                bbox_inches="tight", facecolor="#f8f8fd")
     plt.close()
 
     image_base64 = base64.b64encode(image_stream.getvalue()).decode("utf-8")
@@ -522,7 +525,8 @@ def exportTodayPayments(request):
     ws.append(headers)
 
     # Add data from the model
-    payments = Payment.objects.filter(payment_date__exact=datetime.date.today())
+    payments = Payment.objects.filter(
+        payment_date__exact=datetime.date.today())
     for payment in payments:
         ws.append(
             [
