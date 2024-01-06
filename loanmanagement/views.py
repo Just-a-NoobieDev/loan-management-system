@@ -44,12 +44,9 @@ from .models import Reports
 
 def clients_with_active_loans_count():
     """ """
-    count = (
-        Loan.objects.filter(has_active_loan=True)
-        .values("client_id")
-        .annotate(client_count=Count("client_id", distinct=True))
-        .count()
-    )
+    count = (Loan.objects.filter(
+        has_active_loan=True).values("client_id").annotate(
+            client_count=Count("client_id", distinct=True)).count())
 
     return count
 
@@ -84,20 +81,23 @@ def home(request):
     p = Person.objects.all().count()
     latest_persons = Person.objects.order_by("-created_at")[:5]
     recent_payments = Payment.objects.select_related("loan_id").order_by(
-        "-payment_date"
-    )[:5]
-    monthly_loan_amounts = (
-        Loan.objects.annotate(month=TruncMonth("loan_date"))
-        .values("month")
-        .annotate(total_amount=Sum("loan_amount"))
-    )
+        "-payment_date")[:5]
+    monthly_loan_amounts = (Loan.objects.annotate(
+        month=TruncMonth("loan_date")).values("month").annotate(
+            total_amount=Sum("loan_amount")))
 
     # Extract data for Matplotlib chart
-    months = [entry["month"].strftime("%b %Y") for entry in monthly_loan_amounts]
+    months = [
+        entry["month"].strftime("%b %Y") for entry in monthly_loan_amounts
+    ]
     total_amounts = [entry["total_amount"] for entry in monthly_loan_amounts]
 
     plt.figure(figsize=(8, 5))
-    plt.bar(months, total_amounts, color="#09090b", edgecolor="black", linewidth=0.8)
+    plt.bar(months,
+            total_amounts,
+            color="#09090b",
+            edgecolor="black",
+            linewidth=0.8)
     # Inside the loop for adding annotations
 
     for i, count in enumerate(total_amounts):
@@ -119,7 +119,10 @@ def home(request):
     plt.gca().set_facecolor("#f8f8fd")
 
     image_stream = BytesIO()
-    plt.savefig(image_stream, format="png", bbox_inches="tight", facecolor="#f8f8fd")
+    plt.savefig(image_stream,
+                format="png",
+                bbox_inches="tight",
+                facecolor="#f8f8fd")
     plt.close()
 
     image_base64 = base64.b64encode(image_stream.getvalue()).decode("utf-8")
@@ -238,7 +241,11 @@ def loan_list(request):
     return render(
         request,
         "loanPortal.html",
-        {"loans": page, "form": form, "paginator": paginated},
+        {
+            "loans": page,
+            "form": form,
+            "paginator": paginated
+        },
     )
 
 
@@ -254,26 +261,30 @@ def add_loan(request):
             loan = form.save(commit=False)
 
             existing_active_loan = Loan.objects.filter(
-                client_id=loan.client_id, has_active_loan=True
-            ).exists()
+                client_id=loan.client_id, has_active_loan=True).exists()
 
             if existing_active_loan:
                 messages.error(request, "Client already has an active loan.")
-                return JsonResponse({"status": "error", "redirect": "loanList/"})
+                return JsonResponse({
+                    "status": "error",
+                    "redirect": "loanList/"
+                })
             else:
                 # Calculate and update net, loan_balance
-                net_percentage = (
-                    (loan.interest_rate / 100) * loan.loan_amount
-                ) + loan.processing_fee
+                net_percentage = ((loan.interest_rate / 100) *
+                                  loan.loan_amount) + loan.processing_fee
                 loan.loan_balance += net_percentage
                 loan.save()
 
                 messages.success(request, "Loan added successfully.")
-                return JsonResponse({"status": "success", "redirect": "loanList/"})
+                return JsonResponse({
+                    "status": "success",
+                    "redirect": "loanList/"
+                })
         else:
             messages.error(
-                request, "Error in the form submission. Please check the form."
-            )
+                request,
+                "Error in the form submission. Please check the form.")
             return JsonResponse({"status": "error", "redirect": "loanList/"})
     else:
         form = LoanForm()
@@ -319,7 +330,11 @@ def paymentList(request):
     return render(
         request,
         "payments.html",
-        {"payments": page, "form": form, "paginator": paginated},
+        {
+            "payments": page,
+            "form": form,
+            "paginator": paginated
+        },
     )
 
 
@@ -338,12 +353,18 @@ def addPayment(request):
             loan.save()
             payment.save()
             messages.success(request, "Payment added successfully.")
-            return JsonResponse({"status": "success", "redirect": "paymentList/"})
+            return JsonResponse({
+                "status": "success",
+                "redirect": "paymentList/"
+            })
         else:
             messages.error(
-                request, "Error in the form submission. Please check the form."
-            )
-            return JsonResponse({"status": "error", "redirect": "paymentList/"})
+                request,
+                "Error in the form submission. Please check the form.")
+            return JsonResponse({
+                "status": "error",
+                "redirect": "paymentList/"
+            })
     else:
         form = PaymentForm()
 
@@ -425,7 +446,8 @@ def payment(request):
     payment_json = {
         "amount": payment_data.amount,
     }
-    return HttpResponse(json.dumps(payment_json), content_type="application/json")
+    return HttpResponse(json.dumps(payment_json),
+                        content_type="application/json")
 
 
 # def payments(request):
@@ -451,7 +473,10 @@ def reports(request):
     if not user.is_authenticated:
         return redirect("adminLogin")
     report = Reports.objects.all()
-    return render(request, "reports.html", {"reports": page, "paginator": paginated})
+    return render(request, "reports.html", {
+        "reports": page,
+        "paginator": paginated
+    })
 
 
 def register(request):
@@ -543,7 +568,8 @@ def client(request):
     }
 
     print(client_json)
-    return HttpResponse(json.dumps(client_json), content_type="application/json")
+    return HttpResponse(json.dumps(client_json),
+                        content_type="application/json")
 
 
 def addCollector(request):
@@ -572,7 +598,11 @@ def addCollector(request):
     return render(
         request,
         "addCollector.html",
-        {"persons": page, "form": colForm, "paginator": paginated},
+        {
+            "persons": page,
+            "form": colForm,
+            "paginator": paginated
+        },
     )
 
 
@@ -619,7 +649,8 @@ def singleCollector(request):
         "email": collector_data.email,
         "pass": collector_data.password,
     }
-    return HttpResponse(json.dumps(collector_json), content_type="application/json")
+    return HttpResponse(json.dumps(collector_json),
+                        content_type="application/json")
 
 
 def editClient(request):
@@ -681,17 +712,16 @@ def exportTodayPayments(request):
     ws.append(headers)
 
     # Add data from the model
-    payments = Payment.objects.filter(payment_date__exact=datetime.date.today())
+    payments = Payment.objects.filter(
+        payment_date__exact=datetime.date.today())
     for payment in payments:
-        ws.append(
-            [
-                payment.id,
-                payment.loan_id.client_id.name,
-                payment.amount,
-                payment.payment_date.strftime("%m/%d/%Y"),
-                payment.or_number,
-            ]
-        )
+        ws.append([
+            payment.id,
+            payment.loan_id.client_id.name,
+            payment.amount,
+            payment.payment_date.strftime("%m/%d/%Y"),
+            payment.or_number,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/payments/" + ptfilename
@@ -737,21 +767,19 @@ def exportTodayLoans(request):
     # Add data from the model
     loans = Loan.objects.filter(loan_date__exact=datetime.date.today())
     for loan in loans:
-        ws.append(
-            [
-                loan.id,
-                loan.client_id.name,
-                loan.loan_date.strftime("%m/%d/%Y"),
-                loan.duration_period,
-                loan.interest_rate,
-                loan.loan_amount,
-                loan.loan_maturity,
-                loan.guarantor,
-                loan.processing_fee,
-                loan.net,
-                loan.checking_no,
-            ]
-        )
+        ws.append([
+            loan.id,
+            loan.client_id.name,
+            loan.loan_date.strftime("%m/%d/%Y"),
+            loan.duration_period,
+            loan.interest_rate,
+            loan.loan_amount,
+            loan.loan_maturity,
+            loan.guarantor,
+            loan.processing_fee,
+            loan.net,
+            loan.checking_no,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/loans/" + ltfilename
@@ -799,21 +827,19 @@ def exportLoans(request, dateFrom, dateTo):
     # Add data from the model
     loans = Loan.objects.filter(loan_date__range=[dateFrom, dateTo])
     for loan in loans:
-        ws.append(
-            [
-                loan.id,
-                loan.client_id.name,
-                loan.loan_date.strftime("%m/%d/%Y"),
-                loan.duration_period,
-                loan.interest_rate,
-                loan.loan_amount,
-                loan.loan_maturity,
-                loan.guarantor,
-                loan.processing_fee,
-                loan.net,
-                loan.checking_no,
-            ]
-        )
+        ws.append([
+            loan.id,
+            loan.client_id.name,
+            loan.loan_date.strftime("%m/%d/%Y"),
+            loan.duration_period,
+            loan.interest_rate,
+            loan.loan_amount,
+            loan.loan_maturity,
+            loan.guarantor,
+            loan.processing_fee,
+            loan.net,
+            loan.checking_no,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/loans/" + lfilename
@@ -849,15 +875,13 @@ def exportPayment(request, dateFrom, dateTo):
     # Add data from the model
     payments = Payment.objects.filter(payment_date__range=[dateFrom, dateTo])
     for payment in payments:
-        ws.append(
-            [
-                payment.id,
-                payment.loan_id.client_id.name,
-                payment.amount,
-                payment.payment_date.strftime("%m/%d/%Y"),
-                payment.or_number,
-            ]
-        )
+        ws.append([
+            payment.id,
+            payment.loan_id.client_id.name,
+            payment.amount,
+            payment.payment_date.strftime("%m/%d/%Y"),
+            payment.or_number,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/payments/" + pfilename
