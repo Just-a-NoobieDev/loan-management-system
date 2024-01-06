@@ -9,20 +9,35 @@ from wsgiref.util import FileWrapper
 
 import matplotlib.pyplot as plt
 from django.conf import settings
-from django.contrib import auth, messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import auth
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Count, Sum
+from django.db.models import Count
+from django.db.models import Sum
 from django.db.models.functions import TruncMonth
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 from openpyxl.workbook import Workbook
 from qrcode import *
 
-from .forms import (CollectorForm, LoanForm, PaymentForm, PersonForm,
-                    UserRegistration)
-from .models import Collector, Loan, Payment, Person, Reports
+from .forms import CollectorForm
+from .forms import LoanForm
+from .forms import PaymentForm
+from .forms import PersonForm
+from .forms import UserRegistration
+from .models import Collector
+from .models import Loan
+from .models import Payment
+from .models import Person
+from .models import Reports
 
 # Create your views here.
 
