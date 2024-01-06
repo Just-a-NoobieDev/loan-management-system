@@ -117,6 +117,10 @@ def home(request):
 
 
 def addClient(request):
+    loans = Person.objects.all()
+    paginated = Paginator(loans, 10)
+    page_number = request.GET.get("page")
+    page = paginated.get_page(page_number)
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -129,7 +133,7 @@ def addClient(request):
             return render(request, "addClient.html", context)
 
     persons = Person.objects.all()
-    context = {"form": PersonForm(), "persons": persons}
+    context = {"form": PersonForm(), "persons": page, "paginator": paginated}
     return render(request, "addClient.html", context)
 
 
@@ -342,11 +346,15 @@ def payment(request):
 
 
 def reports(request):
+    reports = Reports.objects.all()
+    paginated = Paginator(reports, 10)
+    page_number = request.GET.get("page")
+    page = paginated.get_page(page_number)
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
     report = Reports.objects.all()
-    return render(request, "reports.html", {"reports": report})
+    return render(request, "reports.html", {"reports": page, "paginator": paginated})
 
 
 def register(request):
@@ -417,6 +425,10 @@ def client(request):
 
 
 def addCollector(request):
+    persons = Collector.objects.all()
+    paginated = Paginator(persons, 10)
+    page_number = request.GET.get("page")
+    page = paginated.get_page(page_number)
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -430,7 +442,11 @@ def addCollector(request):
 
     collector = Collector.objects.all()
     colForm = CollectorForm(request.POST)
-    return render(request, "addCollector.html", {"persons": collector, "form": colForm})
+    return render(
+        request,
+        "addCollector.html",
+        {"persons": page, "form": colForm, "paginator": paginated},
+    )
 
 
 def generateCollector(request, id):
@@ -457,7 +473,7 @@ def singleCollector(request):
     collector_json = {
         "name": collector_data.name,
         "email": collector_data.email,
-        "pass": collector_data.password
+        "pass": collector_data.password,
     }
     return HttpResponse(json.dumps(collector_json), content_type="application/json")
 

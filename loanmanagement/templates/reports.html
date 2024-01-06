@@ -18,27 +18,27 @@
             <h1 class="md:text-2xl text-xl font-bold mb-4">Collections List</h1>
 
             <div class="flex gap-2">
-                <button type="button" id="reload" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="button" id="reload" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     Reload List
                 </button>
             <div class="relative">
-                <button type="button" id="downloadReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="button" id="downloadReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>
                     Download Payments Report
                 </button>
                 <div id="reportDropdown" class="absolute hidden bg-white border border-gray-300 mt-2 py-2 px-4 rounded-md shadow-lg flex flex-col">
-                    <a href="{% url 'exportTodayPayments' %}" id="paymentsForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Payments this day</a>
-                    <a href="#" id="dateRange" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Date Range</a>
+                    <a href="{% url 'exportTodayPayments' %}" id="paymentsForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#3E8EDE] hover:text-white rounded-md">Payments this day</a>
+                    <a href="#" id="dateRange" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#3E8EDE] hover:text-white rounded-md">Date Range</a>
                 </div>
             </div>
             <div class="relative">
-                <button type="button" id="downloadLoanReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#6861ff] text-white py-1 md:py-2 px-4 rounded-[50px]">
+                <button type="button" id="downloadLoanReportBtn" class="text-[12px] md:text-[16px] flex items-center justify-center gap-3 bg-[#3E8EDE] text-white py-1 md:py-2 px-4 rounded-[50px]">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAMNJREFUSEvtllsKAjEMRc/diyDodlyK/gmDIvihS3E7Cq4mMqBSOjPpQ4oI9jNNc0JuQioaHzWOzwBgZivgAMwT8E7SPpXgGOAKLFIPn/cbSWfPdwxgGcF3QJcDqQJIkpmdgHUKUg3oA+dAPgLkQFxAX4qXHmb21ia0x5D4rgrgdk2QVO9XVaLfAcT1nMrc0ydbA68s1YCMiR64FHVRc8Bfg68NWsnCifvgJmkZGqdW5hGYFXbRHdhKuriAwqBJ9+a/igdhEYIZFty6ygAAAABJRU5ErkJggg=="/>
                     Download Loans Report
                 </button>
                 <div id="reportLoanDropdown" class="absolute hidden bg-white border border-gray-300 mt-2 py-2 px-4 rounded-md shadow-lg flex flex-col">
-                    <a href="{% url 'exportTodayLoans' %}" id="loansForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Loans this day</a>
-                    <a href="#" id="dateRangeL" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#6861ff] hover:text-white rounded-md">Date Range</a>
+                    <a href="{% url 'exportTodayLoans' %}" id="loansForDay" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#3E8EDE] hover:text-white rounded-md">Loans this day</a>
+                    <a href="#" id="dateRangeL" class="text-[12px] md:text-[16px] py-2 px-4 hover:bg-[#3E8EDE] hover:text-white rounded-md">Date Range</a>
                 </div>
             </div>
                 </div>
@@ -58,17 +58,38 @@
             <tbody>
                 {% for report in reports %}
                     <tr class="text-center">
-                        <td class="py-2 px-4 border-b">{{ report.id }}</td>
-                        <td class="py-2 px-4 border-b">{{ report.type }}</td>
-                        <td class="py-2 px-4 border-b">{{ report.filename }}</td>
-                        <td class="py-2 px-4 border-b">{{ report.created_at }}</td>
-                         <td>
+                        <td class="py-2 px-4 border-b border-r">{{ report.id }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ report.type }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ report.filename }}</td>
+                        <td class="py-2 px-4 border-b border-r">{{ report.created_at }}</td>
+                         <td class="py-2 px-4 border-b">
                              <a href="/media/reports/payments/{{ report.filename }}" download>Download</a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <div class="flex justify-center mt-4">
+            <ul class="pagination flex justify-center items-center gap-5">
+                {% if reports.has_previous %}
+                <li><a href="?page=1">&laquo;&laquo;</a></li>
+                <li><a href="?page={{ reports.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
+        
+                {% for num in reports.paginator.page_range %}
+                {% if reports.number == num %}
+                <li class="active font-black"><span>{{ num }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+        
+                {% if reports.has_next %}
+                <li><a href="?page={{ reports.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ reports.paginator.num_pages }}">&raquo;&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
 
         <div id="dateRangeModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden">
             <div class="w-96 bg-white mx-auto mt-20 p-6 rounded-md">
