@@ -367,23 +367,26 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class="mt-4">
-            <span class="text-sm text-gray-500">
-                Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
-            </span>
-            <span class="ml-2">
+        <div class="flex justify-center mt-4">
+            <ul class="pagination flex justify-center items-center gap-5">
                 {% if persons.has_previous %}
-                <a href="?page=1" class="text-blue-500 underline">first</a>
-                <a href="?page={{ persons.previous_page_number }}" class="text-blue-500 underline">previous</a>
+                <li><a href="?page=1">&laquo;&laquo;</a></li>
+                <li><a href="?page={{ persons.previous_page_number }}">&laquo;</a></li>
                 {% endif %}
-
-                <span class="font-bold">{{ persons.number }}</span>
-
+        
+                {% for num in persons.paginator.page_range %}
+                {% if persons.number == num %}
+                <li class="active font-black"><span>{{ num }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+        
                 {% if persons.has_next %}
-                <a href="?page={{ persons.next_page_number }}" class="text-blue-500 underline">next</a>
-                <a href="?page={{ persons.paginator.num_pages }}" class="text-blue-500 underline">last</a>
+                <li><a href="?page={{ persons.next_page_number }}">&raquo;</a></li>
+                <li><a href="?page={{ persons.paginator.num_pages }}">&raquo;&raquo;</a></li>
                 {% endif %}
-            </span>
+            </ul>
         </div>
     </div>
 </div>
