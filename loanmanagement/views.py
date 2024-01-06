@@ -28,6 +28,7 @@ from .models import Collector, Loan, Payment, Person, Reports
 
 
 def clients_with_active_loans_count():
+    """ """
     count = (
         Loan.objects.filter(has_active_loan=True)
         .values("client_id")
@@ -39,17 +40,24 @@ def clients_with_active_loans_count():
 
 
 def sum_of_loan_amounts():
+    """ """
     sum_amount = Loan.objects.aggregate(Sum("loan_amount"))["loan_amount__sum"]
 
     return sum_amount or 0
 
 
 def sum_of_payments():
+    """ """
     sum_payment = Payment.objects.aggregate(Sum("amount"))["amount__sum"]
     return sum_payment or 0
 
 
 def home(request):
+    """
+
+    :param request: 
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -116,6 +124,11 @@ def home(request):
 
 
 def addClient(request):
+    """
+
+    :param request: 
+
+    """
     loans = Person.objects.all()
     paginated = Paginator(loans, 10)
     page_number = request.GET.get("page")
@@ -137,6 +150,12 @@ def addClient(request):
 
 
 def deleteClient(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     item = Person.objects.get(id=id)
     item.delete()
     if item.picture.name and item.document.name:
@@ -146,6 +165,12 @@ def deleteClient(request, id):
 
 
 def qrFunc(val, name):
+    """
+
+    :param val: 
+    :param name: 
+
+    """
     img = make(val)
     img_url = "qr-" + str(name) + ".png"
     # buffer = io.BytesIO()
@@ -154,6 +179,12 @@ def qrFunc(val, name):
 
 
 def generateQR(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     person = Person.objects.get(id=id)
     img = qrFunc(person.id, person.name)
     # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -166,6 +197,11 @@ def generateQR(request, id):
 
 
 def loan_list(request):
+    """
+
+    :param request: 
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -192,6 +228,11 @@ def loan_list(request):
 
 
 def add_loan(request):
+    """
+
+    :param request: 
+
+    """
     if request.method == "POST":
         form = LoanForm(request.POST)
         if form.is_valid():
@@ -233,6 +274,11 @@ def add_loan(request):
 
 
 def collectorLogin(request):
+    """
+
+    :param request: 
+
+    """
     return render(request, "collectorLogin.html")
 
 
@@ -241,6 +287,11 @@ def collectorLogin(request):
 
 
 def paymentList(request):
+    """
+
+    :param request: 
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -258,6 +309,11 @@ def paymentList(request):
 
 
 def addPayment(request):
+    """
+
+    :param request: 
+
+    """
     if request.method == "POST":
         form = PaymentForm(request.POST)
         if form.is_valid():
@@ -280,6 +336,12 @@ def addPayment(request):
 
 
 def edit_payment(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     # Assuming Payment is your model
     payment_instance = get_object_or_404(Payment, id=id)
 
@@ -294,6 +356,12 @@ def edit_payment(request, id):
 
 
 def delete_payment(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     itemCol = Payment.objects.get(id=id)
     amount = itemCol.amount
     ll = Loan.objects.get(id=itemCol.loan_id.id)
@@ -305,6 +373,11 @@ def delete_payment(request, id):
 
 
 def editPayment(request):
+    """
+
+    :param request: 
+
+    """
     loan_id = request.POST.get("loan_id")
     ciId = int(request.POST.get("id"))
     camount = Decimal(request.POST.get("camount"))
@@ -327,6 +400,11 @@ def editPayment(request):
 
 
 def payment(request):
+    """
+
+    :param request: 
+
+    """
     id = request.POST.get("id")
     payment_data = Payment.objects.get(id=id)
     payment_json = {
@@ -345,6 +423,11 @@ def payment(request):
 
 
 def reports(request):
+    """
+
+    :param request: 
+
+    """
     reports = Reports.objects.all()
     paginated = Paginator(reports, 10)
     page_number = request.GET.get("page")
@@ -357,6 +440,11 @@ def reports(request):
 
 
 def register(request):
+    """
+
+    :param request: 
+
+    """
     user = request.user
     if user.is_authenticated:
         return redirect("dashboard")
@@ -375,6 +463,11 @@ def register(request):
 
 
 def adminLogin(request):
+    """
+
+    :param request: 
+
+    """
     user = request.user
     if user.is_authenticated:
         return redirect("dashboard")
@@ -382,6 +475,11 @@ def adminLogin(request):
 
 
 def loginController(request):
+    """
+
+    :param request: 
+
+    """
     logout(request)
     resp = {"status": "failed", "msg": ""}
     username = ""
@@ -403,11 +501,21 @@ def loginController(request):
 
 
 def logout_page(request):
+    """
+
+    :param request: 
+
+    """
     auth.logout(request)
     return redirect("/adminUser/adminLogin/")
 
 
 def client(request):
+    """
+
+    :param request: 
+
+    """
     id = request.POST.get("id")
     client_data = Person.objects.get(id=id)
     client_json = {
@@ -424,6 +532,11 @@ def client(request):
 
 
 def addCollector(request):
+    """
+
+    :param request: 
+
+    """
     persons = Collector.objects.all()
     paginated = Paginator(persons, 10)
     page_number = request.GET.get("page")
@@ -449,6 +562,12 @@ def addCollector(request):
 
 
 def generateCollector(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     col = Collector.objects.get(id=id)
     img = qrFunc(col.id, col.name)
     # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -461,12 +580,23 @@ def generateCollector(request, id):
 
 
 def deleteCollector(request, id):
+    """
+
+    :param request: 
+    :param id: 
+
+    """
     itemCol = Collector.objects.get(id=id)
     itemCol.delete()
     return redirect("/adminUser/addCollector")
 
 
 def singleCollector(request):
+    """
+
+    :param request: 
+
+    """
     collectorId = request.POST.get("id")
     collector_data = Collector.objects.get(id=collectorId)
     collector_json = {
@@ -478,6 +608,11 @@ def singleCollector(request):
 
 
 def editClient(request):
+    """
+
+    :param request: 
+
+    """
     cId = request.POST.get("id")
     name = request.POST.get("name")
     address = request.POST.get("address")
@@ -494,6 +629,11 @@ def editClient(request):
 
 
 def editCollector(request):
+    """
+
+    :param request: 
+
+    """
     colId = request.POST.get("id")
     name = request.POST.get("name")
     email = request.POST.get("email")
@@ -508,6 +648,11 @@ def editCollector(request):
 
 
 def exportTodayPayments(request):
+    """
+
+    :param request: 
+
+    """
     ptfilename = f"Payments Today - {datetime.date.today()}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{ptfilename}"'
@@ -545,6 +690,11 @@ def exportTodayPayments(request):
 
 
 def exportTodayLoans(request):
+    """
+
+    :param request: 
+
+    """
     ltfilename = f"Loans Today - {datetime.date.today()}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{ltfilename}"'
@@ -600,6 +750,13 @@ def exportTodayLoans(request):
 
 
 def exportLoans(request, dateFrom, dateTo):
+    """
+
+    :param request: 
+    :param dateFrom: 
+    :param dateTo: 
+
+    """
     lfilename = f"Loans - {dateFrom} - {dateTo}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{lfilename}"'
@@ -655,6 +812,13 @@ def exportLoans(request, dateFrom, dateTo):
 
 
 def exportPayment(request, dateFrom, dateTo):
+    """
+
+    :param request: 
+    :param dateFrom: 
+    :param dateTo: 
+
+    """
     pfilename = f"Payments - {dateFrom} - {dateTo}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{pfilename}"'
@@ -692,5 +856,10 @@ def exportPayment(request, dateFrom, dateTo):
 
 
 def logoutNow(request):
+    """
+
+    :param request: 
+
+    """
     logout(request)
     return redirect("adminLogin")
