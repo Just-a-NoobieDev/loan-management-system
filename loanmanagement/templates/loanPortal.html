@@ -112,7 +112,7 @@
                     <th class="py-2 px-1 border-b border-r">Net</th>
                     <th class="py-2 px-1 border-b border-r">Check No.</th>
                     <th class="py-2 px-1 border-b border-r">Loan Status</th>
-            
+
                 </tr>
             </thead>
 
@@ -137,7 +137,7 @@
                                 <div class="text-[#FF0000] font-bold">Inactive</div>
                             {% endif %}
                         </td>
-                       
+
                     </tr>
                 {% endfor %}
             </tbody>
@@ -148,7 +148,7 @@
                 <li><a href="?page=1">&laquo;&laquo;</a></li>
                 <li><a href="?page={{ loans.previous_page_number }}">&laquo;</a></li>
             {% endif %}
-            
+
             {% for num in loans.paginator.page_range %}
                 {% if loans.number == num %}
                     <li class="active font-black"><span>{{ num }} <span class="sr-only">(current)</span></span></li>
@@ -156,7 +156,7 @@
                     <li><a href="?page={{ num }}">{{ num }}</a></li>
                 {% endif %}
             {% endfor %}
-            
+
             {% if loans.has_next %}
                 <li><a href="?page={{ loans.next_page_number }}">&raquo;</a></li>
                 <li><a href="?page={{ loans.paginator.num_pages }}">&raquo;&raquo;</a></li>
@@ -246,7 +246,7 @@
 //         });
 
 //         if(isConfirmed) {
-            
+
 //             Swal.fire({
 //                 title: 'Success!',
 //                 text: 'The loan has been deleted successfully.',

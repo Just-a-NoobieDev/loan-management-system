@@ -70,7 +70,7 @@ def sum_of_payments():
 def home(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     user = request.user
@@ -141,7 +141,7 @@ def home(request):
 def addClient(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     loans = Person.objects.all()
@@ -167,8 +167,8 @@ def addClient(request):
 def deleteClient(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     item = Person.objects.get(id=id)
@@ -182,8 +182,8 @@ def deleteClient(request, id):
 def qrFunc(val, name):
     """
 
-    :param val: 
-    :param name: 
+    :param val:
+    :param name:
 
     """
     img = make(val)
@@ -196,8 +196,8 @@ def qrFunc(val, name):
 def generateQR(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     person = Person.objects.get(id=id)
@@ -214,7 +214,7 @@ def generateQR(request, id):
 def loan_list(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     user = request.user
@@ -245,7 +245,7 @@ def loan_list(request):
 def add_loan(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     if request.method == "POST":
@@ -291,7 +291,7 @@ def add_loan(request):
 def collectorLogin(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     return render(request, "collectorLogin.html")
@@ -304,7 +304,7 @@ def collectorLogin(request):
 def paymentList(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     user = request.user
@@ -326,7 +326,7 @@ def paymentList(request):
 def addPayment(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     if request.method == "POST":
@@ -353,8 +353,8 @@ def addPayment(request):
 def edit_payment(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     # Assuming Payment is your model
@@ -373,8 +373,8 @@ def edit_payment(request, id):
 def delete_payment(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     itemCol = Payment.objects.get(id=id)
@@ -390,7 +390,7 @@ def delete_payment(request, id):
 def editPayment(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     loan_id = request.POST.get("loan_id")
@@ -417,7 +417,7 @@ def editPayment(request):
 def payment(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     id = request.POST.get("id")
@@ -440,7 +440,7 @@ def payment(request):
 def reports(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     reports = Reports.objects.all()
@@ -457,7 +457,7 @@ def reports(request):
 def register(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     user = request.user
@@ -480,7 +480,7 @@ def register(request):
 def adminLogin(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     user = request.user
@@ -492,7 +492,7 @@ def adminLogin(request):
 def loginController(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     logout(request)
@@ -518,7 +518,7 @@ def loginController(request):
 def logout_page(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     auth.logout(request)
@@ -528,7 +528,7 @@ def logout_page(request):
 def client(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     id = request.POST.get("id")
@@ -549,7 +549,7 @@ def client(request):
 def addCollector(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     persons = Collector.objects.all()
@@ -579,8 +579,8 @@ def addCollector(request):
 def generateCollector(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     col = Collector.objects.get(id=id)
@@ -597,8 +597,8 @@ def generateCollector(request, id):
 def deleteCollector(request, id):
     """
 
-    :param request: 
-    :param id: 
+    :param request:
+    :param id:
 
     """
     itemCol = Collector.objects.get(id=id)
@@ -609,7 +609,7 @@ def deleteCollector(request, id):
 def singleCollector(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     collectorId = request.POST.get("id")
@@ -625,7 +625,7 @@ def singleCollector(request):
 def editClient(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     cId = request.POST.get("id")
@@ -646,7 +646,7 @@ def editClient(request):
 def editCollector(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     colId = request.POST.get("id")
@@ -665,7 +665,7 @@ def editCollector(request):
 def exportTodayPayments(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     ptfilename = f"Payments Today - {datetime.date.today()}.xlsx"
@@ -707,7 +707,7 @@ def exportTodayPayments(request):
 def exportTodayLoans(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     ltfilename = f"Loans Today - {datetime.date.today()}.xlsx"
@@ -767,9 +767,9 @@ def exportTodayLoans(request):
 def exportLoans(request, dateFrom, dateTo):
     """
 
-    :param request: 
-    :param dateFrom: 
-    :param dateTo: 
+    :param request:
+    :param dateFrom:
+    :param dateTo:
 
     """
     lfilename = f"Loans - {dateFrom} - {dateTo}.xlsx"
@@ -829,9 +829,9 @@ def exportLoans(request, dateFrom, dateTo):
 def exportPayment(request, dateFrom, dateTo):
     """
 
-    :param request: 
-    :param dateFrom: 
-    :param dateTo: 
+    :param request:
+    :param dateFrom:
+    :param dateTo:
 
     """
     pfilename = f"Payments - {dateFrom} - {dateTo}.xlsx"
@@ -873,7 +873,7 @@ def exportPayment(request, dateFrom, dateTo):
 def logoutNow(request):
     """
 
-    :param request: 
+    :param request:
 
     """
     logout(request)
