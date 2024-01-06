@@ -1,56 +1,75 @@
+import base64
 import datetime
 import json
 import mimetypes
 import os
 from decimal import Decimal
+from io import BytesIO
 from wsgiref.util import FileWrapper
 
+import matplotlib.pyplot as plt
 from django.conf import settings
-from django.contrib import auth, messages
-from django.contrib.auth import logout, authenticate, login
+from django.contrib import auth
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import Count
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from django.http import HttpResponse
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 from openpyxl.workbook import Workbook
 from qrcode import *
-from django.db.models import Count, Sum
-from .forms import LoanForm, PaymentForm
-from .forms import PersonForm, UserRegistration, CollectorForm
-from .models import Loan, Payment, Reports
-from .models import Person, Collector
-from django.http import HttpResponse
-from io import BytesIO
-import base64
-from django.db.models.functions import TruncMonth
-import matplotlib.pyplot as plt
-from django.db import transaction
+
+from .forms import CollectorForm
+from .forms import LoanForm
+from .forms import PaymentForm
+from .forms import PersonForm
+from .forms import UserRegistration
+from .models import Collector
+from .models import Loan
+from .models import Payment
+from .models import Person
+from .models import Reports
 
 # Create your views here.
 
 
 def clients_with_active_loans_count():
-    count = (
-        Loan.objects.filter(has_active_loan=True)
-        .values("client_id")
-        .annotate(client_count=Count("client_id", distinct=True))
-        .count()
-    )
+    """ """
+    count = (Loan.objects.filter(
+        has_active_loan=True).values("client_id").annotate(
+            client_count=Count("client_id", distinct=True)).count())
 
     return count
 
 
 def sum_of_loan_amounts():
+    """ """
     sum_amount = Loan.objects.aggregate(Sum("loan_amount"))["loan_amount__sum"]
 
     return sum_amount or 0
 
 
 def sum_of_payments():
+    """ """
     sum_payment = Payment.objects.aggregate(Sum("amount"))["amount__sum"]
     return sum_payment or 0
 
 
 def home(request):
+    """
+
+    :param request:
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -62,20 +81,23 @@ def home(request):
     p = Person.objects.all().count()
     latest_persons = Person.objects.order_by("-created_at")[:5]
     recent_payments = Payment.objects.select_related("loan_id").order_by(
-        "-payment_date"
-    )[:5]
-    monthly_loan_amounts = (
-        Loan.objects.annotate(month=TruncMonth("loan_date"))
-        .values("month")
-        .annotate(total_amount=Sum("loan_amount"))
-    )
+        "-payment_date")[:5]
+    monthly_loan_amounts = (Loan.objects.annotate(
+        month=TruncMonth("loan_date")).values("month").annotate(
+            total_amount=Sum("loan_amount")))
 
     # Extract data for Matplotlib chart
-    months = [entry["month"].strftime("%b %Y") for entry in monthly_loan_amounts]
+    months = [
+        entry["month"].strftime("%b %Y") for entry in monthly_loan_amounts
+    ]
     total_amounts = [entry["total_amount"] for entry in monthly_loan_amounts]
 
     plt.figure(figsize=(8, 5))
-    plt.bar(months, total_amounts, color="#09090b", edgecolor="black", linewidth=0.8)
+    plt.bar(months,
+            total_amounts,
+            color="#09090b",
+            edgecolor="black",
+            linewidth=0.8)
     # Inside the loop for adding annotations
 
     for i, count in enumerate(total_amounts):
@@ -97,7 +119,10 @@ def home(request):
     plt.gca().set_facecolor("#f8f8fd")
 
     image_stream = BytesIO()
-    plt.savefig(image_stream, format="png", bbox_inches="tight", facecolor="#f8f8fd")
+    plt.savefig(image_stream,
+                format="png",
+                bbox_inches="tight",
+                facecolor="#f8f8fd")
     plt.close()
 
     image_base64 = base64.b64encode(image_stream.getvalue()).decode("utf-8")
@@ -117,6 +142,11 @@ def home(request):
 
 
 def addClient(request):
+    """
+
+    :param request:
+
+    """
     loans = Person.objects.all()
     paginated = Paginator(loans, 10)
     page_number = request.GET.get("page")
@@ -138,6 +168,12 @@ def addClient(request):
 
 
 def deleteClient(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     item = Person.objects.get(id=id)
     item.delete()
     if item.picture.name and item.document.name:
@@ -147,6 +183,12 @@ def deleteClient(request, id):
 
 
 def qrFunc(val, name):
+    """
+
+    :param val:
+    :param name:
+
+    """
     img = make(val)
     img_url = "qr-" + str(name) + ".png"
     # buffer = io.BytesIO()
@@ -155,6 +197,12 @@ def qrFunc(val, name):
 
 
 def generateQR(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     person = Person.objects.get(id=id)
     img = qrFunc(person.id, person.name)
     # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -167,6 +215,11 @@ def generateQR(request, id):
 
 
 def loan_list(request):
+    """
+
+    :param request:
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -188,37 +241,50 @@ def loan_list(request):
     return render(
         request,
         "loanPortal.html",
-        {"loans": page, "form": form, "paginator": paginated},
+        {
+            "loans": page,
+            "form": form,
+            "paginator": paginated
+        },
     )
 
 
 def add_loan(request):
+    """
+
+    :param request:
+
+    """
     if request.method == "POST":
         form = LoanForm(request.POST)
         if form.is_valid():
             loan = form.save(commit=False)
 
             existing_active_loan = Loan.objects.filter(
-                client_id=loan.client_id, has_active_loan=True
-            ).exists()
+                client_id=loan.client_id, has_active_loan=True).exists()
 
             if existing_active_loan:
                 messages.error(request, "Client already has an active loan.")
-                return JsonResponse({"status": "error", "redirect": "loanList/"})
+                return JsonResponse({
+                    "status": "error",
+                    "redirect": "loanList/"
+                })
             else:
                 # Calculate and update net, loan_balance
-                net_percentage = (
-                    (loan.interest_rate / 100) * loan.loan_amount
-                ) + loan.processing_fee
+                net_percentage = ((loan.interest_rate / 100) *
+                                  loan.loan_amount) + loan.processing_fee
                 loan.loan_balance += net_percentage
                 loan.save()
 
                 messages.success(request, "Loan added successfully.")
-                return JsonResponse({"status": "success", "redirect": "loanList/"})
+                return JsonResponse({
+                    "status": "success",
+                    "redirect": "loanList/"
+                })
         else:
             messages.error(
-                request, "Error in the form submission. Please check the form."
-            )
+                request,
+                "Error in the form submission. Please check the form.")
             return JsonResponse({"status": "error", "redirect": "loanList/"})
     else:
         form = LoanForm()
@@ -234,6 +300,11 @@ def add_loan(request):
 
 
 def collectorLogin(request):
+    """
+
+    :param request:
+
+    """
     return render(request, "collectorLogin.html")
 
 
@@ -242,6 +313,11 @@ def collectorLogin(request):
 
 
 def paymentList(request):
+    """
+
+    :param request:
+
+    """
     user = request.user
     if not user.is_authenticated:
         return redirect("adminLogin")
@@ -254,11 +330,20 @@ def paymentList(request):
     return render(
         request,
         "payments.html",
-        {"payments": page, "form": form, "paginator": paginated},
+        {
+            "payments": page,
+            "form": form,
+            "paginator": paginated
+        },
     )
 
 
 def addPayment(request):
+    """
+
+    :param request:
+
+    """
     if request.method == "POST":
         form = PaymentForm(request.POST)
         if form.is_valid():
@@ -268,12 +353,18 @@ def addPayment(request):
             loan.save()
             payment.save()
             messages.success(request, "Payment added successfully.")
-            return JsonResponse({"status": "success", "redirect": "paymentList/"})
+            return JsonResponse({
+                "status": "success",
+                "redirect": "paymentList/"
+            })
         else:
             messages.error(
-                request, "Error in the form submission. Please check the form."
-            )
-            return JsonResponse({"status": "error", "redirect": "paymentList/"})
+                request,
+                "Error in the form submission. Please check the form.")
+            return JsonResponse({
+                "status": "error",
+                "redirect": "paymentList/"
+            })
     else:
         form = PaymentForm()
 
@@ -281,6 +372,12 @@ def addPayment(request):
 
 
 def edit_payment(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     # Assuming Payment is your model
     payment_instance = get_object_or_404(Payment, id=id)
 
@@ -295,6 +392,12 @@ def edit_payment(request, id):
 
 
 def delete_payment(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     itemCol = Payment.objects.get(id=id)
     amount = itemCol.amount
     ll = Loan.objects.get(id=itemCol.loan_id.id)
@@ -306,6 +409,11 @@ def delete_payment(request, id):
 
 
 def editPayment(request):
+    """
+
+    :param request:
+
+    """
     loan_id = request.POST.get("loan_id")
     ciId = int(request.POST.get("id"))
     camount = Decimal(request.POST.get("camount"))
@@ -328,12 +436,18 @@ def editPayment(request):
 
 
 def payment(request):
+    """
+
+    :param request:
+
+    """
     id = request.POST.get("id")
     payment_data = Payment.objects.get(id=id)
     payment_json = {
         "amount": payment_data.amount,
     }
-    return HttpResponse(json.dumps(payment_json), content_type="application/json")
+    return HttpResponse(json.dumps(payment_json),
+                        content_type="application/json")
 
 
 # def payments(request):
@@ -346,6 +460,11 @@ def payment(request):
 
 
 def reports(request):
+    """
+
+    :param request:
+
+    """
     reports = Reports.objects.all()
     paginated = Paginator(reports, 10)
     page_number = request.GET.get("page")
@@ -354,10 +473,18 @@ def reports(request):
     if not user.is_authenticated:
         return redirect("adminLogin")
     report = Reports.objects.all()
-    return render(request, "reports.html", {"reports": page, "paginator": paginated})
+    return render(request, "reports.html", {
+        "reports": page,
+        "paginator": paginated
+    })
 
 
 def register(request):
+    """
+
+    :param request:
+
+    """
     user = request.user
     if user.is_authenticated:
         return redirect("dashboard")
@@ -376,6 +503,11 @@ def register(request):
 
 
 def adminLogin(request):
+    """
+
+    :param request:
+
+    """
     user = request.user
     if user.is_authenticated:
         return redirect("dashboard")
@@ -383,6 +515,11 @@ def adminLogin(request):
 
 
 def loginController(request):
+    """
+
+    :param request:
+
+    """
     logout(request)
     resp = {"status": "failed", "msg": ""}
     username = ""
@@ -404,11 +541,21 @@ def loginController(request):
 
 
 def logout_page(request):
+    """
+
+    :param request:
+
+    """
     auth.logout(request)
     return redirect("/adminUser/adminLogin/")
 
 
 def client(request):
+    """
+
+    :param request:
+
+    """
     id = request.POST.get("id")
     client_data = Person.objects.get(id=id)
     client_json = {
@@ -421,10 +568,16 @@ def client(request):
     }
 
     print(client_json)
-    return HttpResponse(json.dumps(client_json), content_type="application/json")
+    return HttpResponse(json.dumps(client_json),
+                        content_type="application/json")
 
 
 def addCollector(request):
+    """
+
+    :param request:
+
+    """
     persons = Collector.objects.all()
     paginated = Paginator(persons, 10)
     page_number = request.GET.get("page")
@@ -445,11 +598,21 @@ def addCollector(request):
     return render(
         request,
         "addCollector.html",
-        {"persons": page, "form": colForm, "paginator": paginated},
+        {
+            "persons": page,
+            "form": colForm,
+            "paginator": paginated
+        },
     )
 
 
 def generateCollector(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     col = Collector.objects.get(id=id)
     img = qrFunc(col.id, col.name)
     # # qrcode = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -462,12 +625,23 @@ def generateCollector(request, id):
 
 
 def deleteCollector(request, id):
+    """
+
+    :param request:
+    :param id:
+
+    """
     itemCol = Collector.objects.get(id=id)
     itemCol.delete()
     return redirect("/adminUser/addCollector")
 
 
 def singleCollector(request):
+    """
+
+    :param request:
+
+    """
     collectorId = request.POST.get("id")
     collector_data = Collector.objects.get(id=collectorId)
     collector_json = {
@@ -475,10 +649,16 @@ def singleCollector(request):
         "email": collector_data.email,
         "pass": collector_data.password,
     }
-    return HttpResponse(json.dumps(collector_json), content_type="application/json")
+    return HttpResponse(json.dumps(collector_json),
+                        content_type="application/json")
 
 
 def editClient(request):
+    """
+
+    :param request:
+
+    """
     cId = request.POST.get("id")
     name = request.POST.get("name")
     address = request.POST.get("address")
@@ -495,6 +675,11 @@ def editClient(request):
 
 
 def editCollector(request):
+    """
+
+    :param request:
+
+    """
     colId = request.POST.get("id")
     name = request.POST.get("name")
     email = request.POST.get("email")
@@ -509,6 +694,11 @@ def editCollector(request):
 
 
 def exportTodayPayments(request):
+    """
+
+    :param request:
+
+    """
     ptfilename = f"Payments Today - {datetime.date.today()}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{ptfilename}"'
@@ -522,17 +712,16 @@ def exportTodayPayments(request):
     ws.append(headers)
 
     # Add data from the model
-    payments = Payment.objects.filter(payment_date__exact=datetime.date.today())
+    payments = Payment.objects.filter(
+        payment_date__exact=datetime.date.today())
     for payment in payments:
-        ws.append(
-            [
-                payment.id,
-                payment.loan_id.client_id.name,
-                payment.amount,
-                payment.payment_date.strftime("%m/%d/%Y"),
-                payment.or_number,
-            ]
-        )
+        ws.append([
+            payment.id,
+            payment.loan_id.client_id.name,
+            payment.amount,
+            payment.payment_date.strftime("%m/%d/%Y"),
+            payment.or_number,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/payments/" + ptfilename
@@ -546,6 +735,11 @@ def exportTodayPayments(request):
 
 
 def exportTodayLoans(request):
+    """
+
+    :param request:
+
+    """
     ltfilename = f"Loans Today - {datetime.date.today()}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{ltfilename}"'
@@ -573,21 +767,19 @@ def exportTodayLoans(request):
     # Add data from the model
     loans = Loan.objects.filter(loan_date__exact=datetime.date.today())
     for loan in loans:
-        ws.append(
-            [
-                loan.id,
-                loan.client_id.name,
-                loan.loan_date.strftime("%m/%d/%Y"),
-                loan.duration_period,
-                loan.interest_rate,
-                loan.loan_amount,
-                loan.loan_maturity,
-                loan.guarantor,
-                loan.processing_fee,
-                loan.net,
-                loan.checking_no,
-            ]
-        )
+        ws.append([
+            loan.id,
+            loan.client_id.name,
+            loan.loan_date.strftime("%m/%d/%Y"),
+            loan.duration_period,
+            loan.interest_rate,
+            loan.loan_amount,
+            loan.loan_maturity,
+            loan.guarantor,
+            loan.processing_fee,
+            loan.net,
+            loan.checking_no,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/loans/" + ltfilename
@@ -601,6 +793,13 @@ def exportTodayLoans(request):
 
 
 def exportLoans(request, dateFrom, dateTo):
+    """
+
+    :param request:
+    :param dateFrom:
+    :param dateTo:
+
+    """
     lfilename = f"Loans - {dateFrom} - {dateTo}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{lfilename}"'
@@ -628,21 +827,19 @@ def exportLoans(request, dateFrom, dateTo):
     # Add data from the model
     loans = Loan.objects.filter(loan_date__range=[dateFrom, dateTo])
     for loan in loans:
-        ws.append(
-            [
-                loan.id,
-                loan.client_id.name,
-                loan.loan_date.strftime("%m/%d/%Y"),
-                loan.duration_period,
-                loan.interest_rate,
-                loan.loan_amount,
-                loan.loan_maturity,
-                loan.guarantor,
-                loan.processing_fee,
-                loan.net,
-                loan.checking_no,
-            ]
-        )
+        ws.append([
+            loan.id,
+            loan.client_id.name,
+            loan.loan_date.strftime("%m/%d/%Y"),
+            loan.duration_period,
+            loan.interest_rate,
+            loan.loan_amount,
+            loan.loan_maturity,
+            loan.guarantor,
+            loan.processing_fee,
+            loan.net,
+            loan.checking_no,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/loans/" + lfilename
@@ -656,6 +853,13 @@ def exportLoans(request, dateFrom, dateTo):
 
 
 def exportPayment(request, dateFrom, dateTo):
+    """
+
+    :param request:
+    :param dateFrom:
+    :param dateTo:
+
+    """
     pfilename = f"Payments - {dateFrom} - {dateTo}.xlsx"
     response = HttpResponse(content_type="application/ms-excel")
     response["Content-Disposition"] = f'attachment; filename="{pfilename}"'
@@ -671,15 +875,13 @@ def exportPayment(request, dateFrom, dateTo):
     # Add data from the model
     payments = Payment.objects.filter(payment_date__range=[dateFrom, dateTo])
     for payment in payments:
-        ws.append(
-            [
-                payment.id,
-                payment.loan_id.client_id.name,
-                payment.amount,
-                payment.payment_date.strftime("%m/%d/%Y"),
-                payment.or_number,
-            ]
-        )
+        ws.append([
+            payment.id,
+            payment.loan_id.client_id.name,
+            payment.amount,
+            payment.payment_date.strftime("%m/%d/%Y"),
+            payment.or_number,
+        ])
 
     # Save the workbook to the HttpResponse
     path = settings.MEDIA_ROOT + "/reports/payments/" + pfilename
@@ -693,5 +895,10 @@ def exportPayment(request, dateFrom, dateTo):
 
 
 def logoutNow(request):
+    """
+
+    :param request:
+
+    """
     logout(request)
     return redirect("adminLogin")
