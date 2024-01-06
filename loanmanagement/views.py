@@ -1,29 +1,28 @@
+import base64
 import datetime
 import json
 import mimetypes
 import os
 from decimal import Decimal
+from io import BytesIO
 from wsgiref.util import FileWrapper
 
+import matplotlib.pyplot as plt
 from django.conf import settings
 from django.contrib import auth, messages
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.db import transaction
+from django.db.models import Count, Sum
+from django.db.models.functions import TruncMonth
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import HttpResponse, get_object_or_404, redirect, render
 from openpyxl.workbook import Workbook
 from qrcode import *
-from django.db.models import Count, Sum
-from .forms import LoanForm, PaymentForm
-from .forms import PersonForm, UserRegistration, CollectorForm
-from .models import Loan, Payment, Reports
-from .models import Person, Collector
-from django.http import HttpResponse
-from io import BytesIO
-import base64
-from django.db.models.functions import TruncMonth
-import matplotlib.pyplot as plt
-from django.db import transaction
+
+from .forms import (CollectorForm, LoanForm, PaymentForm, PersonForm,
+                    UserRegistration)
+from .models import Collector, Loan, Payment, Person, Reports
 
 # Create your views here.
 
