@@ -1,22 +1,90 @@
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration</title>
-   <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+      }
     </style>
-</head>
-<body class="bg-gray-200 font-Poppins flex items-center justify-center h-screen">
-  <div class="bg-white rounded shadow-md w-full max-w-md p-8">
+  </head>
+  <body
+    class="bg-gray-200 font-Poppins flex items-center justify-center h-screen"
+  >
+    <div class="flex items-center justify-center">
+      <div
+        class="bg-[#3E8EDE] h-[100vh] w-[50vw] flex justify-center items-end text-[20px] text-white pb-[40px]"
+      >
+        "Empowering Dreams, Enabling Futures: Your Path to Financial Freedom
+        Starts Here."
+      </div>
+
+      <div class="flex justify-center items-center flex-col h-[100vh] w-[50vw]">
+        <div>
+          <div>
+            <h2
+              class="text-[40px] font-semibold mb-2 border-l-[10px] border-[#3E8EDE] pl-4"
+            >
+              Admin Register
+            </h2>
+            <p class="mb-6 text-[16px] text-[#606060]">Register new account.</p>
+          </div>
+          <form id="register-form" method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+           <div class="mb-4">
+               {{ form.username|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+               {% render_field form.username|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+    {#        <label for="user" class="block mb-2 text-sm font-medium text-gray-700">Username</label>#}
+    {#        <input type="text" name="user" id="user" placeholder="Enter your username" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">#}
+          </div>
+          <div class="mb-6">
+              {{ form.email|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+              {% render_field form.email|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+    {#        <label for="password1" class="block mb-2 text-sm font-medium text-gray-700">Password</label>#}
+    {#        <input type="password" name="password1" id="password1" placeholder="Enter your password" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">#}
+          </div>
+            <div class="mb-6">
+                {{ form.password1|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+                {% render_field form.password1|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+    
+    {#        <label for="password2" class="block mb-2 text-sm font-medium text-gray-700">Confirm Password</label>#}
+    {#        <input type="password" name="password2" id="password2" placeholder="Confirm your password" class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">#}
+            </div>
+            <div class="mb-6">
+                {{ form.password2|add_label_class:"block mb-2 text-sm font-medium text-gray-700" }}
+                {% render_field form.password2|attr:'required:true' class="shadow-sm bg-gray-50 border border-gray-300 rounded-md w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %}
+            </div>
+    
+            {% if form.errors %}
+              <ul class="my-2 bg-red-500 text-white py-3 px-2 text-center">
+                {% for key,value in form.errors.items %}
+                  <li>{{ value|escape }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+                <ul id="success" class="my-2 bg-green-500 text-white py-3 px-2 text-center hidden">
+                    <li>Success!</li>
+                </ul>
+            {% endif %}
+    
+          <button type="submit" id="btnSubmit" class="w-full bg-[#3E8EDE] hover:bg-[#3E8EDE] text-white font-bold py-2 px-4 rounded-md shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">Register</button>
+            <p class="text-center">Already have an account? <a href="{% url 'adminLogin' %}">Login here</a></p>
+    
+        </form>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="bg-white rounded shadow-md w-full max-w-md p-8">
     <h2 class="text-3xl font-bold text-center mb-6">Registration</h2>
     <form id="register-form" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
@@ -71,84 +139,83 @@
 {#      </ul>#}
 {#    {% endif %}#}
 
-  </div>
+  </div> -->
 
-  <script>
-    $(document).ready(function() {
-        $('#btnSubmit').on('click', async (event) => {
-            event.preventDefault();
-            const form = document.getElementById('register-form')
-            const formData = new FormData(form);
+    <script>
+      $(document).ready(function() {
+          $('#btnSubmit').on('click', async (event) => {
+              event.preventDefault();
+              const form = document.getElementById('register-form')
+              const formData = new FormData(form);
 
-            if(formData.get("username") && formData.get("email") && formData.get("password1") && formData.get("password2")){
-                try {
-                 const response = await fetch(form.action, {
-                    method: form.method,
-                    body: formData,
-                });
+              if(formData.get("username") && formData.get("email") && formData.get("password1") && formData.get("password2")){
+                  try {
+                   const response = await fetch(form.action, {
+                      method: form.method,
+                      body: formData,
+                  });
 
-                 if({{ form.errors }}) {
-                     return
-                 }
+                   if({{ form.errors }}) {
+                       return
+                   }
 
-                if(response.ok) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Account added successfully.',
-                        icon: 'success',
-                        showConfirmButton:false,
-                        showCancelButton:false,
-                        timer: 2000,
-                    }).then(() => {
-                        window.location = '{% url 'dashboard' %}'
-                    })
-                }
-            } catch (e) {
-                console.error(e)
-            }
-        }
-            else {
-                 Swal.fire({
-                        title: 'Error!',
-                        text: 'All fields are required',
-                        icon: 'error',
-                        showConfirmButton:false,
-                        showCancelButton:false,
-                        timer: 2000,
-                    })
-            }
+                  if(response.ok) {
+                      Swal.fire({
+                          title: 'Success!',
+                          text: 'Account added successfully.',
+                          icon: 'success',
+                          showConfirmButton:false,
+                          showCancelButton:false,
+                          timer: 2000,
+                      }).then(() => {
+                          window.location = '{% url 'dashboard' %}'
+                      })
+                  }
+              } catch (e) {
+                  console.error(e)
+              }
+          }
+              else {
+                   Swal.fire({
+                          title: 'Error!',
+                          text: 'All fields are required',
+                          icon: 'error',
+                          showConfirmButton:false,
+                          showCancelButton:false,
+                          timer: 2000,
+                      })
+              }
 
-            })
+              })
 
-      {#$('#register-form').submit(function(event) {#}
-      {#  event.preventDefault();#}
-      {##}
-      {#  var name = $('#name').val();#}
-      {##}
-      {#  if (!name) {#}
-      {#    Swal.fire({#}
-      {#      icon: 'error',#}
-      {#      title: 'Error',#}
-      {#      text: 'Please enter your name.',#}
-      {#    });#}
-      {#    return;#}
-      {#  }#}
-      {##}
-      {#  // Submit the form data (e.g., using AJAX)#}
-      {#  // ...#}
-      {##}
-      {#  // Show success notification#}
-      {#  Swal.fire({#}
-      {#    icon: 'success',#}
-      {#    title: 'Success',#}
-      {#    text: 'You have successfully registered.',#}
-      {#  });#}
-      {##}
-      {#  // Reset the form#}
-      {#  $('#name').val('');#}
-      {# }) #}
-     });
-  </script>
-
-</body>
+        {#$('#register-form').submit(function(event) {#}
+        {#  event.preventDefault();#}
+        {##}
+        {#  var name = $('#name').val();#}
+        {##}
+        {#  if (!name) {#}
+        {#    Swal.fire({#}
+        {#      icon: 'error',#}
+        {#      title: 'Error',#}
+        {#      text: 'Please enter your name.',#}
+        {#    });#}
+        {#    return;#}
+        {#  }#}
+        {##}
+        {#  // Submit the form data (e.g., using AJAX)#}
+        {#  // ...#}
+        {##}
+        {#  // Show success notification#}
+        {#  Swal.fire({#}
+        {#    icon: 'success',#}
+        {#    title: 'Success',#}
+        {#    text: 'You have successfully registered.',#}
+        {#  });#}
+        {##}
+        {#  // Reset the form#}
+        {#  $('#name').val('');#}
+        {# }) #}
+       });
+    </script>
+  </body>
 </html>
