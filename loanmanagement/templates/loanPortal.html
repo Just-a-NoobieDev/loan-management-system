@@ -132,9 +132,9 @@
                         <td class="py-2 px-1 border-b border-r py-2.5"># {{ loan.checking_no }}</td>
                         <td class="py-2 px-1 border-b border-r py-2.5">
                             {% if loan.has_active_loan %}
-                                Active
+                                <div class="text-[#008000] font-bold">Active</div>
                             {% else %}
-                                Inactive
+                                <div class="text-[#FF0000] font-bold">Inactive</div>
                             {% endif %}
                         </td>
                        
